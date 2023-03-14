@@ -19,7 +19,7 @@
                 </div>
             </div>
         </div>
-@endsection
+        @endsection
 		<!-- End Hero Section -->
 
 		@section('product-section')
@@ -144,7 +144,7 @@
                   </div>
             </div>
         </div>
-@endsection
+        @endsection
 
 
 

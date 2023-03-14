@@ -66,12 +66,24 @@
 		<!-- Start Blog Section -->
         @yield('blog-section')
 		
-		<!-- End Blog Section -->	
+		<!-- End Blog Section -->
+
+		<!-- Start Team Section -->
+		@yield('untree_co-section')
+		<!-- End Team Section -->
+
+		<!-- Start Contact Form -->
+		@yield('contact-form')
+		<!-- End Contact Form -->
+
+		@yield('before-footer-section')
+		@yield('check-out')
 
 		<!-- Start Footer Section -->
         @include('demo.layouts.footer')
-	
 		<!-- End Footer Section -->	
+
+
 
 
 		<script src="{{asset('js/bootstrap.bundle.min.js')}}"></script>
