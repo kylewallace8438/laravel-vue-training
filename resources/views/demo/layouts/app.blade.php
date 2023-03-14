@@ -35,7 +35,14 @@
         @yield('hero')
 			
 		<!-- End Hero Section -->
+		<!-- Start Contact Form -->
+        @yield('contact-form')
+			
+		<!-- End Contact Form -->
+		<!-- Start Blog Section -->
+		@yield('blog-section-1')
 
+		<!-- End Blog Section -->
 		<!-- Start Product Section -->
         @yield('product-section')
 		

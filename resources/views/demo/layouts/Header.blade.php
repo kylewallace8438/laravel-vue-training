@@ -15,13 +15,13 @@
                 <li><a class="nav-link" href="{{route('shop')}}">Shop</a></li>
                 <li><a class="nav-link" href="{{route('about')}}">About us</a></li>
                 <li><a class="nav-link" href="{{route('services')}}">Services</a></li>
-                <li><a class="nav-link" href="blog.html">Blog</a></li>
-                <li><a class="nav-link" href="contact.html">Contact us</a></li>
+                <li><a class="nav-link" href="{{route('blog')}}">Blog</a></li>
+                <li><a class="nav-link" href="{{route('contact')}}">Contact us</a></li>
             </ul>
 
             <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
                 <li><a class="nav-link" href="#"><img src="images/user.svg"></a></li>
-                <li><a class="nav-link" href="cart.html"><img src="images/cart.svg"></a></li>
+                <li><a class="nav-link" href="{{route('cart')}}"><img src="images/cart.svg"></a></li>
             </ul>
         </div>
     </div>

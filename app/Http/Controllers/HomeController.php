@@ -37,4 +37,24 @@ class HomeController extends Controller
     {
         return view('demo.services');
     }
+    public function blog()
+    {
+        return view('demo.blog');
+    }
+    public function contact()
+    {
+        return view('demo.contact');
+    }
+    public function cart()
+    {
+        return view('demo.cart');
+    }
+    public function checkout()
+    {
+        return view('demo.checkout');
+    }
+    public function thankyou()
+    {
+        return view('demo.thankyou');
+    }
 }
