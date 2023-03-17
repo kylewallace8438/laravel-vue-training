@@ -7,58 +7,62 @@
 */ -->
 <!doctype html>
 <html lang="en">
+
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="author" content="Untree.co">
-  <link rel="shortcut icon" href="favicon.png">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="Untree.co">
+    <link rel="shortcut icon" href="favicon.png">
 
-  <meta name="description" content="" />
-  <meta name="keywords" content="bootstrap, bootstrap4" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="bootstrap, bootstrap4" />
 
-		<!-- Bootstrap CSS -->
-		<link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet">
-		<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-		<link href="{{asset('css/tiny-slider.css')}}" rel="stylesheet">
-		<link href="{{asset('css/style.css')}}" rel="stylesheet">
-		<title>Furni Free Bootstrap 5 Template for Furniture and Interior Design Websites by Untree.co </title>
-	</head>
+    <!-- Bootstrap CSS -->
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="{{ asset('css/tiny-slider.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    <meta content="{{ csrf_token() }}=" name="csrf-token" />
+    <title>Furni Free Bootstrap 5 Template for Furniture and Interior Design Websites by Untree.co </title>
+</head>
 
-	<body>
+<body>
 
-        @include('demo.layouts.header')
-		
-        @yield('hero')
+    @include('demo.layouts.header')
 
-        @yield('service')
-			
-        @yield('product')
+    @yield('hero')
 
-        @yield('choose')
+    @yield('service')
 
-        @yield('team')
-		
-        @yield('help')
+    @yield('product')
 
-        @yield('content')
+    @yield('choose')
 
-        @yield('popular')
+    @yield('team')
 
-        @yield('blog_blog')
+    @yield('help')
 
-        @yield('testimonial')
+    @yield('content')
 
-        @yield('blog')
+    @yield('popular')
 
-		<!-- Start Footer Section -->
-        @include('demo.layouts.footer')
-		
-		<!-- End Footer Section -->	
+    @yield('blog_blog')
+
+    @yield('testimonial')
+
+    @yield('blog')
+
+    <!-- Start Footer Section -->
+    @include('demo.layouts.footer')
+
+    <!-- End Footer Section -->
 
 
-		<script src="{{asset('js/bootstrap.bundle.min.js')}}"></script>
-		<script src="{{asset('js/tiny-slider.js')}}"></script>
-		<script src="{{asset('js/custom.js')}}"></script>
-	</body>
+    <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('js/tiny-slider.js') }}"></script>
+    <script src="{{ asset('js/custom.js') }}"></script>
+
+    @yield('script');
+</body>
 
 </html>

@@ -1,5 +1,50 @@
 @extends('demo.layouts.app')
 
+@section('script')
+    <script>
+        function add_cart(id, check) {
+            // Creating Our XMLHttpRequest object 
+            let product_id = id;
+            // let check = check;
+            var xhr = new XMLHttpRequest();
+            // Making our connection  
+            var url = "{{ route('add.cart') }}?";
+            var param = new FormData();
+            param.append('product_id', product_id);
+            param.append('check', check);
+
+
+            console.log(param);
+            xhr.onreadystatechange = function(e) {
+                if (this.readyState == 4 && this.status == 200) {
+                    try {
+                        let show = JSON.parse(this.responseText);
+                        console.log(show)
+                        // if ('msg' in show) {}
+                        // if (typeof show == 'Object' && show.hasOwnProperty('msg'))
+                    } catch (e) {
+                        console.error(e)
+                    }
+                }
+            }
+
+            xhr.open("POST", url, true);
+            //$('meta[name="csrf-token"]').attr('content')
+            let content = "{{ csrf_token() }}"
+            // console.log(content);
+            xhr.setRequestHeader('X-CSRF-TOKEN', content)
+            xhr.send(param);
+
+        }
+
+        function checkvalue(id){
+            var amount = document.getElementById('amount').value;
+            add_cart(id,amount);
+
+        }
+    </script>
+@endsection
+
 @section('hero')
     <!-- Start Hero Section -->
     <div class="hero">
@@ -37,36 +82,47 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td class="product-thumbnail">
-                                        <img src="images/product-1.png" alt="Image" class="img-fluid">
-                                    </td>
-                                    <td class="product-name">
-                                        <h2 class="h5 text-black">Product 1</h2>
-                                    </td>
-                                    <td>$49.00</td>
-                                    <td>
-                                        <div class="input-group mb-3 d-flex align-items-center quantity-container"
-                                            style="max-width: 120px;">
-                                            <div class="input-group-prepend">
-                                                <button class="btn btn-outline-black decrease"
-                                                    type="button">&minus;</button>
+                                @php
+                                    $sub_total = 0
+                                @endphp
+                                @foreach (session('carts') as $cart)
+                                    <tr>
+                                        <td class="product-thumbnail">
+                                            <img src="images/product-1.png" alt="Image" class="img-fluid">
+                                        </td>
+                                        <td class="product-name">
+                                            <h2 class="h5 text-black">{{$cart['name']}}</h2>
+                                        </td>
+                                        <td>${{$cart['price']}}</td>
+                                        <td>
+                                            <div class="input-group mb-3 d-flex align-items-center quantity-container"
+                                                style="max-width: 120px;">
+                                                <div class="input-group-prepend">
+                                                    <button class="btn btn-outline-black decrease"
+                                                        type="button" onclick="add_cart({{ $cart['product_id'] }},-1)">&minus;</button>
+                                                </div>
+                                                <input type="text" id="amount" class="form-control text-center quantity-amount"
+                                                    value="{{$cart['amount']}}" placeholder=""
+                                                    aria-label="Example text with button addon"
+                                                    aria-describedby="button-addon1" onblur="checkvalue({{ $cart['product_id'] }})" >
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-outline-black increase"
+                                                        type="button" onclick="add_cart({{ $cart['product_id'] }},1)">&plus;</button>
+                                                </div>
                                             </div>
-                                            <input type="text" class="form-control text-center quantity-amount"
-                                                value="1" placeholder="" aria-label="Example text with button addon"
-                                                aria-describedby="button-addon1">
-                                            <div class="input-group-append">
-                                                <button class="btn btn-outline-black increase"
-                                                    type="button">&plus;</button>
-                                            </div>
-                                        </div>
+                                        </td>
+                                        {{-- @php
+                                            $total = $cart['price']*$cart['amount']
+                                        @endphp --}}
+                                        @php
+                                            $sub_total += $cart['sub_total']
+                                        @endphp
+                                        <td>${{$cart['sub_total']}}.00</td>
+                                        <td><a href="#" class="btn btn-black btn-sm">X</a></td>
+                                    </tr>
+                                @endforeach
 
-                                    </td>
-                                    <td>$49.00</td>
-                                    <td><a href="#" class="btn btn-black btn-sm">X</a></td>
-                                </tr>
-
-                                <tr>
+                                {{-- <tr>
                                     <td class="product-thumbnail">
                                         <img src="images/product-2.png" alt="Image" class="img-fluid">
                                     </td>
@@ -93,7 +149,7 @@
                                     </td>
                                     <td>$49.00</td>
                                     <td><a href="#" class="btn btn-black btn-sm">X</a></td>
-                                </tr>
+                                </tr> --}}
                             </tbody>
                         </table>
                     </div>
@@ -104,10 +160,10 @@
                 <div class="col-md-6">
                     <div class="row mb-5">
                         <div class="col-md-6 mb-3 mb-md-0">
-                            <button class="btn btn-black btn-sm btn-block">Update Cart</button>
+                            <button class="btn btn-black btn-sm btn-block" onclick="window.location='{{ route('cart') }}'">Update Cart</button>
                         </div>
                         <div class="col-md-6">
-                            <button class="btn btn-outline-black btn-sm btn-block">Continue Shopping</button>
+                            <button class="btn btn-outline-black btn-sm btn-block" onclick="window.location='{{ route('shop') }}'">Continue Shopping</button>
                         </div>
                     </div>
                     <div class="row">
@@ -136,7 +192,7 @@
                                     <span class="text-black">Subtotal</span>
                                 </div>
                                 <div class="col-md-6 text-right">
-                                    <strong class="text-black">$230.00</strong>
+                                    <strong class="text-black">${{$sub_total}}</strong>
                                 </div>
                             </div>
                             <div class="row mb-5">
@@ -144,14 +200,13 @@
                                     <span class="text-black">Total</span>
                                 </div>
                                 <div class="col-md-6 text-right">
-                                    <strong class="text-black">$230.00</strong>
+                                    <strong class="text-black">${{$sub_total}}</strong>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="col-md-12">
-                                    <button class="btn btn-black btn-lg py-3 btn-block"
-                                        onclick="window.location='checkout.html'">Proceed To Checkout</button>
+                                    <button class="btn btn-black btn-lg py-3 btn-block" onclick="window.location='{{ route('checkout') }}'">Proceed To Checkout</button>
                                 </div>
                             </div>
                         </div>
