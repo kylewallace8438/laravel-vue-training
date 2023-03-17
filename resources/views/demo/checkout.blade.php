@@ -221,21 +221,20 @@
                     <th>Total</th>
                   </thead>
                   <tbody>
+                    @foreach (session('carts') as $cart)
+                    
                     <tr>
-                      <td>Top Up T-Shirt <strong class="mx-2">x</strong> 1</td>
-                      <td>$250.00</td>
+                      <td>{{ $cart['name'] }} <strong class="mx-2">x</strong> {{ $cart['quantity'] }}</td>
+                      <td>${{ $cart['price'] * $cart['quantity'] }}</td>
                     </tr>
-                    <tr>
-                      <td>Polo Shirt <strong class="mx-2">x</strong>   1</td>
-                      <td>$100.00</td>
-                    </tr>
-                    <tr>
+                    @endforeach
+                    
                       <td class="text-black font-weight-bold"><strong>Cart Subtotal</strong></td>
-                      <td class="text-black">$350.00</td>
+                      <td class="text-black">${{session('total')}}</td>
                     </tr>
                     <tr>
                       <td class="text-black font-weight-bold"><strong>Order Total</strong></td>
-                      <td class="text-black font-weight-bold"><strong>$350.00</strong></td>
+                      <td class="text-black font-weight-bold"><strong>${{session('total')}}</strong></td>
                     </tr>
                   </tbody>
                 </table>
@@ -271,9 +270,8 @@
                 </div>
 
                 <div class="form-group">
-                  <button class="btn btn-black btn-lg py-3 btn-block" onclick="window.location='{{route('thankyou')}}'">Place Order</button>
+                  <button class="btn btn-black btn-lg py-3 btn-block" onclick="window.location='{{route('forget-session')}}'">Place Order</button>
                 </div>
-
               </div>
             </div>
           </div>

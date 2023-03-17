@@ -15,6 +15,7 @@
 
   <meta name="description" content="" />
   <meta name="keywords" content="bootstrap, bootstrap4" />
+  <meta content="{{ csrf_token() }}=" name="csrf-token" />
 
 		<!-- Bootstrap CSS -->
 		<link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet">
@@ -88,10 +89,11 @@
 		
 		<!-- End Footer Section -->	
 
-
+		@yield('script')
 		<script src="{{asset('js/bootstrap.bundle.min.js')}}"></script>
 		<script src="{{asset('js/tiny-slider.js')}}"></script>
 		<script src="{{asset('js/custom.js')}}"></script>
+		@yield('script')
 	</body>
 
 </html>

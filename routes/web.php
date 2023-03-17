@@ -27,3 +27,7 @@ Route::get('/contact', [App\Http\Controllers\HomeController::class, 'contact'])-
 Route::get('/cart', [App\Http\Controllers\HomeController::class, 'cart'])->name('cart');
 Route::get('/checkout', [App\Http\Controllers\HomeController::class, 'checkout'])->name('checkout');
 Route::get('/thankyou', [App\Http\Controllers\HomeController::class, 'thankyou'])->name('thankyou');
+
+//add carts
+Route::any('/add-product', [App\Http\Controllers\HomeController::class, 'add_product'])->name('addProduct');
+Route::get('/forget', [App\Http\Controllers\HomeController::class, 'forget_session'])->name('forget-session');
