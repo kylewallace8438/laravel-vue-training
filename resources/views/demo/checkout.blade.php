@@ -226,21 +226,28 @@
                             <th>Total</th>
                           </thead>
                           <tbody>
+                            @php
+                                $total=0;
+                            @endphp
+                            @foreach (session('carts') as $cart)
+                                
                             <tr>
-                              <td>Top Up T-Shirt <strong class="mx-2">x</strong> 1</td>
-                              <td>$250.00</td>
+                              <td>{{ $cart['name']}} <strong class="mx-2">x</strong> {{ $cart['amount'] }}</td>
+                              <td>${{ $cart['price'] * $cart['amount']}}</td>
                             </tr>
-                            <tr>
+                               {{ $total  += $cart['price'] * $cart['amount'] }}
+                            @endforeach
+                            {{-- <tr>
                               <td>Polo Shirt <strong class="mx-2">x</strong>   1</td>
                               <td>$100.00</td>
-                            </tr>
+                            </tr> --}}
                             <tr>
                               <td class="text-black font-weight-bold"><strong>Cart Subtotal</strong></td>
-                              <td class="text-black">$350.00</td>
+                              <td class="text-black">${{ $total }}</td>
                             </tr>
                             <tr>
                               <td class="text-black font-weight-bold"><strong>Order Total</strong></td>
-                              <td class="text-black font-weight-bold"><strong>$350.00</strong></td>
+                              <td class="text-black font-weight-bold"><strong>${{ $total }}</strong></td>
                             </tr>
                           </tbody>
                         </table>

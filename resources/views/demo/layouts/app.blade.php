@@ -15,6 +15,8 @@
 
   <meta name="description" content="" />
   <meta name="keywords" content="bootstrap, bootstrap4" />
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+
 
 		<!-- Bootstrap CSS -->
 		<link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet">
@@ -39,8 +41,6 @@
 		<!-- End Hero Section -->
 
 		<!-- Start Product Section -->
-        @yield('product-section')
-		
 		<!-- End Product Section -->
 
 		<!-- Start Why Choose Us Section -->
@@ -85,10 +85,10 @@
 
 
 
-
 		<script src="{{asset('js/bootstrap.bundle.min.js')}}"></script>
 		<script src="{{asset('js/tiny-slider.js')}}"></script>
 		<script src="{{asset('js/custom.js')}}"></script>
+		@yield('script')
 	</body>
 
 </html>
