@@ -40,7 +40,6 @@
         function checkvalue(id){
             var amount = document.getElementById('amount').value;
             add_cart(id,amount);
-
         }
     </script>
 @endsection
@@ -85,29 +84,29 @@
                                 @php
                                     $sub_total = 0
                                 @endphp
-                                @foreach (session('carts') as $cart)
+                                @foreach ($carts as $cart)
                                     <tr>
                                         <td class="product-thumbnail">
                                             <img src="images/product-1.png" alt="Image" class="img-fluid">
                                         </td>
                                         <td class="product-name">
-                                            <h2 class="h5 text-black">{{$cart['name']}}</h2>
+                                            <h2 class="h5 text-black">{{$cart->product->name}}</h2>
                                         </td>
-                                        <td>${{$cart['price']}}</td>
+                                        <td>${{$cart->price}}</td>
                                         <td>
                                             <div class="input-group mb-3 d-flex align-items-center quantity-container"
                                                 style="max-width: 120px;">
                                                 <div class="input-group-prepend">
                                                     <button class="btn btn-outline-black decrease"
-                                                        type="button" onclick="add_cart({{ $cart['product_id'] }},-1)">&minus;</button>
+                                                        type="button" onclick="add_cart({{ $cart->product_id }},0)">&minus;</button>
                                                 </div>
                                                 <input type="text" id="amount" class="form-control text-center quantity-amount"
-                                                    value="{{$cart['amount']}}" placeholder=""
+                                                    value="{{$cart->amount}}" placeholder=""
                                                     aria-label="Example text with button addon"
-                                                    aria-describedby="button-addon1" onblur="checkvalue({{ $cart['product_id'] }})" >
+                                                    aria-describedby="button-addon1" onblur="checkvalue({{ $cart->product_id }})" >
                                                 <div class="input-group-append">
                                                     <button class="btn btn-outline-black increase"
-                                                        type="button" onclick="add_cart({{ $cart['product_id'] }},1)">&plus;</button>
+                                                        type="button" onclick="add_cart({{ $cart->product_id }},1)">&plus;</button>
                                                 </div>
                                             </div>
                                         </td>
@@ -115,9 +114,9 @@
                                             $total = $cart['price']*$cart['amount']
                                         @endphp --}}
                                         @php
-                                            $sub_total += $cart['sub_total']
+                                            $sub_total += $cart->amount * $cart->discount_price;
                                         @endphp
-                                        <td>${{$cart['sub_total']}}.00</td>
+                                        <td>${{ $cart->amount * $cart->discount_price }}</td>
                                         <td><a href="#" class="btn btn-black btn-sm">X</a></td>
                                     </tr>
                                 @endforeach

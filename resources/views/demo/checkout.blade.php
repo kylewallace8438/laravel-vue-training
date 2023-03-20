@@ -265,14 +265,14 @@
                                         @php
                                             $sub_total = 0;
                                         @endphp
-                                        @foreach (session('carts') as $cart)
+                                        @foreach ($carts as $cart)
                                             <tr>
-                                                <td>{{ $cart['name'] }} <strong class="mx-2">x</strong>
-                                                    {{ $cart['amount'] }}</td>
-                                                <td>${{ $cart['sub_total'] }}</td>
+                                                <td> {{ $cart->product->name }} <strong class="mx-2">x</strong>
+                                                    {{ $cart->amount }}</td>
+                                                <td>${{ $cart->amount * $cart->discount_price }}</td>
                                             </tr>
                                             @php
-                                                $sub_total += $cart['sub_total'];
+                                                $sub_total += $cart->amount * $cart->discount_price;
                                             @endphp
                                         @endforeach
                                         {{-- <tr>

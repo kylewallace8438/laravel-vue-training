@@ -2,7 +2,7 @@
 
 @section('script')
     <script>
-        function add_cart(id, check, name, price) {
+        function add_cart(id, check) {
             // Creating Our XMLHttpRequest object 
             let product_id = id;
             // let check = check;
@@ -12,8 +12,6 @@
             var param = new FormData();
             param.append('product_id', product_id);
             param.append('check', check);
-            param.append('name', name);
-            param.append('price', price);
 
             console.log(param);
             xhr.onreadystatechange = function(e) {
@@ -30,9 +28,7 @@
             }
 
             xhr.open("POST", url, true);
-            //$('meta[name="csrf-token"]').attr('content')
             let content = "{{ csrf_token() }}"
-            // console.log(content);
             xhr.setRequestHeader('X-CSRF-TOKEN', content)
             xhr.send(param);
 
@@ -70,9 +66,9 @@
                         <a class="product-item" href="#">
                             <img src="images/product-3.png" class="img-fluid product-thumbnail">
                             <h3 class="product-title">{{ $product->name }}</h3>
-                            <strong class="product-price">${{$product->price}}.00</strong>
+                            <strong class="product-price">${{$product->price}}</strong>
 
-                            <span class="icon-cross" onclick="add_cart({{ $product->id }}, 1, '{{ $product->name }}', '{{ $product->price }}')">
+                            <span class="icon-cross" onclick="add_cart({{ $product->id }}, 1)">
                                 <img src="images/cross.svg" class="img-fluid">
                             </span>
                         </a>
