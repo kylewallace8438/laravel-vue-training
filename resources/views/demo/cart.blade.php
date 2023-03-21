@@ -67,7 +67,7 @@
                                                     <button class="btn btn-outline-black decrease" type="button"
                                                         onclick="add_cart({{ $cart->product_id }},-1)">&minus;</button>
                                                 </div>
-                                                <input type="text" id="myInput"
+                                                <input type="text" id="myInput-{{ $cart->product_id }}"
                                                     class="form-control text-center quantity-amount"
                                                     value="{{ $cart->count }}" placeholder=""
                                                     aria-label="Example text with button addon"
@@ -191,7 +191,7 @@
         }
 
         function getValue(id) {
-            var inputVal = document.getElementById("myInput").value;
+            var inputVal = document.getElementById("myInput-"+ id).value;
             console.log(inputVal);
             add_cart(id, inputVal);
             // Do something with inputVal

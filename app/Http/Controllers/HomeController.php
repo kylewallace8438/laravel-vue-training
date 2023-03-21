@@ -53,7 +53,12 @@ class HomeController extends Controller
     public function cart()
     {
         $order_id = Order::where('user_id', 1)->where('status', 0)->first();
-        $order_details = OrderDetail::where('order_id', $order_id->id)->get();
+        if($order_id == null){
+            $order_details = OrderDetail::where('order_id', 0)->get();
+        }else{
+            $order_details = OrderDetail::where('order_id', $order_id->id)->get();
+        }
+       
         return view('demo.cart', ['order_details' => $order_details]);
     }
     public function checkout()
