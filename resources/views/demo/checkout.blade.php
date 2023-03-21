@@ -227,15 +227,17 @@
                           </thead>
                           <tbody>
                             @php
-                                $total=0;
+                                $subtotal=0;
                             @endphp
-                            @foreach (session('carts') as $cart)
+                            @foreach ($carts as $cart)
                                 
                             <tr>
-                              <td>{{ $cart['name']}} <strong class="mx-2">x</strong> {{ $cart['amount'] }}</td>
-                              <td>${{ $cart['price'] * $cart['amount']}}</td>
+                              <td>{{ $cart->product->name }} <strong class="mx-2">x</strong> {{ $cart->count }}</td>
+                              <td>${{ $cart->count * $cart->discount_price }}</td>
                             </tr>
-                               {{ $total  += $cart['price'] * $cart['amount'] }}
+                            @php
+                                 $subtotal  += $cart->count * $cart->discount_price;
+                            @endphp
                             @endforeach
                             {{-- <tr>
                               <td>Polo Shirt <strong class="mx-2">x</strong>   1</td>
@@ -243,11 +245,11 @@
                             </tr> --}}
                             <tr>
                               <td class="text-black font-weight-bold"><strong>Cart Subtotal</strong></td>
-                              <td class="text-black">${{ $total }}</td>
+                              <td class="text-black">${{ $subtotal }}</td>
                             </tr>
                             <tr>
                               <td class="text-black font-weight-bold"><strong>Order Total</strong></td>
-                              <td class="text-black font-weight-bold"><strong>${{ $total }}</strong></td>
+                              <td class="text-black font-weight-bold"><strong>${{ $subtotal }}</strong></td>
                             </tr>
                           </tbody>
                         </table>

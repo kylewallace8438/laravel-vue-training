@@ -3,113 +3,173 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Order;
+use App\Models\OrderDetail;
+use App\Models\Product;
 
 class OrderController extends Controller
 {
     //
-    public function index()
-    {
+    // public function index()
+    // {
 
-         $products = [
-             [
-                'product_id' => '1',
-                'price' => '34.45',
-                'name' => 'Nordic Chair',
-            ],
-            [
-                'product_id' => '2',
-                'price' => '44.45',
-                'name' => 'Kruzo Aero Chair',
-            ],
-            [
-                'product_id' => '3',
-                'price' => '54.45',
-                'name' => 'Ergonomic Chair',
-            ],
-           [
-                'product_id' => '4',
-                'price' => '14.45',
-                'name' => 'Nordic Chair1',
-            ],
+    //      $products = [
+    //          [
+    //             'product_id' => '1',
+    //             'price' => '34.45',
+    //             'name' => 'Nordic Chair',
+    //         ],
+    //         [
+    //             'product_id' => '2',
+    //             'price' => '44.45',
+    //             'name' => 'Kruzo Aero Chair',
+    //         ],
+    //         [
+    //             'product_id' => '3',
+    //             'price' => '54.45',
+    //             'name' => 'Ergonomic Chair',
+    //         ],
+    //        [
+    //             'product_id' => '4',
+    //             'price' => '14.45',
+    //             'name' => 'Nordic Chair1',
+    //         ],
           
-            [
-                'product_id' => '5',
-                'price' => '24.45',
-                'name' => 'Kruzo Aero Chair1',
-            ],
-            [
-                'product_id' => '6',
-                'price' => '4.45',
-                'name' => 'Ergonomic Chair1',
-            ],
-        ];
+    //         [
+    //             'product_id' => '5',
+    //             'price' => '24.45',
+    //             'name' => 'Kruzo Aero Chair1',
+    //         ],
+    //         [
+    //             'product_id' => '6',
+    //             'price' => '4.45',
+    //             'name' => 'Ergonomic Chair1',
+    //         ],
+    //     ];
 
-        session()->put('products', $products);
-        return view('demo.shop');
+    //     session()->put('products', $products);
+    //     return view('demo.shop');
+    // }
+    public function show()
+    {
+        $carts = OrderDetail::where('order_id', session('order_id'))->get();
+        return view('demo.cart', compact('carts'));
     }
+    // public function add_cart(Request $request)
+    // {       
+    //     // session()->forget('carts');
+
+    //     // return $request->product_id;
+    //     $d = false;
+    //     $product_id = $request->get('product_id');
+    //     // $amount = $request->get('amount');
+    //     $amount = $request->get('amount');
+    //     $price = $request->get('price');
+    //     $name = $request->get('name');
+    //     $show = "Them That Bai";
+    //     // $request->session()->push('carts',['product_id' => $product_id, 'amount' => $amount]);
+        
+    //         if ($request->session()->has('carts')) {
+    //             $carts = [];
+    //             $t = 0;
+    //             foreach (session('carts') as $cart => $order) {
+    //                 // array_push($carts, ['product_id' => session('carts')[$t]['product_id'], 'amount' => session('carts')[$t]['amount']]);
+    //                 array_push($carts, ['product_id' => session('carts')[$t]['product_id'], 'amount' => session('carts')[$t]['amount'],
+    //                 'price' => session('carts')[$t]['price'],'name' => session('carts')[$t]['name']]);
+                
+
+    //                 if ($carts[$t]['product_id'] == $product_id) {
+    //                     $carts[$t]['amount'] +=  $amount;
+    //                     if($carts[$t]['amount']<0)
+    //                     $carts[$t]['amount']=0;
+    //                     if($amount==0){
+    //                         unset($carts[$t]);
+    //                         $t -=1;
+    //                     }
+    //                     $d = true;
+    //                 }
+    //                 $t = $t + 1;
+    //             }
+
+    //             if ($d == false) {
+    //                 array_push($carts, ['product_id' => $product_id, 'amount' => $amount, 'price' => $price, 'name' => $name]);
+    //             }
+    //             // if($amount==0)
+    //             // unset($cart['{{ $product_id }}']);
+    //             session()->put('carts', $carts);
+    //         } else {
+    //             $carts = [];
+    //             array_push($carts, ['product_id' => $product_id, 'amount' => $amount, 'price' => $price, 'name' => $name]);
+
+    //             session()->put('carts', $carts);
+                
+    //         }
+    //         $show = "Them Thanh cong";
+    //         // session()->forget('carts');
+    //         return response()->json($carts);
+        
+
+    //     return response()->json(array('msg' => $show));
+
+    // }
 
     public function add_cart(Request $request)
-    {       
-        // session()->forget('carts');
-
-        // return $request->product_id;
-        $d = false;
+    {   
+        
         $product_id = $request->get('product_id');
-        // $amount = $request->get('amount');
-        $amount = $request->get('amount');
-        $price = $request->get('price');
-        $name = $request->get('name');
-        $show = "Them That Bai";
-        // $request->session()->push('carts',['product_id' => $product_id, 'amount' => $amount]);
-        
-            if ($request->session()->has('carts')) {
-                $carts = [];
-                $t = 0;
-                foreach (session('carts') as $cart => $order) {
-                    // array_push($carts, ['product_id' => session('carts')[$t]['product_id'], 'amount' => session('carts')[$t]['amount']]);
-                    array_push($carts, ['product_id' => session('carts')[$t]['product_id'], 'amount' => session('carts')[$t]['amount'],
-                    'price' => session('carts')[$t]['price'],'name' => session('carts')[$t]['name']]);
-                
+        // return $product_id;
+        $check = $request->get('check');
+        $check_order = Order::where('user_id', 1)->where('status', 0)->first();
+        if (!isset($check_order->id)) {
+            $order = ['user_id' => 1];
+            Order::create($order);
+        }
 
-                    if ($carts[$t]['product_id'] == $product_id) {
-                        $carts[$t]['amount'] +=  $amount;
-                        if($carts[$t]['amount']<0)
-                        $carts[$t]['amount']=0;
-                        if($amount==0){
-                            unset($carts[$t]);
-                            $t -=1;
-                        }
-                        $d = true;
-                    }
-                    $t = $t + 1;
-                }
+        $order_id = Order::where('user_id', 1)->where('status', 0)->first();
+        session()->put('order_id',$order_id->id);
+        $product = Product::find($product_id);
 
-                if ($d == false) {
-                    array_push($carts, ['product_id' => $product_id, 'amount' => $amount, 'price' => $price, 'name' => $name]);
+        $details = OrderDetail::where('order_id', $order_id->id)->where('product_id', $product_id)->first();
+        if (!isset($details->id)) {
+            $detail = ['order_id' => $order_id->id, 'product_id' => $product_id, 'price' => $product->price, 'discount_price' => $product->price, 'count' => 1];
+            OrderDetail::create($detail);
+        } else {
+            if ($check < 0) {
+                $amount = 0;
+            } elseif ($check == 0) {
+                if ($details->count > 0) {
+                    $amount = $details->count - 1;
+                } else {
+                    $amount = 0;
                 }
-                // if($amount==0)
-                // unset($cart['{{ $product_id }}']);
-                session()->put('carts', $carts);
+            } elseif ($check == 1) {
+                $amount = $details->count + 1;
             } else {
-                $carts = [];
-                array_push($carts, ['product_id' => $product_id, 'amount' => $amount, 'price' => $price, 'name' => $name]);
-
-                session()->put('carts', $carts);
-                
+                $amount = $check;
             }
-            $show = "Them Thanh cong";
-            // session()->forget('carts');
-            return response()->json($carts);
-        
+            $detail = ['order_id' => $order_id->id, 'product_id' => $product_id, 'price' => $product->price, 'discount_price' => $product->price, 'count' => $amount];
+            OrderDetail::where('id', $details->id)->update($detail);
+        }
 
-        return response()->json(array('msg' => $show));
-
+        $order_details = OrderDetail::where('order_id',$order_id->id)->get();
+        return response()->json($order_details);
+        // return $order_details;
+        // dd($order_details);
     }
-
-    public function cart()
+    
+    public function checkout()
     {
-        return view('demo.cart');
+        $carts = OrderDetail::where('order_id', session('order_id'))->get();
+        return view('demo.checkout',compact('carts'));
     }
+
+    public function thankyou(Request $request)
+    {
+        Order::where('id',session('order_id'))->update(['status' => 1]);
+        session()->forget('order_id');
+        return view('demo.thankyou');
+    }
+
 
     }
 

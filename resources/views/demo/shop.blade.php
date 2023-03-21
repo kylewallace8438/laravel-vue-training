@@ -1,5 +1,42 @@
 @extends('demo.layouts.app')
 
+@section('script')
+    <script>
+        function add_cart(id, check) {
+            // Creating Our XMLHttpRequest object 
+            
+            // let check = check;
+            var xhr = new XMLHttpRequest();
+            // Making our connection  
+            var url = "{{ route('add_cart') }}?";
+            var param = new FormData();
+            param.append('product_id', id);
+            param.append('check', check);
+            console.log(check);
+            console.log(id);
+
+            console.log(param);
+            xhr.onreadystatechange = function(e) {
+                if (this.readyState == 4 && this.status == 200) {
+                    try {
+                        let show = JSON.parse(this.responseText);
+                        console.log(show)
+                        // if ('msg' in show) {}
+                        // if (typeof show == 'Object' && show.hasOwnProperty('msg'))
+                    } catch (e) {
+                        console.error(e)
+                    }
+                }
+            }
+
+            xhr.open("POST", url, true);
+            let content = "{{ csrf_token() }}"
+            xhr.setRequestHeader('X-CSRF-TOKEN', content)
+            xhr.send(param);
+
+        }
+    </script>
+@endsection
 
 <!-- Start Hero Section -->
 @section('hero')
@@ -33,7 +70,7 @@
                             <h3 class="product-title">{{ $product->name }}</h3>
                             <strong class="product-price">${{ $product->price }}</strong>
 
-                            <span class="icon-cross addcart-{{ $product->id }}" data-uri="{{ route('cart')}}" onclick="add_cart({{ $product->id }}, '{{ $product->price }}', '{{ $product->name }}')">
+                            <span class="icon-cross addcart-{{ $product->id }}" data-uri="{{ route('cart')}}" onclick="add_cart({{ $product->id }}, 1)">
                                 <img src="images/cross.svg" class="img-fluid">
                             </span>
                         </a>
@@ -46,21 +83,19 @@
     </div>
 @endsection
 
-<script>
-        
+{{-- <script>
+    function add_cart(id, check) {
+         const divBoxes = document.querySelectorAll("meta[name='csrf-token']");
+        // let addcartElement = document.querySelector('.addcart-'+id);
+        // console.log(addcartElement);
+         var x = divBoxes[0].content;
 
-    function add_cart(id, price,name) {
-
-        const divBoxes = document.querySelectorAll("meta[name='csrf-token']");
-        let addcartElement = document.querySelector('.addcart-'+id);
-        console.log(addcartElement);
-        var x = divBoxes[0].content;
-            console.log('hello1');
+            // console.log('hello1');
             // Creating Our XMLHttpRequest object 
             var xhr = new XMLHttpRequest();
             // console.log(this.getAttribute('data-uri'));
             // Making our connection
-            var url = "{{ route('orders') }}?";
+            var url = "{{ route('add_cart') }}?";
             xhr.open("POST", url, true);
             // function execute after request is successful 
             xhr.onreadystatechange = function(e) {
@@ -74,16 +109,11 @@
             }
             // Sending our request 
             xhr.setRequestHeader('X-CSRF-TOKEN', x);
-            // let params = "height=" + height+"&weight="+weight;
+            console.log(x);
             var params = new FormData();
             params.append('product_id', id);
-            params.append('amount', 1);
-            params.append('price', price);
-            params.append('name', name);
+            params.append('check', check);
             console.log(params);
             xhr.send(params);
-
-            console.log('hello2');
-        
     }
-</script>
+</script> --}}

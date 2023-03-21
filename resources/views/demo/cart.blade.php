@@ -38,35 +38,40 @@
                                 </tr>
                             </thead>
                             <tbody>
-
-                                @foreach (session('carts') as $cart)
+                                @php
+                                    $sub_total = 0
+                                @endphp
+                                @foreach ($carts as $cart)
                                     <tr>
                                         <td class="product-thumbnail">
                                             <img src="images/product-1.png" alt="Image" class="img-fluid">
                                         </td>
                                         <td class="product-name">
-                                            <h2 class="h5 text-black">Product {{ $cart['name'] }}</h2>
+                                            <h2 class="h5 text-black">{{$cart->product->name}}</h2>
                                         </td>
-                                        <td>$49.00</td>
+                                        <td>${{$cart->price}}</td>
                                         <td>
                                             <div class="input-group mb-3 d-flex align-items-center quantity-container"
                                                 style="max-width: 120px;">
                                                 <div class="input-group-prepend">
                                                     <button class="btn btn-outline-black decrease" type="button"
-                                                        onclick="add_cart(-1, {{ $cart['product_id'] }}, '{{ $cart['price']}}', '{{ $cart['name'] }}')">&minus;</button>
+                                                        onclick="add_cart({{ $cart->product_id }},0)">&minus;</button>
                                                 </div>
                                                 <input type="text" class="form-control text-center quantity-amount"
-                                                    value="{{ $cart['amount'] }}" placeholder=""
+                                                    value="{{$cart->count}}" placeholder=""
                                                     aria-label="Example text with button addon"
-                                                    aria-describedby="button-addon1">
+                                                    aria-describedby="button-addon1" onblur="checkvalue({{ $cart->product_id }})">
                                                 <div class="input-group-append">
                                                     <button class="btn btn-outline-black increase" type="button"
-                                                        onclick="add_cart(1, {{ $cart['product_id'] }}, '{{ $cart['price']}}', '{{ $cart['name'] }}')">&plus;</button>
+                                                        onclick="add_cart({{ $cart->product_id }},1)">&plus;</button>
                                                 </div>
                                             </div>
 
                                         </td>
-                                        <td>$49.00</td>
+                                        @php
+                                            $sub_total += $cart->count * $cart->discount_price;
+                                        @endphp
+                                        <td>${{ $cart->count * $cart->discount_price }}</td>
                                         <td><a href="#" class="btn btn-black btn-sm" onclick="add_cart(0, {{ $cart['product_id'] }}, '{{ $cart['price']}}', '{{ $cart['name'] }}')">X</a></td>
                                     </tr>
                                 @endforeach
@@ -81,10 +86,10 @@
                 <div class="col-md-6">
                     <div class="row mb-5">
                         <div class="col-md-6 mb-3 mb-md-0">
-                            <button class="btn btn-black btn-sm btn-block">Update Cart</button>
+                            <button class="btn btn-black btn-sm btn-block" onclick="window.location='{{ route('cart') }}'">Update Cart</button>
                         </div>
                         <div class="col-md-6">
-                            <button class="btn btn-outline-black btn-sm btn-block">Continue Shopping</button>
+                            <button class="btn btn-outline-black btn-sm btn-block" onclick="window.location='{{ route('shop') }}'">Continue Shopping</button>
                         </div>
                     </div>
                     <div class="row">
@@ -113,7 +118,7 @@
                                     <span class="text-black">Subtotal</span>
                                 </div>
                                 <div class="col-md-6 text-right">
-                                    <strong class="text-black">$230.00</strong>
+                                    <strong class="text-black">${{$sub_total}}</strong>
                                 </div>
                             </div>
                             <div class="row mb-5">
@@ -121,7 +126,7 @@
                                     <span class="text-black">Total</span>
                                 </div>
                                 <div class="col-md-6 text-right">
-                                    <strong class="text-black">$230.00</strong>
+                                    <strong class="text-black">${{$sub_total}}</strong>
                                 </div>
                             </div>
 
@@ -140,37 +145,35 @@
 @endsection
 
 <script>
-    function add_cart(check, id, price, name) {
-        const divBoxes = document.querySelectorAll("meta[name='csrf-token']");
-        var x = divBoxes[0].content;
-        console.log('hello1');
-        // Creating Our XMLHttpRequest object 
-        var xhr = new XMLHttpRequest();
-
-        // Making our connection
-        var url = "{{ route('orders') }}?";
-        xhr.open("POST", url, true);
-        // function execute after request is successful 
-        xhr.onreadystatechange = function(e) {
-            if (this.readyState == 4 && this.status == 200) {
-                try {
-                    console.log(this.responseText);
-                    // let show=JSON.parse(this.responseText);
-                    // document.getElementById("bmi").innerHTML = show.msg;
-                } catch (e) {}
+    function add_cart(id, check) {
+        // const divBoxes = document.querySelectorAll("meta[name='csrf-token']");
+        // let addcartElement = document.querySelector('.addcart-'+id);
+        // console.log(addcartElement);
+        // var x = divBoxes[0].content;
+            // console.log('hello1');
+            // Creating Our XMLHttpRequest object 
+            var xhr = new XMLHttpRequest();
+            // console.log(this.getAttribute('data-uri'));
+            // Making our connection
+            var url = "{{ route('add_cart') }}?";
+            xhr.open("POST", url, true);
+            // function execute after request is successful 
+            xhr.onreadystatechange = function(e) {
+                if (this.readyState == 4 && this.status == 200) {
+                    try {
+                        console.log(this.responseText);
+                        // let show=JSON.parse(this.responseText);
+                        // document.getElementById("bmi").innerHTML = show.msg;
+                    } catch (e) {}
+                }
             }
-        }
-        // Sending our request 
-        xhr.setRequestHeader('X-CSRF-TOKEN', x);
-        // let params = "height=" + height+"&weight="+weight;
-        var params = new FormData();
-        params.append('product_id', id);
-        params.append('amount', check);
-        console.log(params);
-        xhr.send(params);
-
-        console.log('hello2');
-
+            // Sending our request 
+            xhr.setRequestHeader('X-CSRF-TOKEN', "{{ csrf_token() }}");
+            var params = new FormData();
+            params.append('product_id', id);
+            params.append('check', check);
+            // console.log(params);
+            xhr.send(params);
     }
 </script>
 <!-- End before-footer-section Section -->
