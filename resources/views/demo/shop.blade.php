@@ -28,7 +28,7 @@
                         <h3 class="product-title">{{$product->name}}</h3>
                         <strong class="product-price">${{$product->price}}</strong>
 
-                        <span class="icon-cross" onclick="add_cart({{$product->id}}, -2, '{{$product->name}}', {{$product->price}})">
+                        <span class="icon-cross" onclick="add_cart({{$product->id}}, -2)">
                             <img src="images/cross.svg" class="img-fluid">
                         </span>
                     </a>
@@ -142,18 +142,16 @@
 @endsection
 @section('script')
     <script>
-        function add_cart(id, add, name, price) {
+        function add_cart(id, add) {
             console.log(id);
             console.log(add);
-            console.log(name);
-            console.log(price);
+          
 
 
             var formData = new FormData();
             formData.append('id', id);
             formData.append('add', add);
-            formData.append('name', name);
-            formData.append('price', price);
+           
 
             var xhr = new XMLHttpRequest();
             // Thiết lập phương thức POST và URL

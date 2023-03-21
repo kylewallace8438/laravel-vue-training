@@ -221,20 +221,23 @@
                     <th>Total</th>
                   </thead>
                   <tbody>
-                    @foreach (session('carts') as $cart)
-                    
+                    @php
+                                    $total = 0.0;
+                                @endphp
+                     @foreach ($order_details as $cart)
+                    {{ $total += $cart->discount_price * $cart->count }}
                     <tr>
-                      <td>{{ $cart['name'] }} <strong class="mx-2">x</strong> {{ $cart['quantity'] }}</td>
-                      <td>${{ $cart['price'] * $cart['quantity'] }}</td>
+                      <td>{{ $cart->product->name }} <strong class="mx-2">x</strong> {{ $cart['quantity'] }}</td>
+                      <td>${{ $cart->discount_price * $cart->count }}</td>
                     </tr>
                     @endforeach
                     
                       <td class="text-black font-weight-bold"><strong>Cart Subtotal</strong></td>
-                      <td class="text-black">${{session('total')}}</td>
+                      <td class="text-black">${{ $total }}</td>
                     </tr>
                     <tr>
                       <td class="text-black font-weight-bold"><strong>Order Total</strong></td>
-                      <td class="text-black font-weight-bold"><strong>${{session('total')}}</strong></td>
+                      <td class="text-black font-weight-bold"><strong>${{ $total }}</strong></td>
                     </tr>
                   </tbody>
                 </table>
@@ -270,7 +273,7 @@
                 </div>
 
                 <div class="form-group">
-                  <button class="btn btn-black btn-lg py-3 btn-block" onclick="window.location='{{route('forget-session')}}'">Place Order</button>
+                  <button class="btn btn-black btn-lg py-3 btn-block" onclick="window.location='{{route('thankyou')}}'">Place Order</button>
                 </div>
               </div>
             </div>

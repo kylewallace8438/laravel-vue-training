@@ -50,40 +50,40 @@
                                 @php
                                     $total = 0.0;
                                 @endphp
-                                @foreach (session('carts') as $cart)
-                                    {{ $total += $cart['price'] * $cart['quantity'] }}
+                                @foreach ($order_details as $cart)
+                                    {{ $total += $cart->discount_price * $cart->count }}
                                     <tr>
                                         <td class="product-thumbnail">
                                             <img src="images/product-1.png" alt="Image" class="img-fluid">
                                         </td>
                                         <td class="product-name">
-                                            <h2 class="h5 text-black">{{ $cart['name'] }}</h2>
+                                            <h2 class="h5 text-black">{{ $cart->product->name }}</h2>
                                         </td>
-                                        <td>$<span id="product-price-{{ $cart['id'] }}">{{ $cart['price'] }}</span></td>
+                                        <td>$<span id="product-price-{{ $cart->product_id }}"> {{ $cart->discount_price }}</span></td>
                                         <td>
                                             <div class="input-group mb-3 d-flex align-items-center quantity-container"
                                                 style="max-width: 120px;">
                                                 <div class="input-group-prepend">
                                                     <button class="btn btn-outline-black decrease" type="button"
-                                                        onclick="add_cart({{ $cart['id'] }},-1)">&minus;</button>
+                                                        onclick="add_cart({{ $cart->product_id }},-1)">&minus;</button>
                                                 </div>
                                                 <input type="text" id="myInput"
                                                     class="form-control text-center quantity-amount"
-                                                    value="{{ $cart['quantity'] }}" placeholder=""
+                                                    value="{{ $cart->count }}" placeholder=""
                                                     aria-label="Example text with button addon"
-                                                    aria-describedby="button-addon1" onblur="getValue({{ $cart['id'] }})">
+                                                    aria-describedby="button-addon1" onblur="getValue({{ $cart->product_id }})">
                                                 <div class="input-group-append">
                                                     <button class="btn btn-outline-black increase" type="button"
-                                                        onclick="add_cart({{ $cart['id'] }},-2)">&plus;</button>
+                                                        onclick="add_cart({{ $cart->product_id }},-2)">&plus;</button>
                                                 </div>
                                             </div>
 
                                         </td>
-                                        <td>$<span id="product-total-price-{{ $cart['id'] }}">{{ $cart['price'] * $cart['quantity'] }} </span></td>
+                                        <td>$<span id="product-total-price-{{ $cart->product_id }}">{{ $cart->discount_price * $cart->count }} </span></td>
                                         <td><a href="#" class="btn btn-black btn-sm">X</a></td>
                                     </tr>
                                 @endforeach
-                                {{ Session()->put('total', $total) }};
+                                
 
                                 </tr>
                             </tbody>
