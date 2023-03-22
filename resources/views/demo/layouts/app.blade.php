@@ -78,10 +78,13 @@
 
 		@yield('before-footer-section')
 		@yield('check-out')
-
+        @yield('content')
 		<!-- Start Footer Section -->
+		@if (Auth::check())
         @include('demo.layouts.footer')
+		@endif
 		<!-- End Footer Section -->	
+
 
 
 

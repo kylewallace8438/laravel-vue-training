@@ -65,14 +65,17 @@
                 @endforeach
                         @if (Auth::check())
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('logout') }}">Logout</a>
+                            <a class="nav-link" href="#">Hello {{ Auth::user()->name }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Hello {{ Auth::user()->name }}</a>
+                            <a class="nav-link" href="{{ route('logout') }}">Logout</a>
                         </li>
                         @else 
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('login') }}">Log in</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('register') }}">Register</a>
                         </li>
                         @endif
                         
