@@ -63,6 +63,23 @@
                         <a class="nav-link" href="{{ $menu['route'] }}">{{ $menu['name'] }}</a>
                     </li>
                 @endforeach
+                        @if (Auth::check())
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('logout') }}">Logout</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Hello {{ Auth::user()->name }}</a>
+                        </li>
+                        @else 
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('login') }}">Log in</a>
+                        </li>
+                        @endif
+                        
+                            
+                       
+                            
+                    
 
                 {{-- <li><a class="nav-link" href="{{ route('shop')}}">Shop</a></li>
                 <li><a class="nav-link" href="{{ route('about')}}">About us</a></li>

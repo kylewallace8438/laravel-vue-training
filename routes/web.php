@@ -1,8 +1,11 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\OrderController;
+use Illuminate\Routing\Route as RoutingRoute;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,7 +20,7 @@ use App\Http\Controllers\OrderController;
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
 
-Auth::routes();
+// Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/about', [App\Http\Controllers\HomeController::class, 'about'])->name('about');
@@ -29,3 +32,8 @@ Route::get('/contact', [App\Http\Controllers\HomeController::class, 'contact'])-
 Route::get('/services', [App\Http\Controllers\HomeController::class, 'services']) ->name('services');
 Route::get('/shop', [App\Http\Controllers\ShopController::class, 'show'])->name('shop');
 Route::get('/thankyou', [App\Http\Controllers\OrderController::class, 'thankyou'])->name('thankyou');
+Route::get('login',[LoginController::class,'showLoginForm'])->name('showlogin');
+Route::post('login',[LoginController::class,'login'])->name('login');
+Route::get('logout',[LoginController::class,'logout'])->name('logout');
+Route::post('register',[RegisterController::class,'register'])->name('register');
+Route::get('register',[RegisterController::class,'showRegistrationForm']);  
