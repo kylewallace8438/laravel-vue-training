@@ -53,7 +53,9 @@
     @yield('blog')
 
     <!-- Start Footer Section -->
-    @include('demo.layouts.footer')
+    @if (Auth::check())
+        @include('demo.layouts.footer')
+    @endif
 
     <!-- End Footer Section -->
 

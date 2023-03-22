@@ -18,4 +18,14 @@ class Order extends Model
         'coupon_id' => 0,
         'status' => 0,
     ];
+
+    public function order_detail()
+    {
+        return $this->hasMany(OrderDetail::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

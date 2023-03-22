@@ -38,7 +38,7 @@
         }
 
         function checkvalue(id){
-            var amount = document.getElementById('amount').value;
+            var amount = document.getElementById('product ' + id).value;
             add_cart(id,amount);
         }
     </script>
@@ -100,7 +100,7 @@
                                                     <button class="btn btn-outline-black decrease"
                                                         type="button" onclick="add_cart({{ $cart->product_id }},0)">&minus;</button>
                                                 </div>
-                                                <input type="text" id="amount" class="form-control text-center quantity-amount"
+                                                <input type="text" id="product {{$cart->product_id}}" class="form-control text-center quantity-amount"
                                                     value="{{$cart->amount}}" placeholder=""
                                                     aria-label="Example text with button addon"
                                                     aria-describedby="button-addon1" onblur="checkvalue({{ $cart->product_id }})" >

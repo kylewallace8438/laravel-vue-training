@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ShopController;
 use Illuminate\Support\Facades\Auth;
@@ -26,7 +28,13 @@ Route::post('/cart', [CartController::class, 'add_cart'])->name('add.cart');
 Route::get('/checkout', [CartController::class, 'check_out'])->name('checkout');
 Route::get('/thankyou', [CartController::class, 'thank'])->name('thankyou');
 
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('formLogin');
+Route::post('/login', [LoginController::class, 'login'])->name('login');
+Route::get('/logout', [LoginController::class, 'logout']);
+Route::get('/register', [RegisterController::class, 'showRegister'])->name('formRegister');
+Route::post('/register', [RegisterController::class, 'register'])->name('register');
 
-Auth::routes();
+
+// Auth::routes();
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

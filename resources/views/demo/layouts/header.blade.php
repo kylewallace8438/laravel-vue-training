@@ -61,9 +61,23 @@
             </ul>
 
             <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
-                <li><a class="nav-link" href="#"><img src="{{ asset('images/user.svg') }}"></a></li>
-                <li><a class="nav-link" href="{{ route('cart') }}"><img src="{{ asset('images/cart.svg') }}"></a></li>
+                @if (Auth::check())
+                    <li><a class="nav-link" href="#"><img src="{{ asset('images/user.svg') }}"></a></li>
+                    <li><a class="nav-link" href="{{ route('cart') }}"><img src="{{ asset('images/cart.svg') }}"></a>
+                    </li>
+                @endif
             </ul>
+
+            <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
+                @if (Auth::check())
+                    <li style="color: white">Xin chao, {{ Auth::user()->name }}</li>
+                    <li><a href="/logout" style="color: white">Logout</a></li>
+                @else
+                    <li><a href="/login" style="color: white">Login</a></li>
+                    <li><a href="/register" style="color: white">Register</a></li>
+                @endif
+            </ul>
+
         </div>
     </div>
 

@@ -6,6 +6,7 @@ use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 use function PHPUnit\Framework\isEmpty;
 
@@ -13,7 +14,16 @@ class CartController extends Controller
 {
     public function show()
     {
-        $carts = OrderDetail::where('order_id', session('order_id'))->get();
+        $carts = [];
+        $user_id = Auth::user()->id;
+        // $order_id = Auth::user()->order->where('status', 0)->first();
+        $order_id = Order::where('user_id', $user_id)->where('status', 0)->first();
+        // $carts = $order_id -> order_detail;
+        if($order_id == null){
+            $carts = OrderDetail::where('order_id', 0)->get();
+        } else {
+            $carts = OrderDetail::where('order_id', $order_id -> id)->get();
+        }
         return view('demo.cart', compact('carts'));
     }
 
@@ -72,16 +82,17 @@ class CartController extends Controller
 
     public function add_cart(Request $request)
     {
+        $user_id = Auth::user()->id;
         $product_id = $request->get('product_id');
         $check = $request->get('check');
-        $check_order = Order::where('user_id', 1)->where('status', 0)->first();
+        $check_order = Auth::user()->order->where('status', 0)->first();
+        // $check_order = Order::where('user_id', $user_id)->where('status', 0)->first();
         if (!isset($check_order->id)) {
-            $order = ['user_id' => 1];
+            $order = ['user_id' => $user_id];
             Order::create($order);
         }
 
-        $order_id = Order::where('user_id', 1)->where('status', 0)->first();
-        session()->put('order_id',$order_id->id);
+        $order_id = Order::where('user_id', $user_id)->where('status', 0)->first();
         $product = Product::find($product_id);
 
         $details = OrderDetail::where('order_id', $order_id->id)->where('product_id', $product_id)->first();
@@ -115,14 +126,22 @@ class CartController extends Controller
 
     public function check_out()
     {
-        $carts = OrderDetail::where('order_id', session('order_id'))->get();
+        $carts = [];
+        $user_id = Auth::user()->id;
+        $order_id = Order::where('user_id', $user_id)->where('status', 0)->first();
+        if($order_id != null){
+            $carts = OrderDetail::where('order_id', $order_id -> id)->get();
+        }
         return view('demo.checkout',compact('carts'));
     }
 
     public function thank(Request $request)
     {
-        Order::where('id',session('order_id'))->update(['status' => 1]);
-        session()->forget('order_id');
+        $user_id = Auth::user()->id;
+        $order_id = Order::where('user_id', $user_id)->where('status', 0)->first();
+        if($order_id != null){
+            Order::where('id', $order_id->id)->update(['status' => 1]);
+        }
         return view('demo.thankyou');
     }
 }
