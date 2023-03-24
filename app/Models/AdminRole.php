@@ -5,18 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Product extends Model
+class AdminRole extends Model
 {
     use HasFactory;
-
     protected $fillable = [
-        'price',
+        'admin_id',
+        'role_id',
+        'status',
     ];
 
-    public function order_detail()
-    {
-        return $this->hasMany(OrderDetail::class);
-    }
-
-
+    protected $attributes = [
+        'status' => 0,
+    ];
 }

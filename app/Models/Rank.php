@@ -5,18 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Product extends Model
+class Rank extends Model
 {
     use HasFactory;
-
     protected $fillable = [
-        'price',
+        'rank',
+        'point',
     ];
-
-    public function order_detail()
-    {
-        return $this->hasMany(OrderDetail::class);
-    }
-
-
 }

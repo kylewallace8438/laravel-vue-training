@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -22,6 +24,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role_user',
+        'rank_point',
+        'curren_point',
     ];
 
     /**
@@ -32,6 +37,12 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+    ];
+
+    protected $attributes = [
+        'role_user' => 2,
+        'rank_point' => 0,
+        'current_point' => 0,
     ];
 
     /**
@@ -47,4 +58,5 @@ class User extends Authenticatable
     {
         return $this->hasMany(Order::class);
     }
+
 }

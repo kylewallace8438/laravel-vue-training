@@ -18,9 +18,8 @@ return new class extends Migration
             $table->tinyInteger('type'); // 1: Tich theo tien; 2: tich theo so luong order
             $table->string('name');
             $table->text('des');
-            $table->date('start');
-            $table->date('end');
             $table->double('unit',9,2); // Gia tri quy doi tuong ung voi 1 diem
+            $table->tinyInteger('status');
             $table->timestamps();
         });
     }

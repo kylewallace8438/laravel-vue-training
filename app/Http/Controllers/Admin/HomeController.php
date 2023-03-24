@@ -32,4 +32,24 @@ class HomeController extends Controller
         return view('admin.order');
     }
 
+    public function add_product_show()
+    {
+        return view('admin.add_product');
+    }
+
+    public function add_product()
+    {
+        return view('admin.add_product');
+    }
+
+    public function edit_product()
+    {
+        return view('admin.edit_product');
+    }
+
+    public function edit_product_show()
+    {
+        return view('admin.edit_product');
+    }
+
 }

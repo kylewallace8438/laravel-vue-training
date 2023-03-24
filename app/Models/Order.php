@@ -12,6 +12,9 @@ class Order extends Model
         'user_id',
         'coupon_id',
         'status',
+        'address',
+        'create_time',
+        'return_time',
     ];
 
     protected $attributes = [

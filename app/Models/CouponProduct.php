@@ -5,18 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Product extends Model
+class CouponProduct extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'price',
+        'coupon_id',
+        'product_id',
     ];
-
-    public function order_detail()
-    {
-        return $this->hasMany(OrderDetail::class);
-    }
-
-
 }
