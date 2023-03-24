@@ -38,6 +38,11 @@ Route::post('/register', [RegisterController::class, 'register'])->name('registe
 
 Route::post('/admin/login', [AdminLoginController::class, 'login'])->name('admin.login');
 Route::get('/admin', [AdminHomeController::class, 'index'])->name('admin.home');
+Route::get('/admin/products', [AdminHomeController::class, 'product'])->name('products.list');
+Route::get('/admin/customers', [AdminHomeController::class, 'customer'])->name('customers.list');
+Route::get('/admin/list', [AdminHomeController::class, 'admin_list'])->name('admins.list');
+Route::get('/admin/orders', [AdminHomeController::class, 'order'])->name('orders.list');
+
 
 
 

@@ -13,10 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->tinyInteger('role_user');
-            $table->integer('rank_point');
-            $table->integer('current_point');
+        Schema::table('products', function (Blueprint $table) {
+            $table->tinyInteger('status');
         });
     }
 
@@ -27,10 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('role_user');
-            $table->dropColumn('rank_point');
-            $table->dropColumn('current_point');
+        Schema::table('products', function (Blueprint $table) {
+            $table->dropColumn('status');
         });
     }
 };
