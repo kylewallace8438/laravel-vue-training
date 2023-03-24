@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::table('orders', function (Blueprint $table) {
             $table->string('address');
-            $table->time('create_time');
-            $table->time('return_time');
+            $table->dateTime('create_time');
+            $table->dateTime('return_time');
         });
     }
 

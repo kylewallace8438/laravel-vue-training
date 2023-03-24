@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminRoleController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\Auth\LoginController as AdminLoginController;
 use App\Http\Controllers\Admin\HomeController as AdminHomeController;
@@ -42,7 +43,11 @@ Route::get('/admin/products', [AdminHomeController::class, 'product'])->name('pr
 Route::get('/admin/customers', [AdminHomeController::class, 'customer'])->name('customers.list');
 Route::get('/admin/list', [AdminHomeController::class, 'admin_list'])->name('admins.list');
 Route::get('/admin/orders', [AdminHomeController::class, 'order'])->name('orders.list');
-
+Route::get('/admin/profile/{id}', [AdminRoleController::class, 'profile'])->name('admin.profile');
+Route::get('/admin/product/add', [AdminHomeController::class, 'add_product_show'])->name('products.add.show');
+Route::post('/admin/product/add', [AdminProductController::class, 'add_product'])->name('products.add');
+Route::get('/admin/product/edit', [AdminHomeController::class, 'edit_product'])->name('products.edit.show');
+Route::post('/admin/product/edit', [AdminProductController::class, 'update_product'])->name('products.edit');
 
 
 
