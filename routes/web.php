@@ -4,6 +4,8 @@ use App\Http\Controllers\Admin\AdminRoleController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\Auth\LoginController as AdminLoginController;
 use App\Http\Controllers\Admin\HomeController as AdminHomeController;
+use App\Http\Controllers\Admin\CouponController as AdminCouponController;
+
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ShopController;
@@ -44,6 +46,8 @@ Route::get('/admin/customers', [AdminHomeController::class, 'customer'])->name('
 Route::get('/admin/list', [AdminHomeController::class, 'admin_list'])->name('admins.list');
 Route::get('/admin/orders', [AdminHomeController::class, 'order'])->name('orders.list');
 Route::get('/admin/orders/{id}', [AdminHomeController::class, 'confirmOrder'])->name('orders.confirm');
+Route::get('/admin/coupon/create', [AdminCouponController::class, 'createCoupon'])->name('coupon.create');
+
 
 Route::get('/admin/profile/{id}', [AdminRoleController::class, 'profile'])->name('admin.profile');
 Route::get('/admin/product/add', [AdminHomeController::class, 'add_product_show'])->name('products.add.show');
