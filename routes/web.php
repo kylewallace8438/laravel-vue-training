@@ -1,16 +1,15 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminRoleController;
-use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\Auth\LoginController as AdminLoginController;
-use App\Http\Controllers\Admin\HomeController as AdminHomeController;
 use App\Http\Controllers\Admin\CouponController as AdminCouponController;
-
+use App\Http\Controllers\Admin\HomeController as AdminHomeController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ShopController;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-*/
+ */
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/shop', [ShopController::class, 'show'])->name('shop');
@@ -47,16 +46,13 @@ Route::get('/admin/list', [AdminHomeController::class, 'admin_list'])->name('adm
 Route::get('/admin/orders', [AdminHomeController::class, 'order'])->name('orders.list');
 Route::get('/admin/orders/{id}', [AdminHomeController::class, 'confirmOrder'])->name('orders.confirm');
 Route::get('/admin/coupon/create', [AdminCouponController::class, 'createCoupon'])->name('coupon.create');
-
+Route::post('/admin/coupon', [AdminCouponController::class, 'storeCoupon'])->name('coupon.create.store');
 
 Route::get('/admin/profile/{id}', [AdminRoleController::class, 'profile'])->name('admin.profile');
 Route::get('/admin/product/add', [AdminHomeController::class, 'add_product_show'])->name('products.add.show');
 Route::post('/admin/product/add', [AdminProductController::class, 'add_product'])->name('products.add');
 Route::get('/admin/product/edit', [AdminHomeController::class, 'edit_product'])->name('products.edit.show');
 Route::post('/admin/product/edit', [AdminProductController::class, 'update_product'])->name('products.edit');
-
-
-
 
 // Auth::routes();
 
