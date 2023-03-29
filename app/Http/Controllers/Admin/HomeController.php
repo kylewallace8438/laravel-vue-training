@@ -3,13 +3,20 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
     public function index()
     {
-        return view('admin.dashboard');
+        if(Auth::check()){
+            return view('admin.dashboard');
+        } else{
+            return view('admin.login');
+        }
+        
     }
 
     public function product()
@@ -19,12 +26,15 @@ class HomeController extends Controller
 
     public function customer()
     {
-        return view('admin.customer');
+        $customers = User::where('role_user',2)->get();
+        // dd($customer);
+        return view('admin.customer', compact('customers'));
     }
 
     public function admin_list()
     {
-        return view('admin.admin');
+        $admins = User::where('role_user',1)->get();
+        return view('admin.admin', compact('admins'));
     }
 
     public function order()
