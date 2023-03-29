@@ -3,13 +3,24 @@
 namespace App\Http\Controllers\Admin;
 use App\Models\Order;
 use App\Http\Controllers\Controller;
+
+use App\Models\Order;
 use Illuminate\Http\Request;
+use App\Models\Product;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+
 
 class HomeController extends Controller
 {
     public function index()
     {
-        return view('admin.dashboard');
+        if(Auth::check()){
+            return view('admin.dashboard');
+        } else{
+            return view('admin.login');
+        }
+        
     }
 
     public function product()
@@ -19,12 +30,15 @@ class HomeController extends Controller
 
     public function customer()
     {
-        return view('admin.customer');
+        $customers = User::where('role_user',2)->get();
+        // dd($customer);
+        return view('admin.customer', compact('customers'));
     }
 
     public function admin_list()
     {
-        return view('admin.admin');
+        $admins = User::where('role_user',1)->get();
+        return view('admin.admin', compact('admins'));
     }
 
     public function order()
@@ -60,4 +74,12 @@ class HomeController extends Controller
         return view('admin.edit_product');
     }
 
+    public function dashboard()
+    {
+        $product = Product::all()->count();
+        $user = User::where('role_user',2)->get()->count();
+        $order1 = Order::where('status',1)->get()->count();
+        $order0 = Order::where('status',0)->get()->count();
+        return view('admin.dashboard', compact('product', 'user', 'order0', 'order1'));
+    }
 }
