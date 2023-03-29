@@ -17,57 +17,60 @@
   </div><!-- /.container-fluid -->
 </section>
 <!-- Main content -->
-<section class="content">
-  <div class="row">
-    <div class="col-md-12">
-      <div class="card card-primary">
-        <div class="card-header">
-          <h3 class="card-title">Add</h3>
-
-          <div class="card-tools">
-            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-              <i class="fas fa-minus"></i>
-            </button>
+<form action="{{ route('products.edit', ['id'=>$product->id]) }}" method="post">
+  @csrf
+  <section class="content">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card card-primary">
+          <div class="card-header">
+            <h3 class="card-title">Add</h3>
+  
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                <i class="fas fa-minus"></i>
+              </button>
+            </div>
           </div>
+          <div class="card-body">
+            <div class="form-group">
+              <label for="inputName">Product Name</label>
+              <input type="text" id="inputName" class="form-control" disabled="disabled" value="{{ $product->name }}">
+            </div>
+            <div class="form-group">
+              <label for="inputClientCompany">Price</label>
+              <input type="text" id="inputClientCompany" class="form-control" name="price" value="{{ $product->price }}">
+            </div>
+            
+            <div class="form-group">
+              <label for="inputDescription">Product Description</label>
+              <textarea id="inputDescription" class="form-control" rows="4"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="inputStatus">Status</label>
+              <select id="inputStatus" class="form-control custom-select">
+                <option selected disabled>Select one</option>
+                <option>Actived</option>
+                <option>Disabled</option>
+              </select>
+            </div>
+            {{-- <div class="form-group">
+              <label for="inputProjectLeader">Project Leader</label>
+              <input type="text" id="inputProjectLeader" class="form-control">
+            </div> --}}
+          </div>
+          <!-- /.card-body -->
         </div>
-        <div class="card-body">
-          <div class="form-group">
-            <label for="inputName">Product Name</label>
-            <input type="text" id="inputName" class="form-control">
-          </div>
-          <div class="form-group">
-            <label for="inputClientCompany">Price</label>
-            <input type="text" id="inputClientCompany" class="form-control">
-          </div>
-          
-          <div class="form-group">
-            <label for="inputDescription">Product Description</label>
-            <textarea id="inputDescription" class="form-control" rows="4"></textarea>
-          </div>
-          <div class="form-group">
-            <label for="inputStatus">Status</label>
-            <select id="inputStatus" class="form-control custom-select">
-              <option selected disabled>Select one</option>
-              <option>Actived</option>
-              <option>Disabled</option>
-            </select>
-          </div>
-          {{-- <div class="form-group">
-            <label for="inputProjectLeader">Project Leader</label>
-            <input type="text" id="inputProjectLeader" class="form-control">
-          </div> --}}
-        </div>
-        <!-- /.card-body -->
+        <!-- /.card -->
       </div>
-      <!-- /.card -->
     </div>
-  </div>
-  <div class="row">
-    <div class="col-12" style="margin-bottom: 30px">
-      <a href="{{ route('products.list') }}" class="btn btn-secondary">Cancel</a>
-      <input type="submit" value="Save changes" class="btn btn-success float-right">
+    <div class="row">
+      <div class="col-12" style="margin-bottom: 30px">
+        <a href="{{ route('products.list') }}" class="btn btn-secondary">Cancel</a>
+        <input type="submit" value="Save changes" class="btn btn-success float-right">
+      </div>
     </div>
-  </div>
-</section>
+  </section>
+</form>
 <!-- /.content -->
 @endsection

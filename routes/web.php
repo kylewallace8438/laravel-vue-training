@@ -5,6 +5,8 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\Auth\LoginController as AdminLoginController;
 use App\Http\Controllers\Admin\Auth\RegisterController as AdminRegisterController;
 use App\Http\Controllers\Admin\HomeController as AdminHomeController;
+use App\Http\Controllers\Admin\ProductController as AdminProductController;
+use App\Http\Controllers\Admin\EventController as AdminEventController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ShopController;
@@ -42,6 +44,10 @@ Route::post('/register', [RegisterController::class, 'register'])->name('registe
 Route::get('/admin/login', [AdminLoginController::class, 'form_login'])->name('formLoginAdmin');
 Route::post('/admin/login', [AdminLoginController::class, 'login'])->name('admin.login');
 
+Route::get('/admin', [AdminHomeController::class, 'dashboard'])->name('admin.home');
+Route::get('/admin/products', [AdminProductController::class, 'product'])->name('products.list');
+
+
 //Admin register
 Route::get('/admin/register', [AdminRegisterController::class, 'form_register'])->name('formRegisterAdmin');
 Route::post('/admin/register', [AdminRegisterController::class, 'register'])->name('admin.register');
@@ -50,19 +56,19 @@ Route::post('/admin/register', [AdminRegisterController::class, 'register'])->na
 //Admin logout
 Route::get('/admin/logout', [AdminLoginController::class, 'logout'])->name('admin.logout');
 
-//Admin home
-Route::get('/admin', [AdminHomeController::class, 'index'])->name('admin.home');
-
-//Admin product
-Route::get('/admin/products', [AdminHomeController::class, 'product'])->name('products.list');
 Route::get('/admin/customers', [AdminHomeController::class, 'customer'])->name('customers.list');
 Route::get('/admin/list', [AdminHomeController::class, 'admin_list'])->name('admins.list');
 Route::get('/admin/orders', [AdminHomeController::class, 'order'])->name('orders.list');
 Route::get('/admin/profile/{id}', [AdminRoleController::class, 'profile'])->name('admin.profile');
-Route::get('/admin/product/add', [AdminHomeController::class, 'add_product_show'])->name('products.add.show');
-Route::post('/admin/product/add', [AdminProductController::class, 'add_product'])->name('products.add');
-Route::get('/admin/product/edit', [AdminHomeController::class, 'edit_product'])->name('products.edit.show');
-Route::post('/admin/product/edit', [AdminProductController::class, 'update_product'])->name('products.edit');
+Route::get('/admin/products/add', [AdminHomeController::class, 'add_product_show'])->name('products.add.show');
+Route::post('/admin/products/add', [AdminProductController::class, 'add_product'])->name('products.add');
+Route::get('/admin/products/edit/{id}', [AdminProductController::class, 'edit_product'])->name('products.edit.show');
+Route::post('/admin/products/edit/{id}', [AdminProductController::class, 'update_product'])->name('products.edit');
+
+Route::get('/admin/events', [AdminEventController::class, 'event'])->name('events.list');
+Route::get('/admin/events/add', [AdminEventController::class, 'show'])->name('events.add.show');
+Route::post('/admin/events/add', [AdminEventController::class, 'add_event'])->name('events.add');
+Route::get('/admin/events/edit/{id}', [AdminEventController::class, 'edit'])->name('events.edit');
 
 
 

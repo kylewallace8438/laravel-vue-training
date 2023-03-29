@@ -3,9 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+
+use App\Models\Order;
 use Illuminate\Http\Request;
+use App\Models\Product;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+
 
 class HomeController extends Controller
 {
@@ -62,4 +66,12 @@ class HomeController extends Controller
         return view('admin.edit_product');
     }
 
+    public function dashboard()
+    {
+        $product = Product::all()->count();
+        $user = User::where('role_user',2)->get()->count();
+        $order1 = Order::where('status',1)->get()->count();
+        $order0 = Order::where('status',0)->get()->count();
+        return view('admin.dashboard', compact('product', 'user', 'order0', 'order1'));
+    }
 }
