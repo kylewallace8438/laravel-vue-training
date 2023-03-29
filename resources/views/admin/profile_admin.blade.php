@@ -28,27 +28,26 @@
                     <div class="card card-primary card-outline">
                         <div class="card-body box-profile">
                             <div class="text-center">
-                                <img class="profile-user-img img-fluid img-circle" src="../../dist/img/user4-128x128.jpg"
+                                <img class="profile-user-img img-fluid img-circle" src="{{asset('admin_css/dist/img/user4-128x128.jpg')}}"
                                     alt="User profile picture">
                             </div>
 
-                            <h3 class="profile-username text-center">Nina Mcintire</h3>
+                            <h3 class="profile-username text-center">{{$admin->name}}</h3>
 
-                            <p class="text-muted text-center">Software Engineer</p>
 
                             <ul class="list-group list-group-unbordered mb-3">
                                 <li class="list-group-item">
-                                    <b>Followers</b> <a class="float-right">1,322</a>
+                                    <b>ID</b> <a class="float-right">#{{$admin->id}}</a>
                                 </li>
                                 <li class="list-group-item">
-                                    <b>Following</b> <a class="float-right">543</a>
+                                    <b>Email</b> <a class="float-right">{{$admin->email}}</a>
                                 </li>
                                 <li class="list-group-item">
-                                    <b>Friends</b> <a class="float-right">13,287</a>
+                                    <b>Role</b> <a class="float-right">Sub admin</a>
                                 </li>
                             </ul>
 
-                            <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>
+                            <a href="#" class="btn btn-primary btn-block"><b>Update</b></a>
                         </div>
                         <!-- /.card-body -->
                     </div>
@@ -112,15 +111,15 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <div class="icheck-primary d-inline">
-                                                <input type="checkbox" id="Customer-Create">
+                                            <div class="icheck-primary d-inline ">
+                                                <input type="checkbox" id="Customer-Create" disabled>
                                                 <label for="Customer-Create">
                                                 </label>
                                             </div>
                                         </td>
                                         <td>
                                             <div class="icheck-primary d-inline">
-                                                <input type="checkbox" id="Customer-Update">
+                                                <input type="checkbox" id="Customer-Update" disabled>
                                                 <label for="Customer-Update">
                                                 </label>
                                             </div>
@@ -144,7 +143,7 @@
                                         </td>
                                         <td>
                                             <div class="icheck-primary d-inline">
-                                                <input type="checkbox" id="Order-Create">
+                                                <input type="checkbox" id="Order-Create" disabled>
                                                 <label for="Order-Create">
                                                 </label>
                                             </div>

@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminRoleController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\Auth\LoginController as AdminLoginController;
+use App\Http\Controllers\Admin\Auth\RegisterController as AdminRegisterController;
 use App\Http\Controllers\Admin\HomeController as AdminHomeController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\CartController;
@@ -37,8 +38,22 @@ Route::get('/logout', [LoginController::class, 'logout']);
 Route::get('/register', [RegisterController::class, 'showRegister'])->name('formRegister');
 Route::post('/register', [RegisterController::class, 'register'])->name('register');
 
+// Admin login
+Route::get('/admin/login', [AdminLoginController::class, 'form_login'])->name('formLoginAdmin');
 Route::post('/admin/login', [AdminLoginController::class, 'login'])->name('admin.login');
+
+//Admin register
+Route::get('/admin/register', [AdminRegisterController::class, 'form_register'])->name('formRegisterAdmin');
+Route::post('/admin/register', [AdminRegisterController::class, 'register'])->name('admin.register');
+
+
+//Admin logout
+Route::get('/admin/logout', [AdminLoginController::class, 'logout'])->name('admin.logout');
+
+//Admin home
 Route::get('/admin', [AdminHomeController::class, 'index'])->name('admin.home');
+
+//Admin product
 Route::get('/admin/products', [AdminHomeController::class, 'product'])->name('products.list');
 Route::get('/admin/customers', [AdminHomeController::class, 'customer'])->name('customers.list');
 Route::get('/admin/list', [AdminHomeController::class, 'admin_list'])->name('admins.list');
@@ -48,7 +63,6 @@ Route::get('/admin/product/add', [AdminHomeController::class, 'add_product_show'
 Route::post('/admin/product/add', [AdminProductController::class, 'add_product'])->name('products.add');
 Route::get('/admin/product/edit', [AdminHomeController::class, 'edit_product'])->name('products.edit.show');
 Route::post('/admin/product/edit', [AdminProductController::class, 'update_product'])->name('products.edit');
-
 
 
 
