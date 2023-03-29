@@ -79,7 +79,7 @@
                      </a>
                  </li>
                  <li class="nav-item">
-                     <a href="href="/admin/coupon/create"" class="nav-link">
+                     <a href="/admin/coupon/create" class="nav-link">
                          <i class="nav-icon fas fa-chart-pie"></i>
                          <p>
                              Coupons
@@ -87,7 +87,7 @@
                      </a>
                  </li>
                  <li class="nav-item">
-                     <a href="admin/events" class="nav-link">
+                     <a href="/admin/events" class="nav-link">
                          <i class="nav-icon fas fa-tree"></i>
                          <p>
                              Events
