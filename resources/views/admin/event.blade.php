@@ -42,11 +42,17 @@
                             <th style="width: 1%">
                                 Event_id
                             </th>
-                            <th style="width: 20%">
+                            <th style="width: 10%">
                                 Event Name
                             </th>
                             <th style="width: 8%" class="text-center">
                                 Status
+                            </th>
+                            <th style="width: 13%" >
+                                Event Type
+                            </th>
+                            <th style="width: 13%" >
+                                Gia tri quy doi(10d)
                             </th>
                             <th style="width: 20%">
                             </th>
@@ -71,18 +77,38 @@
                                         <span class="badge badge-success">ON</span>
                                     </td>
                                 @endif
+                                @if ($event->type == 1)
+                                <td>
+                                    Theo so luong don
+                                </td>
+                                <td>
+                                    Moi {{$event->unit}} don
+                                </td>
+                                @else
+                                <td>
+                                    Theo so tien
+                                </td>
+                                <td>
+                                    Moi ${{ $event->unit }}
+                                </td>
+                                @endif
                                 <td class="project-actions text-right">
-                                    <a class="btn btn-primary btn-sm" href="#">
+                                    @if ($event->status == 0)
+                                    <a class="btn btn-primary btn-sm" href="{{ route('events.edit', ['id'=>$event->id]) }}">
                                         <i class="fas fa-folder">
                                         </i>
                                         ON
                                     </a>
+                                        
+                                    @else
                                     <a class="btn btn-info btn-sm" href="{{ route('events.edit', ['id'=>$event->id]) }}" >
                                         <i class="fas fa-pencil-alt">
                                         </i>
                                         OFF
                                     </a>
-                                    <a class="btn btn-danger btn-sm" href="#">
+                                        
+                                    @endif
+                                    <a class="btn btn-danger btn-sm" href="{{ route('events.delete', ['id'=>$event->id]) }}">
                                         <i class="fas fa-trash">
                                         </i>
                                         Delete

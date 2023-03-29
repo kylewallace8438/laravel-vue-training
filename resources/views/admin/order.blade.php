@@ -41,7 +41,7 @@
                             <th style="width: 8%">
                                 Order_id
                             </th>
-                            <th style="width: 20%">
+                            <th style="width: 10%">
                                 Customer Name
                             </th>
                             <th style="width: 20%">
@@ -102,14 +102,20 @@
                                 </td>
 
                                 <td>
-                                    <p class="text-center">{{ $order->status }}</p>
+                                    @if ($order->status==0)
+                                    <p class="text-center">Not paid</p>
+                                    @else
+                                    <p class="text-center">Paid</p>
+                                    @endif
                                 </td>
                                 <td class="project-actions text-right">
-                                    <a class="btn btn-primary btn-sm" href="{{ route('orders.confirm', ['id' => $order->id]) }}">
-                                        <i class="fas fa-folder">
-                                        </i>
-                                        CONFIRM
-                                    </a>
+                                   @if ($order->status==0)
+                                   <a class="btn btn-primary btn-sm" href="{{ route('orders.confirm', ['id' => $order->id]) }}">
+                                       <i class="fas fa-folder">
+                                       </i>
+                                       CONFIRM
+                                   </a> 
+                                   @endif
 
                                 </td>
                             </tr>
