@@ -1,17 +1,19 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminRoleController;
-use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\Auth\LoginController as AdminLoginController;
+use App\Http\Controllers\Admin\CouponController as AdminCouponController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\Auth\RegisterController as AdminRegisterController;
 use App\Http\Controllers\Admin\HomeController as AdminHomeController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\EventController as AdminEventController;
+
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ShopController;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,7 +23,7 @@ use Illuminate\Support\Facades\Route;
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-*/
+ */
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/shop', [ShopController::class, 'show'])->name('shop');
@@ -59,17 +61,21 @@ Route::get('/admin/logout', [AdminLoginController::class, 'logout'])->name('admi
 Route::get('/admin/customers', [AdminHomeController::class, 'customer'])->name('customers.list');
 Route::get('/admin/list', [AdminHomeController::class, 'admin_list'])->name('admins.list');
 Route::get('/admin/orders', [AdminHomeController::class, 'order'])->name('orders.list');
+Route::get('/admin/orders/{id}', [AdminHomeController::class, 'confirmOrder'])->name('orders.confirm');
+Route::get('/admin/coupon/create', [AdminCouponController::class, 'createCoupon'])->name('coupon.create');
+Route::post('/admin/coupon', [AdminCouponController::class, 'storeCoupon'])->name('coupon.create.store');
+
 Route::get('/admin/profile/{id}', [AdminRoleController::class, 'profile'])->name('admin.profile');
 Route::get('/admin/products/add', [AdminHomeController::class, 'add_product_show'])->name('products.add.show');
 Route::post('/admin/products/add', [AdminProductController::class, 'add_product'])->name('products.add');
 Route::get('/admin/products/edit/{id}', [AdminProductController::class, 'edit_product'])->name('products.edit.show');
 Route::post('/admin/products/edit/{id}', [AdminProductController::class, 'update_product'])->name('products.edit');
 
+
 Route::get('/admin/events', [AdminEventController::class, 'event'])->name('events.list');
 Route::get('/admin/events/add', [AdminEventController::class, 'show'])->name('events.add.show');
 Route::post('/admin/events/add', [AdminEventController::class, 'add_event'])->name('events.add');
 Route::get('/admin/events/edit/{id}', [AdminEventController::class, 'edit'])->name('events.edit');
-
 
 
 // Auth::routes();

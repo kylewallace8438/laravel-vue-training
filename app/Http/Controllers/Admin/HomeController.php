@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-
+use App\Models\Order;
 use App\Http\Controllers\Controller;
 
 use App\Models\Order;
@@ -43,7 +43,15 @@ class HomeController extends Controller
 
     public function order()
     {
-        return view('admin.order');
+        $orders = Order::all();
+        return view('admin.order', compact('orders', $orders));
+    }
+    public function confirmOrder($id)
+    {
+        
+        Order::where('id', $id)->update(['status' => 1]);
+        $orders = Order::all();
+        return view('admin.order', compact('orders', $orders));
     }
 
     public function add_product_show()

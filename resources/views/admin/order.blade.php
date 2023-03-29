@@ -38,7 +38,7 @@
                 <table class="table table-striped projects">
                     <thead>
                         <tr>
-                            <th style="width: 10%">
+                            <th style="width: 8%">
                                 Order_id
                             </th>
                             <th style="width: 20%">
@@ -50,59 +50,62 @@
                             <th style="width: 10%">
                                 Coupon code
                             </th>
-                            <th style="width: 10%">
+                            <th style="width: 16%">
                                 Order Time
                             </th>
                             <th style="width: 8%">
                                 Price
                             </th>
-                            <th style="width: 8%" class="text-center">
+                            <th style="width: 6%" class="text-center">
                                 Status
                             </th>
-                            <th style="width: 14%">
+                            <th style="width: 12%">
                             </th>
                         </tr>
                     </thead>
                     <tbody>
-                        @php
-                            $orders = [['order_id' => 1, 'user_name' => 'Hoang', 'address' => 'Ha Tinh', 'coupon_code' => 'xyz', 'order_time' => '24/3/2023', 'price' => 65.6, 'status' => 0], ['order_id' => 2, 'user_name' => 'Bang', 'address' => 'Ha Tinh', 'coupon_code' => 'abc', 'order_time' => '25/3/2023', 'price' => 60.6, 'status' => 0]];
-                        @endphp
+                        
                         @foreach ($orders as $order)
                             <tr>
                                 <td>
-                                    #{{ $order['order_id'] }}
-                                </td>
-                                <td>
-                                    <a>
-                                        {{ $order['user_name'] }}
-                                    </a>
-                                    <br />
-                                    <small>
-
-                                    </small>
+                                     <p class="text-center">#{{ $order->id }}</p> 
                                 </td>
                                 <td>
                                     <p>
-                                        {{ $order['address'] }}
+                                        {{ $order->user_id }}
+                                    </p>
+                                    
+                                </td>
+                                <td>
+                                    <p>
+                                        {{ $order->address }}
                                     </p>
                                 </td>
 
                                 <td class="project-state">
-                                    <p>{{ $order['coupon_code'] }}</p>
+                                    <p>{{ $order->coupon_id }}</p>
                                 </td>
                                 <td>
-                                    <p>{{ $order['order_time'] }}</p>
-                                </td>
-
-                                <td>
-                                    <p>{{ $order['price'] }}</p>
+                                    <p>{{ $order->create_time }}</p>
                                 </td>
 
                                 <td>
-                                    <p>{{ $order['status'] }}</p>
+                                    @php
+                                        $products = $order->order_detail;
+                                        $total= 0.00;
+                                        foreach ($products as $product) {
+                                            $total= $total + $product->discount_price * $product->amount;
+                                        }
+                                        echo '<p>'.$total.'</p>';  
+                                    @endphp
+                                    
+                                </td>
+
+                                <td>
+                                    <p class="text-center">{{ $order->status }}</p>
                                 </td>
                                 <td class="project-actions text-right">
-                                    <a class="btn btn-primary btn-sm" href="#">
+                                    <a class="btn btn-primary btn-sm" href="{{ route('orders.confirm', ['id' => $order->id]) }}">
                                         <i class="fas fa-folder">
                                         </i>
                                         CONFIRM

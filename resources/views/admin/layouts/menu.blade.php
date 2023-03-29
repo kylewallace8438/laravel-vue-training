@@ -53,6 +53,7 @@
                  <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
 
+
                  <li class="nav-item">
                      <a href="{{ route('admin.home') }}" class="nav-link active">
                          <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -78,7 +79,7 @@
                      </a>
                  </li>
                  <li class="nav-item">
-                     <a href="#" class="nav-link">
+                     <a href="href="/admin/coupon/create"" class="nav-link">
                          <i class="nav-icon fas fa-chart-pie"></i>
                          <p>
                              Coupons
