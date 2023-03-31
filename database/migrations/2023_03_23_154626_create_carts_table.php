@@ -18,9 +18,11 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('product_id');
             $table->integer('amount');
-            $table->double('discount_price');
+            $table->double('price', 9, 2);
+            $table->double('discount_price', 9, 2);
             $table->timestamps();
         });
+
     }
 
     /**

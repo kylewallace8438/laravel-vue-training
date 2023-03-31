@@ -13,6 +13,17 @@ class Cart extends Model
         'user_id',
         'product_id',
         'amount',
+        'price',
         'discount_price',
     ];
+
+    protected $attributes = [
+
+        'discount_price' => -1,
+    ];
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
 }

@@ -37,9 +37,9 @@
 
         }
 
-        function checkvalue(id){
+        function checkvalue(id) {
             var amount = document.getElementById('product ' + id).value;
-            add_cart(id,amount);
+            add_cart(id, amount);
         }
     </script>
 @endsection
@@ -82,7 +82,7 @@
                             </thead>
                             <tbody>
                                 @php
-                                    $sub_total = 0
+                                    $sub_total = 0;
                                 @endphp
                                 @foreach ($carts as $cart)
                                     <tr>
@@ -90,23 +90,25 @@
                                             <img src="images/product-1.png" alt="Image" class="img-fluid">
                                         </td>
                                         <td class="product-name">
-                                            <h2 class="h5 text-black">{{$cart->product->name}}</h2>
+                                            <h2 class="h5 text-black">{{ $cart->product->name }}</h2>
                                         </td>
-                                        <td>${{$cart->price}}</td>
+                                        <td>${{ $cart->price }}</td>
                                         <td>
-                                            <div class="input-group mb-3 d-flex align-items-center quantity-container"
-                                                style="max-width: 120px;">
+                                            <div class="input-group mb-3 d-flex  quantity-container "
+                                                style="max-width: 120px; margin:auto;">
                                                 <div class="input-group-prepend">
-                                                    <button class="btn btn-outline-black decrease"
-                                                        type="button" onclick="add_cart({{ $cart->product_id }},0)">&minus;</button>
+                                                    <button class="btn btn-outline-black decrease" type="button"
+                                                        onclick="add_cart({{ $cart->product_id }},0)">&minus;</button>
                                                 </div>
-                                                <input type="text" id="product {{$cart->product_id}}" class="form-control text-center quantity-amount"
-                                                    value="{{$cart->amount}}" placeholder=""
+                                                <input type="text" id="product {{ $cart->product_id }}"
+                                                    class="form-control text-center quantity-amount"
+                                                    value="{{ $cart->amount }}" placeholder=""
                                                     aria-label="Example text with button addon"
-                                                    aria-describedby="button-addon1" onblur="checkvalue({{ $cart->product_id }})" >
+                                                    aria-describedby="button-addon1"
+                                                    onblur="checkvalue({{ $cart->product_id }})">
                                                 <div class="input-group-append">
-                                                    <button class="btn btn-outline-black increase"
-                                                        type="button" onclick="add_cart({{ $cart->product_id }},1)">&plus;</button>
+                                                    <button class="btn btn-outline-black increase" type="button"
+                                                        onclick="add_cart({{ $cart->product_id }},1)">&plus;</button>
                                                 </div>
                                             </div>
                                         </td>
@@ -114,9 +116,9 @@
                                             $total = $cart['price']*$cart['amount']
                                         @endphp --}}
                                         @php
-                                            $sub_total += $cart->amount * $cart->discount_price;
+                                            $sub_total += $cart->amount * $cart->price;
                                         @endphp
-                                        <td>${{ $cart->amount * $cart->discount_price }}</td>
+                                        <td>${{ $cart->amount * $cart->price }}</td>
                                         <td><a href="#" class="btn btn-black btn-sm">X</a></td>
                                     </tr>
                                 @endforeach
@@ -159,10 +161,12 @@
                 <div class="col-md-6">
                     <div class="row mb-5">
                         <div class="col-md-6 mb-3 mb-md-0">
-                            <button class="btn btn-black btn-sm btn-block" onclick="window.location='{{ route('cart') }}'">Update Cart</button>
+                            <button class="btn btn-black btn-sm btn-block"
+                                onclick="window.location='{{ route('cart') }}'">Update Cart</button>
                         </div>
                         <div class="col-md-6">
-                            <button class="btn btn-outline-black btn-sm btn-block" onclick="window.location='{{ route('shop') }}'">Continue Shopping</button>
+                            <button class="btn btn-outline-black btn-sm btn-block"
+                                onclick="window.location='{{ route('shop') }}'">Continue Shopping</button>
                         </div>
                     </div>
                     <div class="row">
@@ -191,7 +195,7 @@
                                     <span class="text-black">Subtotal</span>
                                 </div>
                                 <div class="col-md-6 text-right">
-                                    <strong class="text-black">${{$sub_total}}</strong>
+                                    <strong class="text-black">${{ $sub_total }}</strong>
                                 </div>
                             </div>
                             <div class="row mb-5">
@@ -199,13 +203,14 @@
                                     <span class="text-black">Total</span>
                                 </div>
                                 <div class="col-md-6 text-right">
-                                    <strong class="text-black">${{$sub_total}}</strong>
+                                    <strong class="text-black">${{ $sub_total }}</strong>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="col-md-12">
-                                    <button class="btn btn-black btn-lg py-3 btn-block" onclick="window.location='{{ route('checkout') }}'">Proceed To Checkout</button>
+                                    <button class="btn btn-black btn-lg py-3 btn-block"
+                                        onclick="window.location='{{ route('checkout') }}'">Proceed To Checkout</button>
                                 </div>
                             </div>
                         </div>

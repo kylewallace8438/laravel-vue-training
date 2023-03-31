@@ -269,10 +269,10 @@
                                             <tr>
                                                 <td> {{ $cart->product->name }} <strong class="mx-2">x</strong>
                                                     {{ $cart->amount }}</td>
-                                                <td>${{ $cart->amount * $cart->discount_price }}</td>
+                                                <td>${{ $cart->amount * $cart->price }}</td>
                                             </tr>
                                             @php
-                                                $sub_total += $cart->amount * $cart->discount_price;
+                                                $sub_total += $cart->amount * $cart->price;
                                             @endphp
                                         @endforeach
                                         {{-- <tr>
@@ -285,7 +285,8 @@
                                         </tr>
                                         <tr>
                                             <td class="text-black font-weight-bold"><strong>Order Total</strong></td>
-                                            <td class="text-black font-weight-bold"><strong>${{ $sub_total }}</strong></td>
+                                            <td class="text-black font-weight-bold"><strong>${{ $sub_total }}</strong>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -334,7 +335,7 @@
 
                                 <div class="form-group">
                                     <button class="btn btn-black btn-lg py-3 btn-block"
-                                        onclick="window.location='{{route('thankyou')}}'">Place Order</button>
+                                        onclick="window.location='{{ route('thankyou') }}'">Place Order</button>
                                 </div>
 
                             </div>

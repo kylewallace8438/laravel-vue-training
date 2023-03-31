@@ -20,6 +20,8 @@ class Order extends Model
     protected $attributes = [
         'coupon_id' => 0,
         'status' => 0,
+        'address' => '',
+
     ];
 
     public function order_detail()

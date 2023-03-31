@@ -20,9 +20,10 @@
         </section>
 
         <!-- Main content -->
-        <section class="content">
-            <form method="POST" action="{{ route('coupon.create.store') }}" enctype="multipart/form-data">
-                @csrf
+        <form method="POST" action="{{ route('coupon.create.store') }}">
+            @csrf
+            <section class="content">
+
                 <div class="row">
                     <div class="col-md-6">
                         <div class="card card-primary">
@@ -43,19 +44,23 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="des">Description</label>
-                                    <textarea id="des" class="form-control" rows="4"></textarea>
+                                    <textarea id="des" name="des" class="form-control" rows="4"></textarea>
                                 </div>
                                 <div class="form-group">
                                     <label for="price_type">coupon type</label>
                                     <select id="price_type" class="form-control custom-select" name="price_type">
                                         <option selected disabled>Select one</option>
-                                        <option>%</option>
-                                        <option>$</option>
+                                        <option value="1">%</option>
+                                        <option value="2">$</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="price">Price</label>
+                                    <label for="price">Value</label>
                                     <input type="text" id="price" class="form-control" name="price">
+                                </div>
+                                <div class="form-group">
+                                    <label for="condition">condition price</label>
+                                    <input type="text" id="condition" class="form-control" name="condition">
                                 </div>
 
                             </div>
@@ -80,19 +85,17 @@
 
                                     <div class="form-group" style="width:100%;">
                                         <label>USERS</label>
-                                        <select class="form-control select2" multiple>
-                                            <option selected="selected">All</option>
-                                            <option>Alaska</option>
-                                            <option>California</option>
-                                            <option>Delaware</option>
-                                            <option>Tennessee</option>
-                                            <option>Texas</option>
-                                            <option>Washington</option>
+                                        <select class="form-control select2" name="user[]" multiple="multiple">
+                                            <option selected="All" value="All">All</option>
+                                            @foreach ($users as $user)
+                                                <option value="{{ $user->name }}">{{ $user->name }}</option>
+                                            @endforeach
+
                                         </select>
                                     </div>
                                     <div class="form-group" style="width:100%;">
                                         <label>Products</label>
-                                        <select class="form-control select2" name="product" multiple>
+                                        <select class="form-control select2" name="product[]" multiple="multiple">
                                             <option selected="All">All</option>
                                             @foreach ($products as $product)
                                                 <option value="{{ $product->name }}">{{ $product->name }}</option>
@@ -105,19 +108,16 @@
                             </div>
                             <div class="card-body">
                                 <div class="form-group">
-                                    <label>Date range:</label>
-
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">
-                                                <i class="far fa-calendar-alt"></i>
-                                            </span>
-                                        </div>
-                                        <input type="text" class="form-control float-right" id="reservation">
-                                    </div>
+                                    <label for="date_start">date start</label>
+                                    <input type="date" class="form-control float-right" name="date_start">
                                 </div>
                             </div>
-
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="date_end">date end</label>
+                                    <input type="date" class="form-control float-right" name="date_end">
+                                </div>
+                            </div>
                         </div>
 
 
@@ -127,13 +127,13 @@
                 </div>
                 <div class="row">
                     <div class="col-12">
-                        <a href="#" class="btn btn-secondary">Cancel</a>
-                        <button type="submit" class="btn btn-primary btn-md">Create</button>
+                        <a href="{{ route('coupon.list') }}" class="btn btn-secondary">Cancel</a>
+                        <input type="submit" value="Create new Project" class="btn btn-success float-right">
                     </div>
                 </div>
-            </form>
-        </section>
 
+            </section>
+        </form>
         <!-- /.content -->
     </div>
 
