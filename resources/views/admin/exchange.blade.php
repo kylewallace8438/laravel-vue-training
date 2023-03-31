@@ -6,12 +6,12 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Customers</h1>
+                <h1>Exchange</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{route('admin.home')}}">Home</a></li>
-                    <li class="breadcrumb-item active">Customers</li>
+                    <li class="breadcrumb-item active">Exchange</li>
                 </ol>
             </div>
         </div>
@@ -24,7 +24,7 @@
     <!-- Default box -->
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Customers</h3>
+            <a href="{{route('exchange.add.show')}}" class="card-title"><button type="button" class="btn btn-block btn-primary btn-lg">Add new Coupon Exchange</button></a>
 
             <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -39,38 +39,35 @@
             <table class="table table-striped projects">
                 <thead>
                     <tr>
-                        <th style="width: 15%; text-align:center;">
-                            Customer_id
+                        <th style="width: 1%">
+                            Coupon
                         </th>
                         <th style="width: 20%">
-                            Name
-                        </th>
-                        <th style="width: 30%">
-                            Email
+                            Point
                         </th>
                         <th style="width: 20%">
                         </th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($customers as $customer)
                     <tr>
-                        <td style="text-align: center">
-                            #{{$customer->id}}
+                        <td>
+                            1Q23S3SQ
                         </td>
                         <td>
-                            <a>
-                                {{$customer->name}}
-                            </a>
+                            100
                         </td>
-                        <td>
-                            {{$customer->email}}
-                        </td>
+                        
                         <td class="project-actions text-right">
-                            <a class="btn btn-primary btn-sm" href="{{ route('customers.detail', ['id' => $customer->id]) }}">
+                            <a class="btn btn-primary btn-sm" href="#">
                                 <i class="fas fa-folder">
                                 </i>
                                 View
+                            </a>
+                            <a class="btn btn-info btn-sm" href="#">
+                                <i class="fas fa-pencil-alt">
+                                </i>
+                                Edit
                             </a>
                             <a class="btn btn-danger btn-sm" href="#">
                                 <i class="fas fa-trash">
@@ -79,7 +76,36 @@
                             </a>
                         </td>
                     </tr>
+                    @foreach ($coupons as $coupon)
+                    <tr>
+                        <td>
+                            {{ $coupon->code }}
+                        </td>
+                        <td>
+                            {{ $coupon->point}}
+                        </td>
+                        
+                        <td class="project-actions text-right">
+                            <a class="btn btn-primary btn-sm" href="#">
+                                <i class="fas fa-folder">
+                                </i>
+                                View
+                            </a>
+                            <a class="btn btn-info btn-sm" href="#">
+                                <i class="fas fa-pencil-alt">
+                                </i>
+                                Edit
+                            </a>
+                            <a class="btn btn-danger btn-sm" href="#">
+                                <i class="fas fa-trash">
+                                </i>
+                                Delete
+                            </a>
+                        </td>
+                    </tr>
+                    
                     @endforeach
+                 
                 </tbody>
             </table>
         </div>

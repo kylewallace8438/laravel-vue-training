@@ -49,6 +49,11 @@ class HomeController extends Controller
         return view('demo.contact');
     }
 
+    public function customer()
+    {
+        return view('demo.customer');
+    }
+
     public function cart()
     {
         return view('demo.cart');
