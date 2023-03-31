@@ -235,24 +235,34 @@
                         <div class="col-md-12">
                             <h2 class="h3 mb-3 text-black">Coupon Code</h2>
                             <div class="p-3 p-lg-5 border bg-white">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-primary"><i class="fas fa-paint-brush"></i>Coupon You Have
+                                                Applied</th>
+                                            <th class="product-remove">Remove</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            @if (session('coupon') != null)
+                                                <td>
+                                                    <p> {{ session('coupon')->code }} : {{ session('coupon')->des }}</p>
+                                                </td>
+                                                <td><a href="{{ route('remove.coupon.cart') }}"
+                                                        class="btn btn-black btn-sm">X</a></td>
+                                            @endif
 
-                                <label for="c_code" class="text-black mb-3">Enter your coupon code if you have
-                                    one</label>
-                                <div class="input-group w-75 couponcode-wrap">
-                                    <input type="text" class="form-control me-2" id="c_code"
-                                        placeholder="Coupon Code" aria-label="Coupon Code"
-                                        aria-describedby="button-addon2">
-                                    <div class="input-group-append">
-                                        <button class="btn btn-black btn-sm" type="button"
-                                            id="button-addon2">Apply</button>
-                                    </div>
-                                </div>
+                                        </tr>
+                                    </tbody>
+                                </table>
 
                             </div>
                         </div>
                     </div>
 
-                    <div class="row mb-5">
+                    <div class="row
+                                    mb-5">
                         <div class="col-md-12">
                             <h2 class="h3 mb-3 text-black">Your Order</h2>
                             <div class="p-3 p-lg-5 border bg-white">
@@ -264,15 +274,31 @@
                                     <tbody>
                                         @php
                                             $sub_total = 0;
+                                            $total = 0;
                                         @endphp
                                         @foreach ($carts as $cart)
                                             <tr>
                                                 <td> {{ $cart->product->name }} <strong class="mx-2">x</strong>
                                                     {{ $cart->amount }}</td>
-                                                <td>${{ $cart->amount * $cart->price }}</td>
+                                                @if ($cart->discount_price == -1)
+                                                    <td>
+                                                        ${{ $cart->amount * $cart->price }}
+                                                    </td>
+                                                @else
+                                                    <td>
+                                                        <p style="text-decoration: line-through">
+                                                            ${{ $cart->amount * $cart->price }}</p>
+                                                        ${{ $cart->amount * $cart->discount_price }}
+                                                    </td>
+                                                @endif
                                             </tr>
                                             @php
-                                                $sub_total += $cart->amount * $cart->price;
+                                                if ($cart->discount_price == -1) {
+                                                    $sub_total += $cart->amount * $cart->price;
+                                                } else {
+                                                    $sub_total += $cart->amount * $cart->discount_price;
+                                                }
+                                                $total += $cart->amount * $cart->price;
                                             @endphp
                                         @endforeach
                                         {{-- <tr>
@@ -280,13 +306,27 @@
                                             <td>$100.00</td>
                                         </tr> --}}
                                         <tr>
-                                            <td class="text-black font-weight-bold"><strong>Cart Subtotal</strong></td>
-                                            <td class="text-black">${{ $sub_total }}</td>
+                                            <td class="text-black font-weight-bold"><strong>Cart Subtotal</strong>
+                                            </td>
+                                            <td class="text-black">${{ $total }}</td>
                                         </tr>
                                         <tr>
-                                            <td class="text-black font-weight-bold"><strong>Order Total</strong></td>
-                                            <td class="text-black font-weight-bold"><strong>${{ $sub_total }}</strong>
+                                            <td class="text-black font-weight-bold"><strong>Order Total</strong>
                                             </td>
+                                            <td class="text-black font-weight-bold">
+                                                <strong>${{ $total }}</strong>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-black font-weight-bold"><strong>Order Total After Apply
+                                                    Coupon</strong>
+                                            </td>
+                                            @if ($sub_total != $total)
+                                                <td class="text-black font-weight-bold">
+                                                    <strong>${{ $sub_total }}</strong>
+                                                </td>
+                                            @endif
+
                                         </tr>
                                     </tbody>
                                 </table>
@@ -298,8 +338,10 @@
 
                                     <div class="collapse" id="collapsebank">
                                         <div class="py-2">
-                                            <p class="mb-0">Make your payment directly into our bank account. Please use
-                                                your Order ID as the payment reference. Your order won’t be shipped until
+                                            <p class="mb-0">Make your payment directly into our bank account.
+                                                Please use
+                                                your Order ID as the payment reference. Your order won’t be shipped
+                                                until
                                                 the funds have cleared in our account.</p>
                                         </div>
                                     </div>
@@ -312,8 +354,10 @@
 
                                     <div class="collapse" id="collapsecheque">
                                         <div class="py-2">
-                                            <p class="mb-0">Make your payment directly into our bank account. Please use
-                                                your Order ID as the payment reference. Your order won’t be shipped until
+                                            <p class="mb-0">Make your payment directly into our bank account.
+                                                Please use
+                                                your Order ID as the payment reference. Your order won’t be shipped
+                                                until
                                                 the funds have cleared in our account.</p>
                                         </div>
                                     </div>
@@ -326,8 +370,10 @@
 
                                     <div class="collapse" id="collapsepaypal">
                                         <div class="py-2">
-                                            <p class="mb-0">Make your payment directly into our bank account. Please use
-                                                your Order ID as the payment reference. Your order won’t be shipped until
+                                            <p class="mb-0">Make your payment directly into our bank account.
+                                                Please use
+                                                your Order ID as the payment reference. Your order won’t be shipped
+                                                until
                                                 the funds have cleared in our account.</p>
                                         </div>
                                     </div>
