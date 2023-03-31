@@ -17,4 +17,9 @@ class AdminRole extends Model
     protected $attributes = [
         'status' => 0,
     ];
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
 }
