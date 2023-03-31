@@ -11,26 +11,27 @@
      <div class="sidebar">
          <!-- Sidebar user panel (optional) -->
          <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-            <table>
-                <tr>
-                    <td>
-                        <div class="image info">
-                            <img src="{{ asset('admin_css/dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2"
-                                alt="User Image">
-                        </div>
-                    </td>
-                    <td>
-                        <div class="info">
-                            <a class="d-block">{{ Auth::user()->name }} </a>
-                        </div>
-                    </td>
-                    <td >
-                        <div class="info">
-                        <a href="{{route('admin.logout')}}" style="margin-right: 5px"> <span data-feather="box-arrow-in-left"></span> Logout</a>
-                        </div>
-                    </td>
-                </tr>
-            </table>
+             <table>
+                 <tr>
+                     <td>
+                         <div class="image info">
+                             <img src="{{ asset('admin_css/dist/img/user2-160x160.jpg') }}"
+                                 class="img-circle elevation-2" alt="User Image">
+                         </div>
+                     </td>
+                     <td>
+                         <div class="info">
+                             <a class="d-block">{{ Auth::user()->name }} </a>
+                         </div>
+                     </td>
+                     <td>
+                         <div class="info">
+                             <a href="{{ route('admin.logout') }}" style="margin-right: 5px"> <span
+                                     data-feather="box-arrow-in-left"></span> Logout</a>
+                         </div>
+                     </td>
+                 </tr>
+             </table>
          </div>
 
          <!-- SidebarSearch Form -->
@@ -80,6 +81,7 @@
                  </li>
 
                  <li class="nav-item">
+
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-edit"></i>
                         <p>
@@ -103,6 +105,7 @@
                         
                     </ul>
                 </li>
+
 
                  <li class="nav-item">
                      <a href="/admin/events" class="nav-link">
@@ -151,4 +154,3 @@
      </div>
      <!-- /.sidebar -->
  </aside>
-
