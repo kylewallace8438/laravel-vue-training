@@ -78,14 +78,32 @@
                          </p>
                      </a>
                  </li>
+
                  <li class="nav-item">
-                     <a href="/admin/coupon/create" class="nav-link">
-                         <i class="nav-icon fas fa-chart-pie"></i>
-                         <p>
-                             Coupons
-                         </p>
-                     </a>
-                 </li>
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-edit"></i>
+                        <p>
+                            Coupon
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="/admin/coupon/create" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Coupon</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/admin/exchange" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Exchange</p>
+                            </a>
+                        </li>
+                        
+                    </ul>
+                </li>
+
                  <li class="nav-item">
                      <a href="/admin/events" class="nav-link">
                          <i class="nav-icon fas fa-tree"></i>

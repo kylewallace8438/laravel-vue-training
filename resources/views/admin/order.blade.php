@@ -105,9 +105,14 @@
                                 </td>
 
                                 <td>
-                                    <p class="text-center">{{ $order->status }}</p>
+                                    @if ($order->status==0)
+                                    <p class="text-center">Not paid</p>
+                                    @else
+                                    <p class="text-center">Paid</p>
+                                    @endif
                                 </td>
                                 <td class="project-actions text-right">
+
 
                                     <form action="{{ route('orders.confirm', ['id' => $order->id]) }}" method="post">
                                         @csrf

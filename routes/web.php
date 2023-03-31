@@ -33,10 +33,12 @@ Route::get('/about', [App\Http\Controllers\HomeController::class, 'about'])->nam
 Route::get('/blog', [App\Http\Controllers\HomeController::class, 'blog'])->name('blog');
 Route::get('/contact', [App\Http\Controllers\HomeController::class, 'contact'])->name('contact');
 Route::get('/service', [App\Http\Controllers\HomeController::class, 'service'])->name('service');
+Route::get('/customer', [App\Http\Controllers\HomeController::class, 'customer'])->name('customer');
 Route::get('/cart', [CartController::class, 'show'])->name('cart');
 Route::post('/cart', [CartController::class, 'add_cart'])->name('add.cart');
 Route::get('/checkout', [CartController::class, 'check_out'])->name('checkout');
 Route::get('/thankyou', [CartController::class, 'thank'])->name('thankyou');
+
 
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('formLogin');
 Route::post('/login', [LoginController::class, 'login'])->name('login');
@@ -88,6 +90,10 @@ Route::get('/admin/events', [AdminEventController::class, 'event'])->name('event
 Route::get('/admin/events/add', [AdminEventController::class, 'show'])->name('events.add.show');
 Route::post('/admin/events/add', [AdminEventController::class, 'add_event'])->name('events.add');
 Route::get('/admin/events/edit/{id}', [AdminEventController::class, 'edit'])->name('events.edit');
+Route::get('/admin/events/delete/{id}', [AdminEventController::class, 'delete'])->name('events.delete');
+Route::get('/admin/exchange', [AdminEventController::class, 'exchange'])->name('exchange');
+Route::get('/admin/exchange/add', [AdminEventController::class, 'add_exchange_show'])->name('exchange.add.show');
+Route::post('/admin/exchange/add', [AdminEventController::class, 'add_exchange'])->name('exchange.add');
 
 
 // Auth::routes();
