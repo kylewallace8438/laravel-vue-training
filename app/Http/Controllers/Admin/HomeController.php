@@ -45,9 +45,9 @@ class HomeController extends Controller
         $orders = Order::all();
         return view('admin.order', compact('orders'));
     }
-    public function confirmOrder($id)
+    public function confirmOrder(User $user ,$id)
     {
-
+        $this->authorize('confirm',Order::class);
         Order::where('id', $id)->update(['status' => 1]);
         $event = Event::where('status', 1)->first();
         if ($event != NULL) {
@@ -71,8 +71,9 @@ class HomeController extends Controller
         return redirect('admin/orders');
     }
 
-    public function add_product_show()
+    public function add_product_show(User $user)
     {
+        // $this->authorize('create',Product::class);
         return view('admin.add_product');
     }
 

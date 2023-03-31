@@ -5,9 +5,11 @@ use App\Http\Controllers\Admin\Auth\LoginController as AdminLoginController;
 use App\Http\Controllers\Admin\CouponController as AdminCouponController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\Auth\RegisterController as AdminRegisterController;
+use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\HomeController as AdminHomeController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\EventController as AdminEventController;
+use App\Http\Controllers\Admin\OrderController as AdminOrderController ;
 
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\CartController;
@@ -50,6 +52,9 @@ Route::post('/admin/login', [AdminLoginController::class, 'login'])->name('admin
 
 Route::get('/admin', [AdminHomeController::class, 'dashboard'])->name('admin.home');
 Route::get('/admin/products', [AdminProductController::class, 'product'])->name('products.list');
+Route::get('/admin/products/{id}', [AdminProductController::class, 'show'])->name('products.detail');
+Route::delete('/admin/products/{id}', [AdminProductController::class, 'delete'])->name('products.delete');
+
 
 
 //Admin register
@@ -60,14 +65,21 @@ Route::post('/admin/register', [AdminRegisterController::class, 'register'])->na
 //Admin logout
 Route::get('/admin/logout', [AdminLoginController::class, 'logout'])->name('admin.logout');
 
-Route::get('/admin/customers', [AdminHomeController::class, 'customer'])->name('customers.list');
+Route::get('/admin/customers', [CustomerController::class, 'index'])->name('customers.list');
+Route::get('/admin/customers/{id}', [CustomerController::class, 'show'])->name('customers.detail');
+
 Route::get('/admin/list', [AdminHomeController::class, 'admin_list'])->name('admins.list');
 Route::get('/admin/orders', [AdminHomeController::class, 'order'])->name('orders.list');
-Route::get('/admin/orders/{id}', [AdminHomeController::class, 'confirmOrder'])->name('orders.confirm');
+Route::get('/admin/orders/{id}', [AdminOrderController::class, 'show'])->name('orders.detail');
+Route::post('/admin/orders/{id}', [AdminHomeController::class, 'confirmOrder'])->name('orders.confirm');
+Route::delete('/admin/orders/{id}', [AdminOrderController::class, 'delete'])->name('orders.delete');
+
+
 Route::get('/admin/coupon/create', [AdminCouponController::class, 'createCoupon'])->name('coupon.create');
 Route::post('/admin/coupon', [AdminCouponController::class, 'storeCoupon'])->name('coupon.create.store');
 
 Route::get('/admin/profile/{id}', [AdminRoleController::class, 'profile'])->name('admin.profile');
+Route::post('/admin/profile/{id}', [AdminRoleController::class, 'update'])->name('admin.update.role');
 Route::get('/admin/products/add', [AdminHomeController::class, 'add_product_show'])->name('products.add.show');
 Route::post('/admin/products/add', [AdminProductController::class, 'add_product'])->name('products.add');
 Route::get('/admin/products/edit/{id}', [AdminProductController::class, 'edit_product'])->name('products.edit.show');

@@ -33,6 +33,22 @@ class RoleSeeder extends Seeder
                     'type' => 'Product',
                     'action' => 'Delete',
                 ],
+                [
+                    'type' => 'Customer',
+                    'action' => 'View',
+                ],
+                [
+                    'type' => 'Order',
+                    'action' => 'View',
+                ],
+                [
+                    'type' => 'Order',
+                    'action' => 'Update',
+                ],
+                [
+                    'type' => 'Order',
+                    'action' => 'Delete',
+                ],
             ]
         );
     }
