@@ -13,4 +13,9 @@ class Role extends Model
         'type',
         'action',
     ];
+
+    public function admin_role()
+    {
+        return $this->hasMany(AdminRole::class);
+    }
 }

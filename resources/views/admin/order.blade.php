@@ -41,10 +41,10 @@
                             <th style="width: 8%">
                                 Order_id
                             </th>
-                            <th style="width: 20%">
+                            <th style="width: 15%">
                                 Customer Name
                             </th>
-                            <th style="width: 20%">
+                            <th style="width: 15%">
                                 Address
                             </th>
                             <th style="width: 10%">
@@ -61,20 +61,23 @@
                             </th>
                             <th style="width: 12%">
                             </th>
+                            <th style="width: 12%">
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
-                        
+
                         @foreach ($orders as $order)
                             <tr>
                                 <td>
-                                     <p class="text-center">#{{ $order->id }}</p> 
+                                    <p class="text-center">#{{ $order->id }}</p>
                                 </td>
                                 <td>
                                     <p>
-                                        {{ $order->user_id }}
+                                        <a
+                                            href="{{ route('orders.detail', ['id' => $order->id]) }}">{{ $order->user_id }}</a>
                                     </p>
-                                    
+
                                 </td>
                                 <td>
                                     <p>
@@ -92,33 +95,47 @@
                                 <td>
                                     @php
                                         $products = $order->order_detail;
-                                        $total= 0.00;
+                                        $total = 0.0;
                                         foreach ($products as $product) {
-                                            $total= $total + $product->discount_price * $product->amount;
+                                            $total = $total + $product->discount_price * $product->amount;
                                         }
-                                        echo '<p>'.$total.'</p>';  
+                                        echo '<p>' . $total . '</p>';
                                     @endphp
-                                    
+
                                 </td>
 
                                 <td>
                                     <p class="text-center">{{ $order->status }}</p>
                                 </td>
                                 <td class="project-actions text-right">
-                                    <a class="btn btn-primary btn-sm" href="{{ route('orders.confirm', ['id' => $order->id]) }}">
+
+                                    <form action="{{ route('orders.confirm', ['id' => $order->id]) }}" method="post">
+                                        @csrf
+                                        <button class="btn btn-primary btn-sm" type="submit"> CONFIRM</button>
+                                    </form>
+                                    {{-- <a class="btn btn-primary btn-sm" href="{{ route('orders.confirm', ['id' => $order->id]) }}"> --}}
+                                    {{-- <a class="btn btn-primary btn-sm" href="#">
                                         <i class="fas fa-folder">
                                         </i>
                                         CONFIRM
-                                    </a>
+                                    </a> --}}
 
+                                </td>
+                                <td>
+                                    <form action="{{ route('orders.delete', ['id' => $order->id]) }}" method="post">
+                                        @csrf
+                                        @method('delete')
+                                        <button class="btn btn-danger btn-sm" type="submit"><span class="fas fa-trash">
+                                            </span> Delete </button>
+                                    </form>
                                 </td>
                             </tr>
                         @endforeach
-                        </tbody>
-                    </table>
-                </div>
-                <!-- /.card-body -->
+                    </tbody>
+                </table>
             </div>
+            <!-- /.card-body -->
+        </div>
 
 
     </section>

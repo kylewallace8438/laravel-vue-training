@@ -67,7 +67,7 @@
                             {{$customer->email}}
                         </td>
                         <td class="project-actions text-right">
-                            <a class="btn btn-primary btn-sm" href="#">
+                            <a class="btn btn-primary btn-sm" href="{{ route('customers.detail', ['id' => $customer->id]) }}">
                                 <i class="fas fa-folder">
                                 </i>
                                 View
