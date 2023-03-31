@@ -19,4 +19,15 @@ class Coupon extends Model
         'condition',
         'point',
     ];
+
+    protected $attributes = [
+        'rank'=>0,
+    ];
+
+    public function rank_id()
+    {
+        return $this->belongsTo(Rank::class, 'rank', 'id');
+    }
+
+
 }

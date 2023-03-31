@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Event;
 use App\Models\User;
 use App\Models\Coupon;
+use App\Models\Rank;
 use Illuminate\Console\View\Components\Alert;
 
 class EventController extends Controller
@@ -68,12 +69,22 @@ class EventController extends Controller
 
     public function add_exchange_show()
     {
-        $coupons = Coupon::all();
-        return view('admin.add_exchange', compact('coupons'));
+        $coupons = Coupon::where('point', 0)->get();
+        // dd($coupons->code);
+
+        $ranks = Rank::all();
+        return view('admin.add_exchange', compact('coupons', 'ranks'));
     }
     public function exchange()
     {
-        $coupons = Coupon::where('point', '!=', 0);
+        $coupons = Coupon::where('point', '!=', 0)->get();
         return view('admin.exchange', compact('coupons'));
+    }
+
+    public function add_exchange(Request $request)
+    {
+        // dd($request->get('coupon'));
+        Coupon::where('code', $request->get('coupon'))->update(['rank' => $request->get('rank'), 'point'=>$request->get('point')]);
+        return redirect('admin/exchange/add');
     }
 }

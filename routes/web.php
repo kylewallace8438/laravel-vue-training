@@ -32,6 +32,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/shop', [ShopController::class, 'show'])->name('shop');
 Route::get('/about', [App\Http\Controllers\HomeController::class, 'about'])->name('about');
+Route::get('/gift', [App\Http\Controllers\HomeController::class, 'gift'])->name('gift');
+Route::get('/gift/{id}', [App\Http\Controllers\HomeController::class, 'edit_point'])->name('gift.point');
 Route::get('/blog', [App\Http\Controllers\HomeController::class, 'blog'])->name('blog');
 Route::get('/contact', [App\Http\Controllers\HomeController::class, 'contact'])->name('contact');
 Route::get('/service', [App\Http\Controllers\HomeController::class, 'service'])->name('service');
