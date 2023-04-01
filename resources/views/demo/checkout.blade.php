@@ -249,10 +249,14 @@
                                                 <td>
                                                     <p> {{ session('coupon')->code }} : {{ session('coupon')->des }}</p>
                                                 </td>
-                                                <td><a href="{{ route('remove.coupon.cart') }}"
+                                                <td><a href="{{ route('remove.coupon.checkout') }}"
                                                         class="btn btn-black btn-sm">X</a></td>
                                             @endif
-
+                                            @if (session('status') != null)
+                                                <div class="alert alert-success">
+                                                    {{ session('status') }}
+                                                </div>
+                                            @endif
                                         </tr>
                                     </tbody>
                                 </table>

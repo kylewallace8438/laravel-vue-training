@@ -179,6 +179,27 @@
                                 <button type="submit" class="btn btn-black ">Apply Coupon</button>
                             </div>
                         </div>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th class="text-primary"><i class="fas fa-paint-brush"></i>Coupon You Have
+                                        Applied</th>
+                                    <th class="product-remove">Remove</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    @if (session('coupon') != null)
+                                        <td>
+                                            <p> {{ session('coupon')->code }} : {{ session('coupon')->des }}</p>
+                                        </td>
+                                        <td><a href="{{ route('remove.coupon.cart') }}" class="btn btn-black btn-sm">X</a>
+                                        </td>
+                                    @endif
+
+                                </tr>
+                            </tbody>
+                        </table>
                     </form>
                     <br>
                     @if (session('status') != null)
@@ -200,7 +221,15 @@
                                     <span class="text-black">Subtotal</span>
                                 </div>
                                 <div class="col-md-6 text-right">
-                                    <strong class="text-black">${{ $sub_total }}</strong>
+                                    <strong class="text-black">${{ $total }}</strong>
+                                </div>
+                            </div>
+                            <div class="row mb-5">
+                                <div class="col-md-6">
+                                    <span class="text-black">Discount price</span>
+                                </div>
+                                <div class="col-md-6 text-right">
+                                    <strong class="text-black">${{ $sub_total - $total }}</strong>
                                 </div>
                             </div>
                             <div class="row mb-5">
@@ -208,7 +237,7 @@
                                     <span class="text-black">Total</span>
                                 </div>
                                 <div class="col-md-6 text-right">
-                                    <strong class="text-black">${{ $total }}</strong>
+                                    <strong class="text-black">${{ $sub_total }}</strong>
                                 </div>
                             </div>
 

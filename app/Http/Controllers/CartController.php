@@ -92,7 +92,7 @@ class CartController extends Controller
         return view('demo.checkout', compact('carts'));
     }
 
-    public function remove_coupon()
+    public function remove_coupon_inCheckout()
     {
 
         $user_id = Auth::user()->id;
@@ -100,7 +100,7 @@ class CartController extends Controller
 
         Cart::where('User_id', $user_id)->update(['discount_price' => -1]);
         $carts = Cart::where('user_id', $user_id)->get();
-
+        session()->flash('status', 'Cancel coupon successfully!');
         return view('demo.checkout', compact('carts'));
     }
 
@@ -214,6 +214,18 @@ class CartController extends Controller
 
         $carts = Cart::where('user_id', $user_id)->get();
 
+        return view('demo.cart', compact('carts'));
+    }
+
+    public function remove_coupon()
+    {
+
+        $user_id = Auth::user()->id;
+        Session::forget('coupon');
+
+        Cart::where('User_id', $user_id)->update(['discount_price' => -1]);
+        $carts = Cart::where('user_id', $user_id)->get();
+        session()->flash('status', 'Cancel coupon successfully!');
         return view('demo.cart', compact('carts'));
     }
 

@@ -39,6 +39,7 @@ Route::post('/cart', [CartController::class, 'add_cart'])->name('add.cart');
 Route::any('/cart/{id}', [CartController::class, 'remove_product'])->name('remove.product.cart');
 Route::any('/applycoupon', [CartController::class, 'apply_coupon'])->name('applyCoupon.cart');
 Route::any('/cancelcoupon', [CartController::class, 'remove_coupon'])->name('remove.coupon.cart');
+Route::any('/cancelcoupon/checkout', [CartController::class, 'remove_coupon_inCheckout'])->name('remove.coupon.checkout');
 Route::get('/checkout', [CartController::class, 'check_out'])->name('checkout');
 Route::get('/thankyou', [CartController::class, 'thank'])->name('thankyou');
 
