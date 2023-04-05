@@ -15,21 +15,28 @@
             <div class="col-lg-5 mx-auto text-md-start">
                 <h4 class="section-title">You need {{ $rest_point }} point to rank up </h4>
             </div>
-            <div class="progress" style="margin-bottom: 5px;">
-                <div class="progress-bar" role="progressbar" style="width: {{ $rank_point/20}}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+            <div class="progress" style="margin-bottom: 5px;width:83%;">
+                <div class="progress-bar" role="progressbar" style="width: {{ $rank_point/25}}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
               </div>
-            <div class="progress" style="margin:auto;">
-                <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                <div class="progress-bar bg-info" role="progressbar" style="width: 25%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                <div class="progress-bar bg-warning" role="progressbar" style="width: 25%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                <div class="progress-bar bg-danger" role="progressbar" style="width: 25%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="12"></div>
+            <div class="progress" style="width:83%;">
+                <div class="progress-bar progress-bar-striped" role="progressbar" style="width: 20%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="progress-bar bg-success" role="progressbar" style="width: 20%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="progress-bar bg-info" role="progressbar" style="width: 20%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="progress-bar bg-warning" role="progressbar" style="width: 20%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="progress-bar bg-danger" role="progressbar" style="width: 20%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="12"></div>
               </div>
             <div class="row">
                 @php
                     $i=1;
                 @endphp
+                <div class="col-12 col-md-6 col-lg-2 mb-5 mb-md-0">
+                    <img src="images/rank.jpg" class="img-fluid mb-5">
+                    <h3 class="text-uppercase">No rank</h3>
+                    <p>You don't have a rank
+                    </p>
+                </div>
                 @foreach ($ranks as $rank)
-                <div class="col-12 col-md-6 col-lg-3 mb-5 mb-md-0">
+                <div class="col-12 col-md-6 col-lg-2 mb-5 mb-md-0">
                     <img src="images/rank{{$i}}.jpg" class="img-fluid mb-5">
                     <h3 class="text-uppercase">{{ $rank->rank}}</h3>
                     <p>You need {{ $rank->point}} points to reach this rank

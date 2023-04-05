@@ -56,7 +56,16 @@ class HomeController extends Controller
     public function customer()
     {
         $rank_point = Auth::user()->rank_point;
+        if($rank_point < 500){
+            $rank_name = "No rank";
+            
+            $rest_point = 500 - $rank_point;
+            $ranks = Rank::all();
+            return view('demo.customer', compact('rank_point', 'rest_point', 'rank_name', 'ranks'));
+        }
+
         $ranks = Rank::all();
+        $rank_name = "";
         foreach($ranks as $rank){
             if($rank_point < $rank->point)
             {   
@@ -65,6 +74,12 @@ class HomeController extends Controller
                 break;
             }
         }
+        $id = Rank::where('rank', $rank_name)->first();
+        // dd($id);
+        $rank_id = $id->id - 1;
+        $rank = Rank::where('id', $rank_id)->first();
+        $rank_name = $rank->rank;
+ 
         return view('demo.customer', compact('rank_point', 'rest_point', 'rank_name', 'ranks'));
     }
 
