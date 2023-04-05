@@ -75,7 +75,7 @@
                                 <td>
                                     <p>
                                         <a
-                                            href="{{ route('orders.detail', ['id' => $order->id]) }}">{{ $order->user_id }}</a>
+                                            href="{{ route('orders.detail', ['id' => $order->id]) }}">{{ $order->user->name }}</a>
                                     </p>
 
                                 </td>
@@ -86,7 +86,7 @@
                                 </td>
 
                                 <td class="project-state">
-                                    <p>{{ $order->coupon_id }}</p>
+                                    <p>{{ $order->coupon->code }}</p>
                                 </td>
                                 <td>
                                     <p>{{ $order->create_time }}</p>

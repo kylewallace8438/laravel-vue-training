@@ -84,4 +84,12 @@ class CouponController extends Controller
 
         return view('admin.listCoupon', compact('coupons'));
     }
+
+    public function deleteCoupon($id)
+    {
+
+        Coupon::where('id', $id)->delete();
+        $coupons = Coupon::all();
+        return view('admin.listCoupon', compact('coupons'));
+    }
 }

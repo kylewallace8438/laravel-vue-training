@@ -91,7 +91,8 @@
                      </a>
                      <ul class="nav nav-treeview">
                          <li class="nav-item">
-                             <a href="/admin/coupon/create" class="nav-link">
+                             <a href="/admin/coupon/list" class="nav-link">
+
                                  <i class="far fa-circle nav-icon"></i>
                                  <p>Coupon</p>
                              </a>

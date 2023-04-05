@@ -64,9 +64,10 @@
                     <!-- Start Column 1 -->
                     <div class="col-12 col-md-4 col-lg-3 mb-5">
                         <a class="product-item" href="#">
-                            <img src="images/product-3.png" class="img-fluid product-thumbnail">
+                            <img src="https://noithatphatphat.com/wp-content/uploads/2020/12/sofa-{{ $product->id }}.jpg"
+                                class="img-fluid product-thumbnail">
                             <h3 class="product-title">{{ $product->name }}</h3>
-                            <strong class="product-price">${{$product->price}}</strong>
+                            <strong class="product-price">${{ $product->price }}</strong>
 
                             <span class="icon-cross" onclick="add_cart({{ $product->id }}, 1)">
                                 <img src="images/cross.svg" class="img-fluid">
