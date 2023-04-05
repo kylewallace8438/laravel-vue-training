@@ -6,9 +6,19 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
+    public function add_product_show(Request $request)
+    {
+        if ($request->user()->can('add', Product::class)) {
+            return view('admin.add_product');
+        } else {
+            return redirect()->back()->with('error', 'Access is not allowed');
+        }
+    }
+
     //
     public function add_product(Request $request, User $user)
     {
@@ -21,16 +31,19 @@ class ProductController extends Controller
         Product::create([
             'name' => $name,
             'price' => $price,
-            
+
         ]);
         //  return redirect('formLogin');
-         return view('admin.add_product');
+        return view('admin.add_product');
     }
 
-    public function show(User $user)
+    public function show(Request $request)
     {
-        $this->authorize('view',Product::class);
-        return redirect()->back();
+        if ($request->user()->can('delete', Product::class)) {
+            return redirect()->back();
+        } else {
+            return redirect()->back()->with('error', 'Access is not allowed');
+        }
     }
 
     public function product()
@@ -40,25 +53,30 @@ class ProductController extends Controller
         return view('admin.product', compact('products'));
     }
 
-    public function edit_product($id, User $user)
+    public function edit_product(Request $request, $id)
     {
-        $this->authorize('update',Product::class);
-        $product = Product::find($id);
-        // dd($products);
-        return view('admin.edit_product', compact('product'));
+        if ($request->user()->can('update', Product::class)) {
+            $product = Product::find($id);
+            return view('admin.edit_product', compact('product'));
+        } else {
+            return redirect()->back()->with('error', 'Access is not allowed');
+        }
     }
 
     public function update_product($id, Request $request)
     {
-
-        Product::where('id', $id)->update(['price' =>$request->get('price')]);
+        Product::where('id', $id)->update(['price' => $request->get('price')]);
         $product = Product::find($id);
         return view('admin.edit_product', compact('product'));
     }
 
-    public function delete(User $user)
+    public function delete(Request $request)
     {
-        $this->authorize('delete',Product::class);
-        return redirect()->back();
+        if ($request->user()->can('delete', Product::class)) {
+            return redirect()->back();
+        } else {
+            return redirect()->back()->with('error', 'Access is not allowed');
+        }
+        // return redirect()->back();
     }
 }

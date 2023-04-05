@@ -23,7 +23,7 @@
         <!-- Default box -->
         <div class="card">
             <div class="card-header">
-                <a href="{{ route('products.add.show') }}" class="card-title"><button type="button"
+                <a href="{{ route('products.add.form') }}" class="card-title"><button type="button"
                         class="btn btn-block btn-primary btn-lg">Add new Product</button></a>
 
                 <div class="card-tools">

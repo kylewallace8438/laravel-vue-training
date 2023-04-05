@@ -82,7 +82,12 @@ Route::delete('/admin/orders/{id}', [AdminOrderController::class, 'delete'])->na
 
 Route::get('/admin/profile/{id}', [AdminRoleController::class, 'profile'])->name('admin.profile');
 Route::post('/admin/profile/{id}', [AdminRoleController::class, 'update'])->name('admin.update.role');
-Route::get('/admin/products/add', [AdminHomeController::class, 'add_product_show'])->name('products.add.show');
+Route::get('/admin/role', [AdminRoleController::class, 'index'])->name('admin.role.list');
+Route::post('/admin/role', [AdminRoleController::class, 'create'])->name('admin.role.create');
+
+Route::get('/admin/productsAdd', [AdminProductController::class, 'add_product_show'])->name('products.add.form');
+
+// Route::get('/admin/products/add', [AdminHomeController::class, 'add_product'])->name('products.add.show');
 Route::post('/admin/products/add', [AdminProductController::class, 'add_product'])->name('products.add');
 Route::get('/admin/products/edit/{id}', [AdminProductController::class, 'edit_product'])->name('products.edit.show');
 Route::post('/admin/products/edit/{id}', [AdminProductController::class, 'update_product'])->name('products.edit');

@@ -32,8 +32,8 @@ class UserPolicy
     public function view(User $user)
     {
         $role_id = Role::where('type','Customer')->where('action','View')->first();
-        $status = AdminRole::where('admin_id',$user->id)->where('role_id',$role_id->id)->first();
-        if($status?->status == 1){
+        $status = AdminRole::where('admin_id',$user->id)->where('role_id',$role_id?->id)->first();
+        if($status?->status == 1 || $user->role_user == 0){
             return true;
         } else {
             return false;

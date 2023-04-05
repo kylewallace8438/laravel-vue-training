@@ -85,6 +85,6 @@ class RegisterController extends Controller
             'password' => Hash::make($request->get('password')),
         ]);
 
-        return redirect('formLogin');
+        return redirect('Login');
     }
 }
