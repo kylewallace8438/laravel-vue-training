@@ -4,15 +4,21 @@ namespace App\Http\Controllers\Admin\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\AdminRole;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class RegisterController extends Controller
 {
     public function form_register()
     {
-        return view('admin.register');
+        if(Auth::user()->role_user == 0){
+            return view('admin.register');
+        } else{
+            return redirect()->back();
+        }
     }
 
     public function register(Request $request)
@@ -24,7 +30,8 @@ class RegisterController extends Controller
             'role_user' => 1,
         ]);
 
-        for ($i=1; $i <= 8 ; $i++) { 
+        $roles = Role::all();
+        for ($i=1; $i <= count($roles) ; $i++) { 
             AdminRole::create([
                 'admin_id' => $user->id,
                 'role_id' => $i,

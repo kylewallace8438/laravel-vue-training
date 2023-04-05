@@ -6,18 +6,25 @@ use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
-    public function show(User $user)
+    public function show(Request $request)
     {
-        $this->authorize('view',Order::class);
-        return redirect()->back();
+        if ($request->user()->can('view', Order::class)) {
+            return redirect()->back();
+        } else {
+            return redirect()->back()->with('error', 'Access is not allowed');
+        }
     }
 
-    public function delete(User $user)
+    public function delete(Request $request)
     {
-        $this->authorize('delete',Order::class);
-        return redirect()->back();
+        if ($request->user()->can('delete', Order::class)) {
+            return redirect()->back();
+        } else {
+            return redirect()->back()->with('error', 'Access is not allowed');
+        }
     }
 }

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
 
 class CustomerController extends Controller
 {
@@ -15,9 +15,12 @@ class CustomerController extends Controller
         return view('admin.customer', compact('customers'));
     }
 
-    public function show(User $user)
+    public function show(Request $request)
     {
-        $this->authorize('view',User::class);
-        return redirect()->back();
+        if ($request->user()->can('view', User::class)) {
+            return redirect()->back();
+        } else {
+            return redirect()->back()->with('error', 'Access is not allowed');
+        }
     }
 }

@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Support\Facades\Auth;
 
 class ProductPolicy
 {
@@ -33,8 +34,8 @@ class ProductPolicy
     public function view(User $user)
     {
         $role_id = Role::where('type','Product')->where('action','View')->first();
-        $status = AdminRole::where('admin_id',$user->id)->where('role_id',$role_id->id)->first();
-        if($status?->status == 1){
+        $status = AdminRole::where('admin_id',$user->id)->where('role_id',$role_id?->id)->first();
+        if($status?->status == 1 || $user->role_user == 0){
             return true;
         } else {
             return false;
@@ -47,12 +48,12 @@ class ProductPolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function create(User $user)
+    public function add(User $user)
     {
         $role_id = Role::where('type','Product')->where('action','Create')->first();
-        $status = AdminRole::where('admin_id',$user->id)->where('role_id',$role_id->id)->first();
-        if($status?->status == 1){
-            return view('admin.add_product');;
+        $status = AdminRole::where('admin_id',$user->id)->where('role_id',$role_id?->id)->first();
+        if($status?->status == 1 || $user->role_user == 0){
+            return true;
         } else {
             return false;
         }
@@ -68,8 +69,8 @@ class ProductPolicy
     public function update(User $user)
     {
         $role_id = Role::where('type','Product')->where('action','Update')->first();
-        $status = AdminRole::where('admin_id',$user->id)->where('role_id',$role_id->id)->first();
-        if($status?->status == 1){
+        $status = AdminRole::where('admin_id',$user->id)->where('role_id',$role_id?->id)->first();
+        if($status?->status == 1 || $user->role_user == 0){
             return true;
         } else {
             return false;
@@ -86,8 +87,8 @@ class ProductPolicy
     public function delete(User $user)
     {
         $role_id = Role::where('type','Product')->where('action','Delete')->first();
-        $status = AdminRole::where('admin_id',$user->id)->where('role_id',$role_id->id)->first();
-        if($status?->status == 1){
+        $status = AdminRole::where('admin_id',$user->id)->where('role_id',$role_id?->id)->first();
+        if($status?->status == 1 || $user->role_user == 0){
             return true;
         } else {
             return false;

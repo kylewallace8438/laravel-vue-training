@@ -72,7 +72,37 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr style="text-align: center">
+                                        @foreach ($types as $type)
+                                            <tr style="text-align: center">
+                                                <td> {{$type->type}} </td>
+                                                @foreach ($actions as $action)
+                                                <td>
+                                                    <div class="icheck-primary d-inline">
+                                                        @php
+                                                            $status = 0;
+                                                        @endphp
+                                                        @foreach ($roles as $role)
+                                                            @php
+                                                                if ($role->role->type == $type->type && $role->role->action == $action) {
+                                                                    $status = $role->status;
+                                                                }
+                                                            @endphp
+                                                        @endforeach
+                                                        @if ($status == 0)
+                                                            <input type="checkbox" id= "{{$type->type}}-{{$action}}" name="role[]"
+                                                                value="{{$type->type}}-{{$action}}">
+                                                        @else
+                                                            <input type="checkbox" id="{{$type->type}}-{{$action}}" name="role[]"
+                                                                value="{{$type->type}}-{{$action}}" checked>
+                                                        @endif
+                                                        <label for="{{$type->type}}-{{$action}}">
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                @endforeach
+                                            </tr>
+                                        @endforeach
+                                        {{-- <tr style="text-align: center">
                                             <td> Products </td>
                                             <td>
                                                 <div class="icheck-primary d-inline">
@@ -110,13 +140,13 @@
                                                         @endphp
                                                     @endforeach
                                                     @if ($status == 0)
-                                                    <input type="checkbox" id="Product-Create" name="role[]"
-                                                    value="Product-Create">
+                                                        <input type="checkbox" id="Product-Create" name="role[]"
+                                                            value="Product-Create">
                                                     @else
-                                                    <input type="checkbox" id="Product-Create" name="role[]"
-                                                    value="Product-Create" checked>
+                                                        <input type="checkbox" id="Product-Create" name="role[]"
+                                                            value="Product-Create" checked>
                                                     @endif
-                                                    
+
                                                     <label for="Product-Create">
                                                     </label>
                                                 </div>
@@ -134,13 +164,13 @@
                                                         @endphp
                                                     @endforeach
                                                     @if ($status == 0)
-                                                    <input type="checkbox" id="Product-Update" name="role[]"
-                                                    value="Product-Update">
+                                                        <input type="checkbox" id="Product-Update" name="role[]"
+                                                            value="Product-Update">
                                                     @else
-                                                    <input type="checkbox" id="Product-Update" name="role[]"
-                                                    value="Product-Update" checked>
+                                                        <input type="checkbox" id="Product-Update" name="role[]"
+                                                            value="Product-Update" checked>
                                                     @endif
-                                                    
+
                                                     <label for="Product-Update">
                                                     </label>
                                                 </div>
@@ -158,13 +188,13 @@
                                                         @endphp
                                                     @endforeach
                                                     @if ($status == 0)
-                                                    <input type="checkbox" id="Product-Delete" name="role[]"
-                                                    value="Product-Delete">
+                                                        <input type="checkbox" id="Product-Delete" name="role[]"
+                                                            value="Product-Delete">
                                                     @else
-                                                    <input type="checkbox" id="Product-Delete" name="role[]"
-                                                    value="Product-Delete" checked>
+                                                        <input type="checkbox" id="Product-Delete" name="role[]"
+                                                            value="Product-Delete" checked>
                                                     @endif
-                                                    
+
                                                     <label for="Product-Delete">
                                                     </label>
                                                 </div>
@@ -186,13 +216,13 @@
                                                         @endphp
                                                     @endforeach
                                                     @if ($status == 0)
-                                                    <input type="checkbox" id="Customer-View" name="role[]"
-                                                    value="Customer-View">
+                                                        <input type="checkbox" id="Customer-View" name="role[]"
+                                                            value="Customer-View">
                                                     @else
-                                                    <input type="checkbox" id="Customer-View" name="role[]"
-                                                    value="Customer-View" checked>
+                                                        <input type="checkbox" id="Customer-View" name="role[]"
+                                                            value="Customer-View" checked>
                                                     @endif
-                                                    
+
                                                     <label for="Customer-View">
                                                     </label>
                                                 </div>
@@ -234,13 +264,13 @@
                                                         @endphp
                                                     @endforeach
                                                     @if ($status == 0)
-                                                    <input type="checkbox" id="Order-View" name="role[]"
-                                                    value="Order-View">
+                                                        <input type="checkbox" id="Order-View" name="role[]"
+                                                            value="Order-View">
                                                     @else
-                                                    <input type="checkbox" id="Order-View" name="role[]"
-                                                    value="Order-View" checked>
+                                                        <input type="checkbox" id="Order-View" name="role[]"
+                                                            value="Order-View" checked>
                                                     @endif
-                                                    
+
                                                     <label for="Order-View">
                                                     </label>
                                                 </div>
@@ -265,13 +295,13 @@
                                                         @endphp
                                                     @endforeach
                                                     @if ($status == 0)
-                                                    <input type="checkbox" id="Order-Update" name="role[]"
-                                                    value="Order-Update">
+                                                        <input type="checkbox" id="Order-Update" name="role[]"
+                                                            value="Order-Update">
                                                     @else
-                                                    <input type="checkbox" id="Order-Update" name="role[]"
-                                                    value="Order-Update" checked>
+                                                        <input type="checkbox" id="Order-Update" name="role[]"
+                                                            value="Order-Update" checked>
                                                     @endif
-                                                    
+
                                                     <label for="Order-Update">
                                                     </label>
                                                 </div>
@@ -289,19 +319,19 @@
                                                         @endphp
                                                     @endforeach
                                                     @if ($status == 0)
-                                                    <input type="checkbox" id="Order-Delete" name="role[]"
-                                                    value="Order-Delete">
+                                                        <input type="checkbox" id="Order-Delete" name="role[]"
+                                                            value="Order-Delete">
                                                     @else
-                                                    <input type="checkbox" id="Order-Delete" name="role[]"
-                                                    value="Order-Delete" checked>
+                                                        <input type="checkbox" id="Order-Delete" name="role[]"
+                                                            value="Order-Delete" checked>
                                                     @endif
-                                                    
+
                                                     <label for="Order-Delete">
                                                     </label>
                                                 </div>
                                             </td>
 
-                                        </tr>
+                                        </tr> --}}
                                     </tbody>
                                 </table>
                                 <!-- /.tab-content -->

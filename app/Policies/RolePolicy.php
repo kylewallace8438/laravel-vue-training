@@ -3,12 +3,11 @@
 namespace App\Policies;
 
 use App\Models\AdminRole;
-use App\Models\Order;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class OrderPolicy
+class RolePolicy
 {
     use HandlesAuthorization;
 
@@ -20,39 +19,20 @@ class OrderPolicy
      */
     public function viewAny(User $user)
     {
-        //
+        
     }
 
     /**
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Order  $order
+     * @param  \App\Models\Role  $role
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user)
+    public function view(User $user, Role $role)
     {
-        $role_id = Role::where('type','Order')->where('action','View')->first();
-        $status = AdminRole::where('admin_id',$user->id)->where('role_id',$role_id?->id)->first();
-        if($status?->status == 1 || $user->role_user == 0){
-            return true;
-        } else {
-            return false;
-        }
+        //
     }
-
-    public function confirm(User $user)
-    {
-        $role_id = Role::where('type','Order')->where('action','Update')->first();
-        $status = AdminRole::where('admin_id',$user->id)->where('role_id',$role_id?->id)->first();
-        if($status?->status == 1 || $user->role_user == 0){
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-
 
     /**
      * Determine whether the user can create models.
@@ -69,10 +49,10 @@ class OrderPolicy
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Order  $order
+     * @param  \App\Models\Role  $role
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, Order $order)
+    public function update(User $user, Role $role)
     {
         //
     }
@@ -81,29 +61,22 @@ class OrderPolicy
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Order  $order
+     * @param  \App\Models\Role  $role
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user)
+    public function delete(User $user, Role $role)
     {
-        $role_id = Role::where('type','Order')->where('action','Delete')->first();
-        $status = AdminRole::where('admin_id',$user->id)->where('role_id',$role_id?->id)->first();
-        if($status?->status == 1 || $user->role_user == 0){
-            return true;
-        } else {
-            return false;
-            // return redirect()->route('orders.list')->with('error','You have no role');
-        }
+        //
     }
 
     /**
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Order  $order
+     * @param  \App\Models\Role  $role
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, Order $order)
+    public function restore(User $user, Role $role)
     {
         //
     }
@@ -112,10 +85,10 @@ class OrderPolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Order  $order
+     * @param  \App\Models\Role  $role
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, Order $order)
+    public function forceDelete(User $user, Role $role)
     {
         //
     }
