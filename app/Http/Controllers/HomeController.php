@@ -77,10 +77,16 @@ class HomeController extends Controller
         foreach($ranks as $rank){
             $max_id = $rank->id;
         }
-        $id = Rank::where('rank', $rank_name)->first()->id;
+        // dd($max_id);
+        $rank = Rank::where('rank', $rank_name)->first();
+        $id = $rank->id;
+        // dd($id);
         if($id<$max_id)
         {
-            $rest_point = Rank::where('id', $id + 1)->first()->point - $id->point;
+            $id = $id + 1;
+            // $point = Rank::where('id', $id)->first()->point;
+            // dd($rank_point);
+            $rest_point = Rank::where('id', $id)->first()->point - $rank_point;
         }
         else $rest_point = 0;
         return view('demo.customer', compact('rank_point', 'rest_point', 'rank_name', 'ranks'));
