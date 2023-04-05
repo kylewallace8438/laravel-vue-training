@@ -315,21 +315,20 @@
                                             <td class="text-black">${{ $total }}</td>
                                         </tr>
                                         <tr>
-                                            <td class="text-black font-weight-bold"><strong>Order Total</strong>
+                                            <td class="text-black font-weight-bold"><strong>Discount price</strong>
                                             </td>
                                             <td class="text-black font-weight-bold">
-                                                <strong>${{ $total }}</strong>
+                                                <strong>${{ $sub_total - $total }}</strong>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td class="text-black font-weight-bold"><strong>Order Total After Apply
-                                                    Coupon</strong>
+                                            <td class="text-black font-weight-bold"><strong>Order Total</strong>
                                             </td>
-                                            @if ($sub_total != $total)
-                                                <td class="text-black font-weight-bold">
-                                                    <strong>${{ $sub_total }}</strong>
-                                                </td>
-                                            @endif
+
+                                            <td class="text-black font-weight-bold">
+                                                <strong>${{ $sub_total }}</strong>
+                                            </td>
+
 
                                         </tr>
                                     </tbody>
