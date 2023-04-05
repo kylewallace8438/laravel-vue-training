@@ -62,6 +62,7 @@
 
             <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
                 @if (Auth::check())
+                    <li><a class="nav-link" href="{{ route('gift') }}">Gifts</a>
                     <li><a class="nav-link" href="{{ route('customer') }}"><img src="{{ asset('images/user.svg') }}"></a></li>
                     <li><a class="nav-link" href="{{ route('cart') }}"><img src="{{ asset('images/cart.svg') }}"></a>
                     </li>

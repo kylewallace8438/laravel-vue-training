@@ -46,6 +46,9 @@
                             Point
                         </th>
                         <th style="width: 20%">
+                            Rank
+                        </th>
+                        <th style="width: 20%">
                         </th>
                     </tr>
                 </thead>
@@ -56,6 +59,9 @@
                         </td>
                         <td>
                             100
+                        </td>
+                        <td>
+                            Silver
                         </td>
                         
                         <td class="project-actions text-right">
@@ -82,7 +88,10 @@
                             {{ $coupon->code }}
                         </td>
                         <td>
-                            {{ $coupon->point}}
+                            {{ $coupon->point }}
+                        </td>
+                        <td>
+                            {{ $coupon->rank_id->rank }}
                         </td>
                         
                         <td class="project-actions text-right">
