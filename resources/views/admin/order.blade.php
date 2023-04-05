@@ -86,7 +86,7 @@
                                 </td>
 
                                 <td class="project-state">
-                                    <p>{{ $order->coupon->code }}</p>
+                                    <p>{{ $order->coupon?->code }}</p>
                                 </td>
                                 <td>
                                     <p>{{ $order->create_time }}</p>

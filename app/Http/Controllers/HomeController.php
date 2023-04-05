@@ -67,19 +67,22 @@ class HomeController extends Controller
         $ranks = Rank::all();
         $rank_name = "";
         foreach($ranks as $rank){
-            if($rank_point < $rank->point)
+            if($rank_point > $rank->point)
             {   
                 $rank_name = $rank->rank;
-                $rest_point = $rank->point - $rank_point;
-                break;
+                // $rest_point = $rank->point - $rank_point;
+                
             }
         }
-        $id = Rank::where('rank', $rank_name)->first();
-        // dd($id);
-        $rank_id = $id->id - 1;
-        $rank = Rank::where('id', $rank_id)->first();
-        $rank_name = $rank->rank;
- 
+        foreach($ranks as $rank){
+            $max_id = $rank->id;
+        }
+        $id = Rank::where('rank', $rank_name)->first()->id;
+        if($id<$max_id)
+        {
+            $rest_point = Rank::where('id', $id + 1)->first()->point - $id->point;
+        }
+        else $rest_point = 0;
         return view('demo.customer', compact('rank_point', 'rest_point', 'rank_name', 'ranks'));
     }
 
