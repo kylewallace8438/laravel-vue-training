@@ -97,6 +97,7 @@ class HomeController extends Controller
             $rest_point = 0;
         }
 
+
         return view('demo.customer', compact('rank_point', 'rest_point', 'rank_name', 'ranks'));
     }
 
@@ -110,6 +111,7 @@ class HomeController extends Controller
         // $ranks = Rank::where('point', '<=', $rank_point)->pluck('id')->toArray();
         // $coupons = Coupon::whereIN('rank', $ranks)->get();
         $coupons = $this->eventRepository->getCouponofUser();
+
         $point = Auth::user()->current_point;
 
         return view('demo.gift', compact('coupons', 'point'));
@@ -128,6 +130,7 @@ class HomeController extends Controller
         
         // dd($user->id);
         // dd($coupon_id);
+
         if ($coupon_id == null) {
             $coupon_user = ['user_id' => $user->id, 'coupon_id' => $id];
             $this->couponRepository->create($coupon_user);

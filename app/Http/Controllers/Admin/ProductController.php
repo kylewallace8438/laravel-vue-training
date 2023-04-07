@@ -31,7 +31,9 @@ class ProductController extends Controller
         return view('admin.add_product');
     }
 
+
     public function addProductShow(Request $request)
+
     {
         if ($request->user()->can('add', Product::class)) {
             return view('admin.add_product');

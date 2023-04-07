@@ -6,6 +6,7 @@ use App\Repositories\ProductRepository;
 
 class ShopController extends Controller
 {
+
     protected $productRepository;
 
     public function __construct(ProductRepository $productRepository)
@@ -16,7 +17,7 @@ class ShopController extends Controller
     {
 
         $products = $this->productRepository->show();
+
         return view('demo.shop', compact('products'));
     }
-
 }
