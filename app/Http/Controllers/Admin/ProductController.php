@@ -7,9 +7,31 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use App\Repositories\ProductRepository;
 
 class ProductController extends Controller
 {
+    protected $productRepository;
+
+    public function __construct(ProductRepository $productRepository)
+    {
+        $this->productRepository = $productRepository;
+    }
+
+    public function add_product(Request $request)
+    {
+
+        $name = $request->get('name');
+        $price = $request->get('price');
+        
+        $product=[
+            'name' => $name,
+            'price' => $price,
+        ];
+        $this->productRepository->create($product);
+        return view('admin.add_product');
+    }
+    
     public function add_product_show(Request $request)
     {
         if ($request->user()->can('add', Product::class)) {
@@ -20,22 +42,6 @@ class ProductController extends Controller
     }
 
     //
-    public function add_product(Request $request, User $user)
-    {
-
-        $name = $request->get('name');
-        // dd($name);
-        $price = $request->get('price');
-        // dd($price);
-
-        Product::create([
-            'name' => $name,
-            'price' => $price,
-
-        ]);
-        //  return redirect('formLogin');
-        return view('admin.add_product');
-    }
 
     public function show(Request $request)
     {
@@ -48,7 +54,7 @@ class ProductController extends Controller
 
     public function product()
     {
-        $products = Product::all();
+        $products=$this->productRepository->show();
         // dd($products);
         return view('admin.product', compact('products'));
     }
@@ -56,7 +62,7 @@ class ProductController extends Controller
     public function edit_product(Request $request, $id)
     {
         if ($request->user()->can('update', Product::class)) {
-            $product = Product::find($id);
+            $product = $this->productRepository->getById($id);
             return view('admin.edit_product', compact('product'));
         } else {
             return redirect()->back()->with('error', 'Access is not allowed');
@@ -65,8 +71,9 @@ class ProductController extends Controller
 
     public function update_product($id, Request $request)
     {
-        Product::where('id', $id)->update(['price' => $request->get('price')]);
-        $product = Product::find($id);
+        $product = ['price' => $request->get('price')];
+        $this->productRepository->update($id, $product);
+        $product = $this->productRepository->getById($id);
         return view('admin.edit_product', compact('product'));
     }
 
