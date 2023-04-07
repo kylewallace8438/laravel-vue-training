@@ -77,7 +77,6 @@ class HomeController extends Controller
 
         $rank = Rank::where('rank', $rank_name)->first();
         $id = $rank->id;
-
         if ($id < $max_id) {
             $id = $id + 1;
 
@@ -85,6 +84,7 @@ class HomeController extends Controller
         } else {
             $rest_point = 0;
         }
+
 
         return view('demo.customer', compact('rank_point', 'rest_point', 'rank_name', 'ranks'));
     }
@@ -98,6 +98,24 @@ class HomeController extends Controller
         $rank_point = Auth::user()->rank_point;
         $ranks = Rank::where('point', '<=', $rank_point)->pluck('id')->toArray();
         $coupons = Coupon::whereIN('rank', $ranks)->get();
+
+        // dd($coupons);
+        // dd($ranks);
+        // $coupons =[];
+        // foreach($ranks as $rank){
+        //     // dd($rank->rank);
+        //     // $coupons = Coupon::where('rank', $rank)->get()->toArray();
+        //     $coupon = $rank->rank_coupon()->get()->toArray();
+        //     $coupons = array_merge($coupons, $coupon);
+
+
+        // }
+        // $x = json_encode($coupons);
+
+
+        // dd($x);
+        // $coupons = Coupon::where('rank', $rank_id)->get();
+
         $point = Auth::user()->current_point;
         return view('demo.gift', compact('coupons', 'point', 'ranks'));
     }
@@ -112,6 +130,7 @@ class HomeController extends Controller
         $coupon_id = CouponUser::where('user_id', $user->id)->where('coupon_id', $id)->first();
         // dd($user->id);
         // dd($coupon_id);
+
         if ($coupon_id == null) {
             CouponUser::create(['user_id' => $user->id, 'coupon_id' => $id]);
         }

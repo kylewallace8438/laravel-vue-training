@@ -76,7 +76,6 @@ class CartController extends Controller
 
         $cart = $this->cartRepository->getByUserId($user_id);
         return response()->json($cart);
-
     }
 
     public function removeProduct($id)
@@ -98,7 +97,6 @@ class CartController extends Controller
 
             return view('demo.cart', compact('carts'));
         }
-
     }
 
     public function checkOut()
@@ -147,7 +145,6 @@ class CartController extends Controller
                 $discount_price = $cart->price;
             } else {
                 $discount_price = $cart->discount_price;
-
             }
             $this->orderDetailRepository->create([
                 'order_id' => $newOrder->id,
@@ -224,7 +221,6 @@ class CartController extends Controller
                 } else {
 
                     session()->flash('status', 'The order total is not enough to apply the coupon!');
-
                 }
             } else {
 
@@ -251,5 +247,4 @@ class CartController extends Controller
         session()->flash('status', 'Cancel coupon successfully!');
         return view('demo.cart', compact('carts'));
     }
-
 }

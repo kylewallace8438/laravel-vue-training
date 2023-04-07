@@ -6,12 +6,23 @@ use App\Models\AdminRole;
 use App\Models\Product;
 use App\Models\Role;
 use App\Models\User;
+use App\Repositories\AdminRoleRepository;
+use App\Repositories\RoleRepository;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Support\Facades\Auth;
 
 class ProductPolicy
 {
     use HandlesAuthorization;
+
+    protected $roleRepository;
+    protected $adminRoleRepository;
+
+    public function __construct(RoleRepository $roleRepository, AdminRoleRepository $adminRoleRepository)
+    {
+        $this->roleRepository = $roleRepository;
+        $this->adminRoleRepository = $adminRoleRepository;
+    }
 
     /**
      * Determine whether the user can view any models.
@@ -33,9 +44,9 @@ class ProductPolicy
      */
     public function view(User $user)
     {
-        $role_id = Role::where('type','Product')->where('action','View')->first();
-        $status = AdminRole::where('admin_id',$user->id)->where('role_id',$role_id?->id)->first();
-        if($status?->status == 1 || $user->role_user == 0){
+        $role_id = $this->roleRepository->getRole('Product', 'View');
+        $status = $this->adminRoleRepository->getAdminRole($user->id, $role_id?->id);
+        if ($status?->status == 1 || $user->role_user == 0) {
             return true;
         } else {
             return false;
@@ -50,9 +61,9 @@ class ProductPolicy
      */
     public function add(User $user)
     {
-        $role_id = Role::where('type','Product')->where('action','Create')->first();
-        $status = AdminRole::where('admin_id',$user->id)->where('role_id',$role_id?->id)->first();
-        if($status?->status == 1 || $user->role_user == 0){
+        $role_id = $this->roleRepository->getRole('Product', 'Create');
+        $status = $this->adminRoleRepository->getAdminRole($user->id, $role_id?->id);
+        if ($status?->status == 1 || $user->role_user == 0) {
             return true;
         } else {
             return false;
@@ -68,9 +79,9 @@ class ProductPolicy
      */
     public function update(User $user)
     {
-        $role_id = Role::where('type','Product')->where('action','Update')->first();
-        $status = AdminRole::where('admin_id',$user->id)->where('role_id',$role_id?->id)->first();
-        if($status?->status == 1 || $user->role_user == 0){
+        $role_id = $this->roleRepository->getRole('Product', 'Update');
+        $status = $this->adminRoleRepository->getAdminRole($user->id, $role_id?->id);
+        if ($status?->status == 1 || $user->role_user == 0) {
             return true;
         } else {
             return false;
@@ -86,9 +97,9 @@ class ProductPolicy
      */
     public function delete(User $user)
     {
-        $role_id = Role::where('type','Product')->where('action','Delete')->first();
-        $status = AdminRole::where('admin_id',$user->id)->where('role_id',$role_id?->id)->first();
-        if($status?->status == 1 || $user->role_user == 0){
+        $role_id = $this->roleRepository->getRole('Product', 'Delete');
+        $status = $this->adminRoleRepository->getAdminRole($user->id, $role_id?->id);
+        if ($status?->status == 1 || $user->role_user == 0) {
             return true;
         } else {
             return false;

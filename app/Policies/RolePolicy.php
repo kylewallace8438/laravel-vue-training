@@ -5,11 +5,22 @@ namespace App\Policies;
 use App\Models\AdminRole;
 use App\Models\Role;
 use App\Models\User;
+use App\Repositories\AdminRoleRepository;
+use App\Repositories\RoleRepository;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class RolePolicy
 {
     use HandlesAuthorization;
+
+    protected $roleRepository;
+    protected $adminRoleRepository;
+
+    public function __construct(RoleRepository $roleRepository, AdminRoleRepository $adminRoleRepository)
+    {
+        $this->roleRepository = $roleRepository;
+        $this->adminRoleRepository = $adminRoleRepository;
+    }
 
     /**
      * Determine whether the user can view any models.
@@ -19,7 +30,6 @@ class RolePolicy
      */
     public function viewAny(User $user)
     {
-        
     }
 
     /**

@@ -21,13 +21,11 @@ class Coupon extends Model
     ];
 
     protected $attributes = [
-        'rank'=>0,
+        'rank' => 0,
     ];
 
     public function rank_id()
     {
         return $this->belongsTo(Rank::class, 'rank', 'id');
     }
-
-
 }

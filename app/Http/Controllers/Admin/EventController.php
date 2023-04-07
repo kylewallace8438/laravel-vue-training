@@ -55,7 +55,6 @@ class EventController extends Controller
             if ($event == null) {
                 Event::where('id', $id)->update(['status' => 1]);
             }
-
         }
         return redirect('admin/events');
     }
