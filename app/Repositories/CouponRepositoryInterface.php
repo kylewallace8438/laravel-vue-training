@@ -9,5 +9,7 @@ interface CouponRepositoryInterface extends AbstractRepositoryInterface
     public function getByCode($code);
     public function getCouponUserByCouponId($couponId);
     public function getCouponProductByCouponId($couponId);
+    public function getCouponbyUserCoupon($user,$id);
+
 
 }

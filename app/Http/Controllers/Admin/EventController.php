@@ -8,10 +8,19 @@ use App\Models\Event;
 use App\Models\Rank;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Repositories\EventRepository;
 
 class EventController extends Controller
 {
     //
+
+    protected $eventRepository;
+
+    public function __construct(EventRepository $eventRepository)
+    {
+        $this->eventRepository = $eventRepository;
+    }
+
     public function show()
     {
         return view('admin.add_event');
@@ -67,22 +76,24 @@ class EventController extends Controller
 
     public function addExchangeShow()
     {
-        $coupons = Coupon::where('point', 0)->get();
+        // $coupons = Coupon::where('point', 0)->get();
+        $coupons = $this->eventRepository->getCoupon();
         // dd($coupons->code);
 
-        $ranks = Rank::all();
+        // $ranks = Rank::all();
+        $ranks = $this->eventRepository->getRank();
         return view('admin.add_exchange', compact('coupons', 'ranks'));
     }
     public function exchange()
     {
-        $coupons = Coupon::where('point', '!=', 0)->get();
+        // $coupons = Coupon::where('point', '!=', 0)->get();
+        $coupons = $this->eventRepository->getExchange();
         return view('admin.exchange', compact('coupons'));
     }
 
     public function addExchange(Request $request)
     {
-        // dd($request->get('coupon'));
-        Coupon::where('code', $request->get('coupon'))->update(['rank' => $request->get('rank'), 'point' => $request->get('point')]);
+        $this->eventRepository->updatebyCoupon($request->get('coupon'), $request->get('rank'),  $request->get('point'));
         return redirect('admin/exchange/add');
     }
 }

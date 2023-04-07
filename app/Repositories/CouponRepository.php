@@ -53,4 +53,9 @@ class CouponRepository implements CouponRepositoryInterface
         $coupon_products = CouponProduct::where('coupon_id', $couponId)->get();
         return $coupon_products;
     }
+
+    public function getCouponbyUserCoupon($user,$id)
+    {
+        return CouponUser::where('user_id', $user->id)->where('coupon_id', $id)->first();
+    }
 }

@@ -6,19 +6,29 @@ use App\Models\Coupon;
 use App\Models\CouponUser;
 use App\Models\Rank;
 use App\Models\User;
+use App\Repositories\CouponRepository;
 use Illuminate\Support\Facades\Auth;
+use App\Repositories\EventRepository;
+
 
 class HomeController extends Controller
 {
+
+    protected $eventRepository;
+    protected $couponRepository;
+
+    public function __construct(EventRepository $eventRepository, CouponRepository $couponRepository)
+    {
+        $this->eventRepository = $eventRepository;
+        $this->couponRepository = $couponRepository;
+    }
+
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
-    {
-        // $this->middleware('auth');
-    }
+  
 
     /**
      * Show the application dashboard.
@@ -59,11 +69,11 @@ class HomeController extends Controller
             $rank_name = "No rank";
 
             $rest_point = 500 - $rank_point;
-            $ranks = Rank::all();
+            $ranks = $this->eventRepository->getRank();
             return view('demo.customer', compact('rank_point', 'rest_point', 'rank_name', 'ranks'));
         }
 
-        $ranks = Rank::all();
+        $ranks = $this->eventRepository->getRank();
         $rank_name = "";
         foreach ($ranks as $rank) {
             if ($rank_point > $rank->point) {
@@ -75,12 +85,14 @@ class HomeController extends Controller
             $max_id = $rank->id;
         }
 
-        $rank = Rank::where('rank', $rank_name)->first();
-        $id = $rank->id;
+        // $rank = Rank::where('rank', $rank_name)->first();
+        $id = $this->eventRepository->getIdbyRank($rank_name);
+
         if ($id < $max_id) {
             $id = $id + 1;
 
-            $rest_point = Rank::where('id', $id)->first()->point - $rank_point;
+            // $rest_point = Rank::where('id', $id)->first()->point - $rank_point;
+            $rest_point = $this->eventRepository->getRankPoint($id) - $rank_point;
         } else {
             $rest_point = 0;
         }
@@ -95,48 +107,39 @@ class HomeController extends Controller
     }
     public function gift()
     {
-        $rank_point = Auth::user()->rank_point;
-        $ranks = Rank::where('point', '<=', $rank_point)->pluck('id')->toArray();
-        $coupons = Coupon::whereIN('rank', $ranks)->get();
-
-        // dd($coupons);
-        // dd($ranks);
-        // $coupons =[];
-        // foreach($ranks as $rank){
-        //     // dd($rank->rank);
-        //     // $coupons = Coupon::where('rank', $rank)->get()->toArray();
-        //     $coupon = $rank->rank_coupon()->get()->toArray();
-        //     $coupons = array_merge($coupons, $coupon);
-
-
-        // }
-        // $x = json_encode($coupons);
-
-
-        // dd($x);
-        // $coupons = Coupon::where('rank', $rank_id)->get();
+        // $rank_point = Auth::user()->rank_point;
+        // $ranks = Rank::where('point', '<=', $rank_point)->pluck('id')->toArray();
+        // $coupons = Coupon::whereIN('rank', $ranks)->get();
+        $coupons = $this->eventRepository->getCouponofUser();
 
         $point = Auth::user()->current_point;
-        return view('demo.gift', compact('coupons', 'point', 'ranks'));
+
+        return view('demo.gift', compact('coupons', 'point'));
     }
 
     public function editPoint($id)
     {
         // dd($id);
-        $x = Coupon::where('id', $id)->first();
+        // $x = Coupon::where('id', $id)->first();
+        $coupon = $this->couponRepository->getById($id);
 
-        $point = $x->point;
+        $point = $coupon->point;
         $user = Auth::user();
-        $coupon_id = CouponUser::where('user_id', $user->id)->where('coupon_id', $id)->first();
+        // $coupon_id = CouponUser::where('user_id', $user->id)->where('coupon_id', $id)->first();
+        $coupon_id = $this->couponRepository->getCouponbyUserCoupon($user,$id);
+        
         // dd($user->id);
         // dd($coupon_id);
 
         if ($coupon_id == null) {
-            CouponUser::create(['user_id' => $user->id, 'coupon_id' => $id]);
+            $coupon_user = ['user_id' => $user->id, 'coupon_id' => $id];
+            $this->couponRepository->create($coupon_user);
+            // CouponUser::create(['user_id' => $user->id, 'coupon_id' => $id]);
         }
         $current_point = $user->current_point;
         $current_point = $current_point - $point;
-        User::where('id', $user->id)->update(['current_point' => $current_point]);
+        // User::where('id', $user->id)->update(['current_point' => $current_point]);
+        $this->eventRepository->updatePoint($user, $current_point);
         return redirect('gift');
     }
 }
