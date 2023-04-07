@@ -2,8 +2,10 @@
 namespace App\Repositories;
 
 use App\Models\Coupon;
+use App\Models\CouponProduct;
+use App\Models\CouponUser;
 
-class CouponRepository implements AbstractRepositoryInterface
+class CouponRepository implements CouponRepositoryInterface
 {
     public function show()
     {
@@ -27,5 +29,28 @@ class CouponRepository implements AbstractRepositoryInterface
     {
         $coupon = Coupon::find($id);
         $coupon->delete();
+    }
+    public function createCouponUser(array $attributes)
+    {
+        CouponUser::create($attributes);
+    }
+    public function createCouponProduct(array $attributes)
+    {
+        CouponProduct::create($attributes);
+    }
+    public function getByCode($code)
+    {
+        $coupon = Coupon::where('code', $code)->first();
+        return $coupon;
+    }
+    public function getCouponUserByCouponId($couponId)
+    {
+        $coupon_users = CouponUser::where('coupon_id', $couponId)->get();
+        return $coupon_users;
+    }
+    public function getCouponProductByCouponId($couponId)
+    {
+        $coupon_products = CouponProduct::where('coupon_id', $couponId)->get();
+        return $coupon_products;
     }
 }

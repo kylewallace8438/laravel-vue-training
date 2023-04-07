@@ -203,9 +203,15 @@
                     </form>
                     <br>
                     @if (session('status') != null)
-                        <div class="alert alert-success">
-                            {{ session('status') }}
-                        </div>
+                        @if (session('status') == 'Coupon applied successfully!' || session('status') == 'Cancel coupon successfully!')
+                            <div class="alert alert-success">
+                                {{ session('status') }}
+                            </div>
+                        @else
+                            <div class="alert alert-danger">
+                                {{ session('status') }}
+                            </div>
+                        @endif
                     @endif
                 </div>
                 <div class="col-md-6 pl-5">

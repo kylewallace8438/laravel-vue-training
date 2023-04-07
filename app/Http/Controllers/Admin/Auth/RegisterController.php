@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Hash;
 
 class RegisterController extends Controller
 {
-    public function form_register()
+    public function formRegister()
     {
         if(Auth::user()->role_user == 0){
             return view('admin.register');

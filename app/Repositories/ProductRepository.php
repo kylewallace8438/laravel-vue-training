@@ -3,7 +3,7 @@ namespace App\Repositories;
 
 use App\Models\Product;
 
-class ProductRepository implements AbstractRepositoryInterface
+class ProductRepository implements ProductRepositoryInterface
 {
     public function show()
     {
@@ -28,4 +28,10 @@ class ProductRepository implements AbstractRepositoryInterface
         $product = Product::find($id);
         $product->delete();
     }
+    public function getByName($name)
+    {
+        $product = Product::where('name', $name)->first();
+        return $product;
+    }
+
 }
