@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\User;
-use App\Models\Rank;
 use App\Models\Coupon;
 use App\Models\CouponUser;
+use App\Models\Rank;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
@@ -69,23 +68,24 @@ class HomeController extends Controller
         foreach ($ranks as $rank) {
             if ($rank_point > $rank->point) {
                 $rank_name = $rank->rank;
-                // $rest_point = $rank->point - $rank_point;
 
             }
         }
         foreach ($ranks as $rank) {
             $max_id = $rank->id;
         }
-        // dd($max_id);
+
         $rank = Rank::where('rank', $rank_name)->first();
         $id = $rank->id;
-        // dd($id);
         if ($id < $max_id) {
             $id = $id + 1;
-            // $point = Rank::where('id', $id)->first()->point;
-            // dd($rank_point);
+
             $rest_point = Rank::where('id', $id)->first()->point - $rank_point;
-        } else $rest_point = 0;
+        } else {
+            $rest_point = 0;
+        }
+
+
         return view('demo.customer', compact('rank_point', 'rest_point', 'rank_name', 'ranks'));
     }
 
@@ -98,6 +98,7 @@ class HomeController extends Controller
         $rank_point = Auth::user()->rank_point;
         $ranks = Rank::where('point', '<=', $rank_point)->pluck('id')->toArray();
         $coupons = Coupon::whereIN('rank', $ranks)->get();
+
         // dd($coupons);
         // dd($ranks);
         // $coupons =[];
@@ -114,11 +115,12 @@ class HomeController extends Controller
 
         // dd($x);
         // $coupons = Coupon::where('rank', $rank_id)->get();
+
         $point = Auth::user()->current_point;
         return view('demo.gift', compact('coupons', 'point', 'ranks'));
     }
 
-    public function edit_point($id)
+    public function editPoint($id)
     {
         // dd($id);
         $x = Coupon::where('id', $id)->first();
@@ -128,7 +130,8 @@ class HomeController extends Controller
         $coupon_id = CouponUser::where('user_id', $user->id)->where('coupon_id', $id)->first();
         // dd($user->id);
         // dd($coupon_id);
-        if ($coupon_id == NULL) {
+
+        if ($coupon_id == null) {
             CouponUser::create(['user_id' => $user->id, 'coupon_id' => $id]);
         }
         $current_point = $user->current_point;

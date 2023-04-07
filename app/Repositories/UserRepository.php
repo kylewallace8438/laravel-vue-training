@@ -3,7 +3,7 @@ namespace App\Repositories;
 
 use App\Models\User;
 
-class UserRepository implements AbstractRepositoryInterface
+class UserRepository implements UserRepositoryInterface
 {
     public function show()
     {
@@ -27,5 +27,15 @@ class UserRepository implements AbstractRepositoryInterface
     {
         $user = User::find($id);
         $user->delete();
+    }
+    public function getByRole($id)
+    {
+        $users = User::where('role_user', $id)->get();
+        return $users;
+    }
+    public function getByName($name)
+    {
+        $user = User::where('name', $name)->first();
+        return $user;
     }
 }

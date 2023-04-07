@@ -34,7 +34,7 @@ class HomeController extends Controller
         return view('admin.customer', compact('customers'));
     }
 
-    public function admin_list()
+    public function adminList()
     {
         $admins = User::where('role_user', 1)->get();
         if (Auth::user()->role_user == 0) {

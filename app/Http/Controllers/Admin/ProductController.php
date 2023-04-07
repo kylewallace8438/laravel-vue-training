@@ -3,11 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 use App\Repositories\ProductRepository;
+use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
@@ -18,7 +17,7 @@ class ProductController extends Controller
         $this->productRepository = $productRepository;
     }
 
-    public function add_product(Request $request)
+    public function addProduct(Request $request)
     {
 
         $name = $request->get('name');
@@ -32,7 +31,9 @@ class ProductController extends Controller
         return view('admin.add_product');
     }
 
-    public function add_product_show(Request $request)
+
+    public function addProductShow(Request $request)
+
     {
         if ($request->user()->can('add', Product::class)) {
             return view('admin.add_product');
@@ -59,7 +60,7 @@ class ProductController extends Controller
         return view('admin.product', compact('products'));
     }
 
-    public function edit_product(Request $request, $id)
+    public function editProduct(Request $request, $id)
     {
         if ($request->user()->can('update', Product::class)) {
             $product = $this->productRepository->getById($id);
@@ -69,7 +70,7 @@ class ProductController extends Controller
         }
     }
 
-    public function update_product($id, Request $request)
+    public function updateProduct($id, Request $request)
     {
         $product = ['price' => $request->get('price')];
         $this->productRepository->update($id, $product);

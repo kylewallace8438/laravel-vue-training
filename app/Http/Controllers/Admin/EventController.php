@@ -3,12 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Models\Event;
-use App\Models\User;
 use App\Models\Coupon;
+use App\Models\Event;
 use App\Models\Rank;
-use Illuminate\Console\View\Components\Alert;
+use App\Models\User;
+use Illuminate\Http\Request;
 
 class EventController extends Controller
 {
@@ -17,7 +16,7 @@ class EventController extends Controller
     {
         return view('admin.add_event');
     }
-    public function add_event(Request $request)
+    public function addEvent(Request $request)
     {
         // dd($request->get('type'));
         $name = $request->get('name');
@@ -27,7 +26,7 @@ class EventController extends Controller
         Event::create([
             'type' => $request->get('type'),
             'name' => $request->get('name'),
-            'des'  => $request->get('des'),
+            'des' => $request->get('des'),
             'unit' => $request->get('unit'),
             'status' => 0,
 
@@ -53,8 +52,9 @@ class EventController extends Controller
             User::where('id', '>', 0)->update(['current_point' => 0, 'rank_point' => 0]);
         } else {
             $event = Event::where('status', 1)->first();
-            if ($event == NULL)
+            if ($event == null) {
                 Event::where('id', $id)->update(['status' => 1]);
+            }
         }
         return redirect('admin/events');
     }
@@ -65,7 +65,7 @@ class EventController extends Controller
         return redirect('admin/events');
     }
 
-    public function add_exchange_show()
+    public function addExchangeShow()
     {
         $coupons = Coupon::where('point', 0)->get();
         // dd($coupons->code);
@@ -79,7 +79,7 @@ class EventController extends Controller
         return view('admin.exchange', compact('coupons'));
     }
 
-    public function add_exchange(Request $request)
+    public function addExchange(Request $request)
     {
         // dd($request->get('coupon'));
         Coupon::where('code', $request->get('coupon'))->update(['rank' => $request->get('rank'), 'point' => $request->get('point')]);
