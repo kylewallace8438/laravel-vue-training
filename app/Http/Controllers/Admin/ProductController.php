@@ -23,15 +23,15 @@ class ProductController extends Controller
 
         $name = $request->get('name');
         $price = $request->get('price');
-        
-        $product=[
+
+        $product = [
             'name' => $name,
             'price' => $price,
         ];
         $this->productRepository->create($product);
         return view('admin.add_product');
     }
-    
+
     public function add_product_show(Request $request)
     {
         if ($request->user()->can('add', Product::class)) {
@@ -54,7 +54,7 @@ class ProductController extends Controller
 
     public function product()
     {
-        $products=$this->productRepository->show();
+        $products = $this->productRepository->show();
         // dd($products);
         return view('admin.product', compact('products'));
     }

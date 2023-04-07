@@ -3,12 +3,15 @@
 namespace App\Http\Controllers\Admin\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Repositories\AdminRoleRepository;
+use App\Repositories\RoleRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-    public function form_login ()
+
+    public function form_login()
     {
         return view('admin.login');
     }

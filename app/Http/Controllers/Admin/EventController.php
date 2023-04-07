@@ -30,11 +30,11 @@ class EventController extends Controller
             'des'  => $request->get('des'),
             'unit' => $request->get('unit'),
             'status' => 0,
-            
+
         ]);
 
         //  return redirect('formLogin');
-         return view('admin.add_event');
+        return view('admin.add_event');
     }
 
     public function event()
@@ -48,15 +48,13 @@ class EventController extends Controller
     {
         $status = Event::find($id)->status;
         // dd($status);
-        if($status==1){
+        if ($status == 1) {
             Event::where('id', $id)->update(['status' => 0]);
             User::where('id', '>', 0)->update(['current_point' => 0, 'rank_point' => 0]);
-        }
-        else {
+        } else {
             $event = Event::where('status', 1)->first();
-            if($event == NULL)
-        Event::where('id', $id)->update(['status' => 1]);
-        
+            if ($event == NULL)
+                Event::where('id', $id)->update(['status' => 1]);
         }
         return redirect('admin/events');
     }
@@ -84,7 +82,7 @@ class EventController extends Controller
     public function add_exchange(Request $request)
     {
         // dd($request->get('coupon'));
-        Coupon::where('code', $request->get('coupon'))->update(['rank' => $request->get('rank'), 'point'=>$request->get('point')]);
+        Coupon::where('code', $request->get('coupon'))->update(['rank' => $request->get('rank'), 'point' => $request->get('point')]);
         return redirect('admin/exchange/add');
     }
 }

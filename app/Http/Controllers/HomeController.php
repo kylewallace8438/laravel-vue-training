@@ -56,9 +56,9 @@ class HomeController extends Controller
     public function customer()
     {
         $rank_point = Auth::user()->rank_point;
-        if($rank_point < 500){
+        if ($rank_point < 500) {
             $rank_name = "No rank";
-            
+
             $rest_point = 500 - $rank_point;
             $ranks = Rank::all();
             return view('demo.customer', compact('rank_point', 'rest_point', 'rank_name', 'ranks'));
@@ -66,29 +66,26 @@ class HomeController extends Controller
 
         $ranks = Rank::all();
         $rank_name = "";
-        foreach($ranks as $rank){
-            if($rank_point > $rank->point)
-            {   
+        foreach ($ranks as $rank) {
+            if ($rank_point > $rank->point) {
                 $rank_name = $rank->rank;
                 // $rest_point = $rank->point - $rank_point;
-                
+
             }
         }
-        foreach($ranks as $rank){
+        foreach ($ranks as $rank) {
             $max_id = $rank->id;
         }
         // dd($max_id);
         $rank = Rank::where('rank', $rank_name)->first();
         $id = $rank->id;
         // dd($id);
-        if($id<$max_id)
-        {
+        if ($id < $max_id) {
             $id = $id + 1;
             // $point = Rank::where('id', $id)->first()->point;
             // dd($rank_point);
             $rest_point = Rank::where('id', $id)->first()->point - $rank_point;
-        }
-        else $rest_point = 0;
+        } else $rest_point = 0;
         return view('demo.customer', compact('rank_point', 'rest_point', 'rank_name', 'ranks'));
     }
 
@@ -99,7 +96,7 @@ class HomeController extends Controller
     public function gift()
     {
         $rank_point = Auth::user()->rank_point;
-        $ranks = Rank::where('point', '<=', $rank_point )->pluck('id')->toArray();
+        $ranks = Rank::where('point', '<=', $rank_point)->pluck('id')->toArray();
         $coupons = Coupon::whereIN('rank', $ranks)->get();
         // dd($coupons);
         // dd($ranks);
@@ -110,11 +107,11 @@ class HomeController extends Controller
         //     $coupon = $rank->rank_coupon()->get()->toArray();
         //     $coupons = array_merge($coupons, $coupon);
 
-            
+
         // }
         // $x = json_encode($coupons);
-        
-        
+
+
         // dd($x);
         // $coupons = Coupon::where('rank', $rank_id)->get();
         $point = Auth::user()->current_point;
@@ -125,18 +122,18 @@ class HomeController extends Controller
     {
         // dd($id);
         $x = Coupon::where('id', $id)->first();
-    
+
         $point = $x->point;
         $user = Auth::user();
         $coupon_id = CouponUser::where('user_id', $user->id)->where('coupon_id', $id)->first();
         // dd($user->id);
         // dd($coupon_id);
-        if($coupon_id == NULL){
-            CouponUser::create(['user_id'=> $user->id, 'coupon_id' =>$id]);
+        if ($coupon_id == NULL) {
+            CouponUser::create(['user_id' => $user->id, 'coupon_id' => $id]);
         }
         $current_point = $user->current_point;
         $current_point = $current_point - $point;
-        User::where('id', $user->id)->update(['current_point'=>$current_point]);
+        User::where('id', $user->id)->update(['current_point' => $current_point]);
         return redirect('gift');
     }
 }
