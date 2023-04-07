@@ -26,7 +26,7 @@ class User extends Authenticatable
         'password',
         'role_user',
         'rank_point',
-        'curren_point',
+        'current_point',
     ];
 
     /**

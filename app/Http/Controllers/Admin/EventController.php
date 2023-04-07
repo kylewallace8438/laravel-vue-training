@@ -27,19 +27,15 @@ class EventController extends Controller
     }
     public function addEvent(Request $request)
     {
-        // dd($request->get('type'));
-        $name = $request->get('name');
-        // dd($name);
-        $price = $request->get('price');
-        // dd($price);
-        Event::create([
+        $event = [
             'type' => $request->get('type'),
             'name' => $request->get('name'),
             'des' => $request->get('des'),
             'unit' => $request->get('unit'),
             'status' => 0,
 
-        ]);
+        ];
+        $this->eventRepository->create($event);
 
         //  return redirect('formLogin');
         return view('admin.add_event');
@@ -47,22 +43,24 @@ class EventController extends Controller
 
     public function event()
     {
-        $events = Event::all();
+        $events = $this->eventRepository->show();
         // dd($products);
         return view('admin.event', compact('events'));
     }
 
     public function edit($id)
     {
-        $status = Event::find($id)->status;
+        // $status = Event::find($id)->status;
+        $status = $this->eventRepository->getStatus($id);
         // dd($status);
         if ($status == 1) {
-            Event::where('id', $id)->update(['status' => 0]);
-            User::where('id', '>', 0)->update(['current_point' => 0, 'rank_point' => 0]);
+            // Event::where('id', $id)->update(['status' => 0]);
+            $this->eventRepository->update($id, ['status' => 0]);
+            $this->eventRepository->resetPoint();
         } else {
-            $event = Event::where('status', 1)->first();
+            $event = $this->eventRepository->checkEventActived();
             if ($event == null) {
-                Event::where('id', $id)->update(['status' => 1]);
+                $this->eventRepository->update($id, ['status' => 1]);
             }
         }
         return redirect('admin/events');
@@ -70,23 +68,18 @@ class EventController extends Controller
 
     public function delete($id)
     {
-        Event::where('id', $id)->delete();
+        $this->eventRepository->delete($id);
         return redirect('admin/events');
     }
 
     public function addExchangeShow()
     {
-        // $coupons = Coupon::where('point', 0)->get();
         $coupons = $this->eventRepository->getCoupon();
-        // dd($coupons->code);
-
-        // $ranks = Rank::all();
         $ranks = $this->eventRepository->getRank();
         return view('admin.add_exchange', compact('coupons', 'ranks'));
     }
     public function exchange()
     {
-        // $coupons = Coupon::where('point', '!=', 0)->get();
         $coupons = $this->eventRepository->getExchange();
         return view('admin.exchange', compact('coupons'));
     }
