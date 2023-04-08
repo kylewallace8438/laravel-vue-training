@@ -8,6 +8,7 @@ use App\Models\Role;
 use App\Models\User;
 use App\Repositories\AdminRoleRepository;
 use App\Repositories\RoleRepository;
+use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,11 +17,14 @@ class AdminRoleController extends Controller
 
     protected $roleRepository;
     protected $adminRoleRepository;
+    protected $userRepository;
 
-    public function __construct(RoleRepository $roleRepository, AdminRoleRepository $adminRoleRepository)
+
+    public function __construct(RoleRepository $roleRepository, AdminRoleRepository $adminRoleRepository, UserRepository $userRepository)
     {
         $this->roleRepository = $roleRepository;
         $this->adminRoleRepository = $adminRoleRepository;
+        $this->userRepository = $userRepository;
     }
 
     public function index()
@@ -41,7 +45,7 @@ class AdminRoleController extends Controller
             return redirect()->back();
         }
         $actions = ['View', 'Create', 'Update', 'Delete'];
-        $admins = User::where('role_user', 1)->get();
+        $admins = $this->userRepository->getByRole(1);
         foreach ($actions as $action) {
             $role_type = [
                 'action' => $action, 
@@ -61,7 +65,7 @@ class AdminRoleController extends Controller
         $roles = $this->adminRoleRepository->getById($id);
         $types = $this->roleRepository->getRoleType();
         $actions = ['View', 'Create', 'Update', 'Delete'];
-        $admin = User::find($id);
+        $admin = $this->userRepository->getById($id);
         return view('admin.profile_admin', compact('admin', 'roles', 'types', 'actions'));
     }
 
