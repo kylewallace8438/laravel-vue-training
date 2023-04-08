@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Repositories;
 
 use App\Models\Order;
@@ -27,5 +28,10 @@ class OrderRepository implements AbstractRepositoryInterface
     {
         $order = Order::find($id);
         $order->delete();
+    }
+    public function getByStatus($status)
+    {
+        $order = Order::where('status', $status)->get();
+        return $order;
     }
 }

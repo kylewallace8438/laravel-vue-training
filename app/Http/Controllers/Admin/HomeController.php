@@ -8,11 +8,29 @@ use App\Models\Order;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\User;
+use App\Repositories\EventRepository;
+use App\Repositories\OrderRepository;
+use App\Repositories\ProductRepository;
+use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Auth;
 
 
 class HomeController extends Controller
 {
+
+    protected $eventRepository;
+    protected $orderRepository;
+    protected $productRepository;
+    protected $userRepository;
+
+    public function __construct(OrderRepository $orderRepository, EventRepository $eventRepository, UserRepository $userRepository, ProductRepository $productRepository)
+    {
+        $this->orderRepository = $orderRepository;
+        $this->eventRepository = $eventRepository;
+        $this->userRepository = $userRepository;
+        $this->productRepository = $productRepository;
+    }
+
     public function index()
     {
         if (Auth::check()) {
@@ -52,10 +70,13 @@ class HomeController extends Controller
     public function confirmOrder(Request $request, $id)
     {
         if ($request->user()->can('confirm', Order::class)) {
-            Order::where('id', $id)->update(['status' => 1]);
-            $event = Event::where('status', 1)->first();
+            // Order::where('id', $id)->update(['status' => 1]);
+            $this->orderRepository->update($id, ['status' => 1]);
+            // $event = Event::where('status', 1)->first();
+            $event = $this->eventRepository->checkEventActived();
             if ($event != NULL) {
-                $order = Order::where('id', $id)->first();
+                // $order = Order::where('id', $id)->first();
+                $order = $this->orderRepository->getById($id);
                 $user_id = $order->user_id;
                 if ($event->type == 1) {
                     $unit = 10 / ($event->unit);
@@ -67,10 +88,15 @@ class HomeController extends Controller
                     }
                     $unit = 10 * ceil($total / $event->unit);
                 }
-                $x = User::where('id', $user_id)->first();
-                $current_point = $unit + $x->current_point;
-                $rank_point = $unit + $x->current_point;
-                User::where('id', $user_id)->update(['rank_point' => $rank_point, 'current_point' => $current_point]);
+                // dd($unit);
+                $user = $this->userRepository->getById($user_id);
+                $current_point = $unit + $user->current_point;
+                // dd($current_point);
+                $rank_point = $unit + $user->rank_point;
+                // dd($rank_point);
+                // User::where('id', $user_id)->update();
+                // $this->userRepository->update($user_id, ['rank_point' => $rank_point]);
+                $this->userRepository->update($user_id, ['current_point' => $current_point, 'rank_point' => $rank_point]);
             }
             return redirect('admin/orders');
         } else {
@@ -97,10 +123,10 @@ class HomeController extends Controller
     public function dashboard()
     {
         if (Auth::check()) {
-            $product = Product::all()->count();
-            $user = User::where('role_user', 2)->get()->count();
-            $order1 = Order::where('status', 1)->get()->count();
-            $order0 = Order::where('status', 0)->get()->count();
+            $product = $this->productRepository->show()->count();
+            $user = $this->userRepository->getByRole(2)->count();
+            $order1 = $this->orderRepository->getByStatus(1)->count();
+            $order0 = $this->orderRepository->getByStatus(0)->count();
             return view('admin.dashboard', compact('product', 'user', 'order0', 'order1'));
         } else {
             return view('admin.login');

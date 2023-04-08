@@ -24,9 +24,9 @@ class EventRepository implements EventRepositoryInterface
     }
     public function update($id, array $attributes)
     {
-        $coupon = Coupon::find($id);
-        $coupon->update($attributes);
-        return $coupon;
+        $event = Event::find($id);
+        $event->update($attributes);
+        return $event;
     }
     public function delete($id)
     {
@@ -77,5 +77,19 @@ class EventRepository implements EventRepositoryInterface
     public function updatePoint($user, $current_point)
     {
         User::where('id', $user->id)->update(['current_point' => $current_point]);
+    }
+
+    public function getStatus($id)
+    {
+        return Event::find($id)->status;
+    }
+
+    public function resetPoint()
+    {
+        User::where('id', '>', 0)->update(['current_point' => 0, 'rank_point' => 0]);
+    }
+    public function checkEventActived()
+    {
+        return Event::where('status', 1)->first();
     }
 }
