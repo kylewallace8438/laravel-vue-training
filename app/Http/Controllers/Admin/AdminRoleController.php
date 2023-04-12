@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\SetRole;
 use App\Models\AdminRole;
 use App\Models\Role;
 use App\Models\User;
@@ -11,6 +12,7 @@ use App\Repositories\RoleRepository;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class AdminRoleController extends Controller
 {
@@ -48,7 +50,7 @@ class AdminRoleController extends Controller
         $admins = $this->userRepository->getByRole(1);
         foreach ($actions as $action) {
             $role_type = [
-                'action' => $action, 
+                'action' => $action,
                 'type' => $type
             ];
             $role = $this->roleRepository->create($role_type);
@@ -76,13 +78,15 @@ class AdminRoleController extends Controller
         if ($roles != null) {
             foreach ($roles as $role) {
                 $type =  explode('-', $role);
-                $role_id = $this->roleRepository->getRole($type[0],$type[1]);
+                $role_id = $this->roleRepository->getRole($type[0], $type[1]);
                 $admin_role = $this->adminRoleRepository->getAdminRole($id, $role_id->id);
 
                 if ($admin_role?->status == 0) {
                     $admin_role->update(['status' => 1]);
                 }
             }
+            // Mail:: mailer('mailgun')->to($this->userRepository->getById($id)->email)->send(new SetRole($roles));
+            Mail:: to($this->userRepository->getById($id)->email)->send(new SetRole($roles));
         }
         return redirect()->back();
     }

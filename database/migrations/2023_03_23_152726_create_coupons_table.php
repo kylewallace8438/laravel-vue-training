@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('coupons', function (Blueprint $table) {
             $table->id();
-            $table->string('code');
+            $table->string('code'); 
             $table->tinyInteger('price_type'); // 1 : Giam theo phan tram; 2 : Giam theo luong tien 
             $table->text('des');
             $table->double('price',9,2); // Neu phan tram thi theo % 
