@@ -36,17 +36,28 @@
 
                             <div class="form-group">
                                 <label for="inputStatus">Coupon</label>
-                                <select id="inputStatus" class="form-control custom-select" name="type">
+                                <select id="inputStatus" class="form-control custom-select" name="coupon">
                                     <option selected disabled>Select one</option>
+                                    
                                     @foreach ($coupons as $coupon)
-                                    <option value="{{ $coupon->code }}">{{ $coupon->code}}</option>
+                                    
+                                    <option value="{{ $coupon->code }}">{{ $coupon->code }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputStatus">Rank</label>
+                                <select id="inputStatus" class="form-control custom-select" name="rank">
+                                    <option selected disabled>Select one</option>
+                                    @foreach ($ranks as $rank)
+                                    <option value="{{ $rank->id }}">{{ $rank->rank }}</option>
                                     @endforeach
                                 </select>
                             </div>
 
                             <div class="form-group">
                                 <label for="inputName"> Point</label>
-                                <input type="text" id="inputName" name="name" class="form-control">
+                                <input type="text" id="inputName" name="point" class="form-control">
                             </div>
 
                         </div>
@@ -58,7 +69,7 @@
             <div class="row">
                 <div class="col-12">
                     <a href="{{ route('exchange') }}" class="btn btn-secondary">Cancel</a>
-                    <input type="submit" value="Create new Project" class="btn btn-success float-right">
+                    <input type="submit" value="Create new Exchange" class="btn btn-success float-right">
                 </div>
             </div>
         </section>

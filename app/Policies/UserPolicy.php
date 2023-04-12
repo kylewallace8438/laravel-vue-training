@@ -5,11 +5,22 @@ namespace App\Policies;
 use App\Models\AdminRole;
 use App\Models\Role;
 use App\Models\User;
+use App\Repositories\AdminRoleRepository;
+use App\Repositories\RoleRepository;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class UserPolicy
 {
     use HandlesAuthorization;
+
+    protected $roleRepository;
+    protected $adminRoleRepository;
+
+    public function __construct(RoleRepository $roleRepository, AdminRoleRepository $adminRoleRepository)
+    {
+        $this->roleRepository = $roleRepository;
+        $this->adminRoleRepository = $adminRoleRepository;
+    }
 
     /**
      * Determine whether the user can view any models.
@@ -31,9 +42,9 @@ class UserPolicy
      */
     public function view(User $user)
     {
-        $role_id = Role::where('type','Customer')->where('action','View')->first();
-        $status = AdminRole::where('admin_id',$user->id)->where('role_id',$role_id->id)->first();
-        if($status?->status == 1){
+        $role_id = $this->roleRepository->getRole('Customer', 'View');
+        $status = $this->adminRoleRepository->getAdminRole($user->id, $role_id?->id);
+        if ($status?->status == 1 || $user->role_user == 0) {
             return true;
         } else {
             return false;

@@ -20,7 +20,7 @@ class Order extends Model
     protected $attributes = [
         'coupon_id' => 0,
         'status' => 0,
-        'address' => '',
+        'address' => 'Home City - Ha Noi',
 
     ];
 
@@ -32,5 +32,9 @@ class Order extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+    public function coupon()
+    {
+        return $this->belongsTo(Coupon::class);
     }
 }

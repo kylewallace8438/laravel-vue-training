@@ -3,28 +3,37 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Coupon;
-use App\Models\CouponProduct;
-use App\Models\CouponUser;
-use App\Models\Product;
-use App\Models\User;
+use App\Repositories\CouponRepository;
+use App\Repositories\ProductRepository;
+use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
 
 class CouponController extends Controller
 {
-    public function show_createCoupon()
+    protected $productRepository;
+    protected $couponRepository;
+    protected $userRepository;
+
+    public function __construct(ProductRepository $productRepository, CouponRepository $couponRepository, UserRepository $userRepository)
     {
-        $products = Product::all();
-        $users = User::where('role_user', 2)->get();
+        $this->productRepository = $productRepository;
+        $this->couponRepository = $couponRepository;
+        $this->userRepository = $userRepository;
+    }
+
+    public function showCreateCoupon()
+    {
+        $products = $this->productRepository->show();
+        $users = $this->userRepository->getByRole(2);
         return view('admin.createCoupon', compact('products', 'users'));
     }
 
-    public function create_Coupon(Request $request)
+    public function createCoupon(Request $request)
     {
         $users_coupon = $request->get('user');
-
         $products_coupon = $request->get('product');
-        $Coupon = Coupon::create([
+
+        $Coupon = $this->couponRepository->create([
             'code' => $request->get('code'),
             'des' => $request->get('des'),
             'price_type' => $request->get('price_type'),
@@ -38,17 +47,17 @@ class CouponController extends Controller
         //store user_coupon
         $Coupon_id = $Coupon->id;
         if (strcmp($users_coupon[0], 'All') == 0) {
-            $users = User::all();
+            $users = $this->userRepository->show();
             foreach ($users as $user) {
-                CouponUser::create([
+                $this->couponRepository->createCouponUser([
                     'user_id' => $user->id,
                     'coupon_id' => $Coupon_id,
                 ]);
             }
         } else {
             foreach ($users_coupon as $user) {
-                $user_id = User::where('name', $user)->first();
-                CouponUser::create([
+                $user_id = $this->userRepository->getByName($user);
+                $this->couponRepository->createCouponUser([
                     'user_id' => $user_id->id,
                     'coupon_id' => $Coupon_id,
                 ]);
@@ -57,31 +66,39 @@ class CouponController extends Controller
 
         //store product_coupon
         if (strcmp($products_coupon[0], 'All') == 0) {
-            $products = Product::all();
+            $products = $this->productRepository->show();
             foreach ($products as $product) {
-                CouponProduct::create([
+                $this->couponRepository->createCouponProduct([
                     'product_id' => $product->id,
                     'coupon_id' => $Coupon_id,
                 ]);
             }
         } else {
             foreach ($products_coupon as $product) {
-                $product_id = Product::where('name', $product)->first();
-                CouponProduct::create([
+                $product_id = $this->productRepository->getByName($product);
+                $this->couponRepository->createCouponProduct([
                     'product_id' => $product_id->id,
                     'coupon_id' => $Coupon_id,
                 ]);
             }
         }
-        $products = Product::all();
-        $users = User::where('role_user', 2)->get();
+        $products = $this->productRepository->show();
+        $users = $this->userRepository->getByRole(2);
         return view('admin.createCoupon', compact('products', 'users'));
     }
 
-    public function show_ListCoupon()
+    public function showListCoupon()
     {
-        $coupons = Coupon::all();
+        $coupons = $this->couponRepository->show();
 
+        return view('admin.listCoupon', compact('coupons'));
+    }
+
+    public function deleteCoupon($id)
+    {
+
+        $this->couponRepository->delete($id);
+        $coupons = $this->couponRepository->show();
         return view('admin.listCoupon', compact('coupons'));
     }
 }

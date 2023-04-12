@@ -12,4 +12,9 @@ class Rank extends Model
         'rank',
         'point',
     ];
+
+    public function rank_coupon()
+    {
+        return $this->hasMany(Coupon::class, 'rank', 'id');
+    }
 }

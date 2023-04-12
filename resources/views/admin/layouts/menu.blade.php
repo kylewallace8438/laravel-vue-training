@@ -82,29 +82,30 @@
 
                  <li class="nav-item">
 
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-edit"></i>
-                        <p>
-                            Coupon
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="/admin/coupon/create" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Coupon</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/admin/exchange" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Exchange</p>
-                            </a>
-                        </li>
-                        
-                    </ul>
-                </li>
+                     <a href="#" class="nav-link">
+                         <i class="nav-icon fas fa-edit"></i>
+                         <p>
+                             Coupon
+                             <i class="fas fa-angle-left right"></i>
+                         </p>
+                     </a>
+                     <ul class="nav nav-treeview">
+                         <li class="nav-item">
+                             <a href="/admin/coupon/list" class="nav-link">
+
+                                 <i class="far fa-circle nav-icon"></i>
+                                 <p>Coupon</p>
+                             </a>
+                         </li>
+                         <li class="nav-item">
+                             <a href="/admin/exchange" class="nav-link">
+                                 <i class="far fa-circle nav-icon"></i>
+                                 <p>Exchange</p>
+                             </a>
+                         </li>
+
+                     </ul>
+                 </li>
 
 
                  <li class="nav-item">
@@ -117,7 +118,7 @@
                  </li>
                  <li class="nav-item">
                      <a href="#" class="nav-link">
-                         <i class="nav-icon fas fa-edit"></i>
+                         <i class="nav-icon fas fa-user"></i>
                          <p>
                              Users
                              <i class="fas fa-angle-left right"></i>
@@ -130,23 +131,32 @@
                                  <p>Customers</p>
                              </a>
                          </li>
-                         @if (Auth::user()->role_user == 0)
-                             <li class="nav-item">
-                                 <a href="/admin/list" class="nav-link">
-                                     <i class="far fa-circle nav-icon"></i>
-                                     <p>Admins</p>
-                                 </a>
-                             </li>
-                         @endif
-                         @if (Auth::user()->role_user == 0)
-                             <li class="nav-item">
-                                 <a href="{{ route('formRegisterAdmin') }}" class="nav-link">
-                                     <i class="far fa-circle nav-icon"></i>
-                                     <p>New admin account</p>
-                                 </a>
-                             </li>
-                         @endif
+
+                         <li class="nav-item">
+                             <a href="/admin/list" class="nav-link">
+                                 <i class="far fa-circle nav-icon"></i>
+                                 <p>Admins</p>
+                             </a>
+                         </li>
+
+                         <li class="nav-item">
+                             <a href="{{ route('formRegisterAdmin') }}" class="nav-link">
+                                 <i class="far fa-circle nav-icon"></i>
+                                 <p>New admin account</p>
+                             </a>
+                         </li>
+
                      </ul>
+                 </li>
+                 <li>
+                 <li class="nav-item">
+                     <a href="/admin/role" class="nav-link">
+                         <i class="nav-icon fas fa-user  "></i>
+                         <p>
+                             Role
+                         </p>
+                     </a>
+                 </li>
                  </li>
              </ul>
          </nav>

@@ -116,7 +116,8 @@
 
                                 <td class="project-actions text-right">
 
-                                    <a class="btn btn-danger btn-sm" href="#">
+                                    <a class="btn btn-danger btn-sm"
+                                        href="{{ route('coupon.delete', ['id' => $coupon->id]) }}">
                                         <i class="fas fa-trash">
                                         </i>
                                         Delete

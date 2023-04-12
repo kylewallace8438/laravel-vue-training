@@ -2,18 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
-use Illuminate\Support\Facades\DB;
-
-use Illuminate\Http\Request;
+use App\Repositories\ProductRepository;
 
 class ShopController extends Controller
 {
-    public function show(){
 
-        $products = Product::all();
-        // dd($products);
-        return view('demo.shop',compact('products'));
+    protected $productRepository;
+
+    public function __construct(ProductRepository $productRepository)
+    {
+        $this->productRepository = $productRepository;
     }
+    public function show()
+    {
 
+        $products = $this->productRepository->show();
+
+        return view('demo.shop', compact('products'));
+    }
 }
