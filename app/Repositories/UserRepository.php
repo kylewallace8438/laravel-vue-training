@@ -1,6 +1,7 @@
 <?php
 namespace App\Repositories;
 
+use App\Models\Rank;
 use App\Models\User;
 
 class UserRepository implements UserRepositoryInterface
@@ -37,5 +38,27 @@ class UserRepository implements UserRepositoryInterface
     {
         $user = User::where('name', $name)->first();
         return $user;
+    }
+
+    public function getRankbyId($id){
+        $user = User::find($id);
+        $rank_point = $user->rank_point;
+        $rank_name = "";
+        if ($rank_point < 500) {
+            $rank_name = "No rank";
+        }
+        else
+        {
+            $ranks = Rank::all();
+            foreach ($ranks as $rank) {
+                if ($rank_point > $rank->point) {
+                    $rank_name = $rank->rank;
+    
+                }
+            }
+        }
+        return $rank_name;
+
+    
     }
 }

@@ -1,0 +1,1 @@
+<h1>You have successfully redeemed the discount code {{$code}}</h1>

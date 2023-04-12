@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\SendMail;
 use App\Models\Event;
 use App\Models\Order;
 use Illuminate\Http\Request;
@@ -13,7 +14,7 @@ use App\Repositories\OrderRepository;
 use App\Repositories\ProductRepository;
 use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Mail;
 
 class HomeController extends Controller
 {
@@ -69,6 +70,7 @@ class HomeController extends Controller
     }
     public function confirmOrder(Request $request, $id)
     {
+        $rank_name1=$rank_name2="";
         if ($request->user()->can('confirm', Order::class)) {
             // Order::where('id', $id)->update(['status' => 1]);
             $this->orderRepository->update($id, ['status' => 1]);
@@ -78,6 +80,7 @@ class HomeController extends Controller
                 // $order = Order::where('id', $id)->first();
                 $order = $this->orderRepository->getById($id);
                 $user_id = $order->user_id;
+        $rank_name1 = $this->userRepository->getRankbyId($user_id);
                 if ($event->type == 1) {
                     $unit = 10 / ($event->unit);
                 } else {
@@ -97,7 +100,11 @@ class HomeController extends Controller
                 // User::where('id', $user_id)->update();
                 // $this->userRepository->update($user_id, ['rank_point' => $rank_point]);
                 $this->userRepository->update($user_id, ['current_point' => $current_point, 'rank_point' => $rank_point]);
+        $rank_name2 = $this->userRepository->getRankbyId($user_id);
             }
+            if(strcmp($rank_name1, $rank_name2) != 0)
+            Mail::to('nguyentiendat080201@gmail.com')->send(new SendMail($rank_name2));
+
             return redirect('admin/orders');
         } else {
             return redirect()->back()->with('error', 'Access is not allowed');

@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\Exchange;
+use App\Mail\SendMail;
 use App\Models\Coupon;
 use App\Models\CouponUser;
 use App\Models\Rank;
 use App\Models\User;
 use App\Repositories\CouponRepository;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 use App\Repositories\EventRepository;
-
+use Illuminate\Support\Facades\Mail;
 
 class HomeController extends Controller
 {
@@ -122,7 +126,7 @@ class HomeController extends Controller
         // dd($id);
         // $x = Coupon::where('id', $id)->first();
         $coupon = $this->couponRepository->getById($id);
-
+        $code = $coupon->code;
         $point = $coupon->point;
         $user = Auth::user();
         // $coupon_id = CouponUser::where('user_id', $user->id)->where('coupon_id', $id)->first();
@@ -140,6 +144,10 @@ class HomeController extends Controller
         $current_point = $current_point - $point;
         // User::where('id', $user->id)->update(['current_point' => $current_point]);
         $this->eventRepository->updatePoint($user, $current_point);
+        // Mail::send('mail.test_mail', ['name' => 'test name'], function($email){
+        //     $email->to('nguyentiendat080201@gmail.com','subject');
+        // });
+        Mail::to('nguyentiendat080201@gmail.com')->send(new Exchange($code));
         return redirect('gift');
     }
 }
