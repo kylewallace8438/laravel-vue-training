@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\WelcomeMail;
 use App\Models\Cart;
 use App\Repositories\CartRepository;
 use App\Repositories\CouponRepository;
@@ -11,6 +12,7 @@ use App\Repositories\ProductRepository;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 
 class CartController extends Controller
@@ -126,10 +128,11 @@ class CartController extends Controller
     {
         $now = Carbon::now();
         $date = $now->toDateTimeString();
-        $user_id = Auth::user()->id;
+        $user = Auth::user();
+        $user_id = $user->id;
 
         $carts = $this->cartRepository->getByUserId($user_id);
-
+        Mail::to($user->email)->send(new WelcomeMail($user, $carts, 1));
         $value = Session::get('coupon');
         if ($value == null) {
             $order = ['user_id' => $user_id, 'create_time' => $date, 'return_time' => $date];

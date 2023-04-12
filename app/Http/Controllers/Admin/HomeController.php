@@ -3,17 +3,17 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Event;
+use App\Mail\WelcomeMail;
 use App\Models\Order;
-use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\User;
 use App\Repositories\EventRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\ProductRepository;
 use App\Repositories\UserRepository;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Mail;
 
 class HomeController extends Controller
 {
@@ -74,10 +74,14 @@ class HomeController extends Controller
             $this->orderRepository->update($id, ['status' => 1]);
             // $event = Event::where('status', 1)->first();
             $event = $this->eventRepository->checkEventActived();
-            if ($event != NULL) {
+            // sent mail
+            $order = $this->orderRepository->getById($id);
+            $user_id = $order->user_id;
+            $user = $this->userRepository->getById($user_id);
+            Mail::to($user->email)->send(new WelcomeMail($user, null, 2));
+            if ($event != null) {
                 // $order = Order::where('id', $id)->first();
-                $order = $this->orderRepository->getById($id);
-                $user_id = $order->user_id;
+
                 if ($event->type == 1) {
                     $unit = 10 / ($event->unit);
                 } else {
@@ -89,7 +93,7 @@ class HomeController extends Controller
                     $unit = 10 * ceil($total / $event->unit);
                 }
                 // dd($unit);
-                $user = $this->userRepository->getById($user_id);
+
                 $current_point = $unit + $user->current_point;
                 // dd($current_point);
                 $rank_point = $unit + $user->rank_point;
@@ -97,7 +101,9 @@ class HomeController extends Controller
                 // User::where('id', $user_id)->update();
                 // $this->userRepository->update($user_id, ['rank_point' => $rank_point]);
                 $this->userRepository->update($user_id, ['current_point' => $current_point, 'rank_point' => $rank_point]);
+
             }
+
             return redirect('admin/orders');
         } else {
             return redirect()->back()->with('error', 'Access is not allowed');
